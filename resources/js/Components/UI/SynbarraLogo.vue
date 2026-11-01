@@ -32,7 +32,7 @@ const sizeClasses = computed(() => {
 
 <template>
   <div class="inline-flex items-center gap-3 select-none">
-    <!-- Geometric S Ribbon Symbol (From Master Asset) -->
+    <!-- Geometric S Ribbon Symbol -->
     <div 
       :class="[
         sizeClasses.icon, 
@@ -40,11 +40,31 @@ const sizeClasses = computed(() => {
         props.theme === 'dark' ? 'bg-[#01232B] ring-1 ring-[#00F1DE]/40 shadow-synbarra-glow-subtle' : 'bg-[#01232B] shadow-sm'
       ]"
     >
-      <img 
-        src="/images/logo/synbarra-symbol.png" 
-        alt="Synbarra Symbol" 
-        class="w-full h-full object-contain filter drop-shadow-[0_2px_8px_rgba(0,241,222,0.25)]"
-      />
+      <svg viewBox="0 0 100 100" fill="none" class="w-full h-full">
+        <defs>
+          <linearGradient id="logo-ribbon-teal" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#022B31" />
+            <stop offset="40%" stop-color="#04D2C5" />
+            <stop offset="100%" stop-color="#00F1DE" />
+          </linearGradient>
+          <linearGradient id="logo-ribbon-light" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFFFFF" />
+            <stop offset="60%" stop-color="#E0FFFC" />
+            <stop offset="100%" stop-color="#04D2C5" />
+          </linearGradient>
+        </defs>
+
+        <!-- S Geometric Upper Fold -->
+        <path d="M 58 16 L 36 38 C 32 42 32 49 38 53 L 53 64 L 64 53 L 47 40 C 44 37 44 33 47 30 L 59 18 C 61 16 60 14 58 16 Z" 
+              fill="url(#logo-ribbon-light)" />
+
+        <!-- S Geometric Lower Fold -->
+        <path d="M 42 84 L 64 62 C 68 58 68 51 62 47 L 47 36 L 36 47 L 53 60 C 56 63 56 67 53 70 L 41 82 C 39 84 40 86 42 84 Z" 
+              fill="url(#logo-ribbon-teal)" />
+
+        <!-- Fold intersection shadow -->
+        <path d="M 36 47 L 64 53 L 53 64 L 36 47 Z" fill="#022B31" opacity="0.35" />
+      </svg>
     </div>
 
     <!-- Wordmark SYNBARRA TECHNOLOGIES -->

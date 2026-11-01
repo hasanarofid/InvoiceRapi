@@ -163,9 +163,9 @@ const differentiators = [
               <!-- Official Logo Badge inside geometric frame -->
               <div class="relative w-48 h-48 sm:w-56 sm:h-56 p-4 flex items-center justify-center">
                 <img 
-                  src="/images/logo/synbarra-symbol.png" 
+                  src="/images/logo/synbarra-badge.png" 
                   alt="Synbarra Technologies Geometric Symbol" 
-                  class="w-full h-full object-contain filter drop-shadow-[0_0_25px_rgba(0,241,222,0.35)] transition-transform duration-500 group-hover:scale-105"
+                  class="w-full h-full object-contain filter drop-shadow-[0_0_25px_rgba(0,241,222,0.3)] transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
 
