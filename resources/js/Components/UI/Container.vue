@@ -2,13 +2,11 @@
 interface Props {
   as?: string;
   size?: 'sm' | 'md' | 'lg' | 'full';
-  class?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   as: 'div',
   size: 'lg',
-  class: '',
 });
 
 const maxWidths = {
@@ -24,8 +22,7 @@ const maxWidths = {
     :is="as"
     :class="[
       'mx-auto w-full px-4 sm:px-6 lg:px-8',
-      maxWidths[props.size],
-      props.class
+      maxWidths[props.size]
     ]"
   >
     <slot />

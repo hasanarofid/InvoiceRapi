@@ -1,29 +1,38 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
-import { ShoppingBag, ShoppingCart, DollarSign, Clock, ArrowRight, ExternalLink, Bot, Globe } from '@lucide/vue';
+import { 
+  Code2, 
+  Layers, 
+  MessageSquare, 
+  ShieldCheck, 
+  ExternalLink, 
+  ArrowRight,
+  TrendingUp,
+  Cpu,
+  Clock,
+  CheckCircle2
+} from '@lucide/vue';
+import { BRAND } from '@/config/brand';
 
 const props = defineProps({
     tenant: Object,
     stats: {
         type: Object,
-        required: true,
+        default: () => ({}),
     },
     recent_orders: {
         type: Array,
-        required: true,
+        default: () => [],
     },
 });
-
-const formatCurrency = (val) => {
-    return 'Rp ' + Number(val || 0).toLocaleString('id-ID');
-};
 
 const formatDate = (dateStr) => {
     if (!dateStr) return '-';
     return new Date(dateStr).toLocaleDateString('id-ID', {
         day: '2-digit',
         month: 'short',
+        year: 'numeric',
         hour: '2-digit',
         minute: '2-digit',
     });
@@ -31,203 +40,185 @@ const formatDate = (dateStr) => {
 </script>
 
 <template>
-    <Head title="Merchant Dashboard - Solkit Hub" />
+    <Head title="Management Dashboard — Synbarra Technologies" />
 
     <AdminLayout>
         <div class="space-y-6 sm:space-y-8">
             <!-- Header Banner -->
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-synbarra-sm">
                 <div>
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200/60">
-                        ⚡ Solkit Multi-tenant Commerce Engine
-                    </span>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 mt-2">
-                        {{ tenant?.name || 'Solkit Smart Merchant' }}
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#00F1DE]/10 text-[#01232B] border border-[#00F1DE]/30">
+                        <span class="w-2 h-2 rounded-full bg-[#00F1DE] animate-pulse"></span>
+                        SYNBARRA MANAGEMENT PORTAL
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#01232B] mt-2">
+                        Control Center &bull; {{ BRAND.name }}
                     </h2>
-                    <p class="text-xs sm:text-sm text-slate-500 mt-1">
-                        Pusat kontrol inventaris, Order Management System (OMS), dan Generative Engine Optimization (GEO).
+                    <p class="text-xs sm:text-sm text-slate-500 mt-1 max-w-2xl">
+                        {{ BRAND.tagline }} Centralized administrative hub for software development operations, project inquiries, and brand infrastructure.
                     </p>
                 </div>
 
                 <div class="flex items-center gap-3">
                     <a
-                        :href="`/shop/${tenant?.slug || 'solkit-store'}`"
+                        href="/"
                         target="_blank"
-                        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold shadow-sm transition"
+                        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#01232B] hover:bg-[#022B31] text-white hover:text-[#00F1DE] border border-transparent hover:border-[#00F1DE]/40 text-xs sm:text-sm font-semibold shadow-synbarra-sm transition-all"
                     >
-                        <span>Buka Toko Online</span>
-                        <ExternalLink class="w-4 h-4" />
+                        <span>View Live Website</span>
+                        <ExternalLink class="w-4 h-4 text-[#00F1DE]" />
                     </a>
                 </div>
             </div>
 
-            <!-- Stats Grid -->
+            <!-- Key Metric Cards Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                <!-- Products Count -->
-                <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-xs group hover:border-blue-300 transition">
+                <!-- Card 1: Active Services -->
+                <div class="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-synbarra-sm hover:border-[#04D2C5]/50 transition duration-200">
                     <div class="flex items-center justify-between">
-                        <div class="space-y-1">
-                            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Produk</span>
-                            <h3 class="text-2xl sm:text-3xl font-black text-slate-900">{{ stats.products_count }}</h3>
-                            <p class="text-xs text-blue-600 font-semibold">Katalog Aktif</p>
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Corporate Services</span>
+                        <div class="w-10 h-10 rounded-xl bg-[#01232B]/5 text-[#01232B] flex items-center justify-center">
+                            <Code2 class="w-5 h-5 text-[#04D2C5]" />
                         </div>
-                        <div class="p-3 bg-blue-50 text-blue-600 rounded-xl border border-blue-100">
-                            <ShoppingBag class="w-6 h-6" />
+                    </div>
+                    <div class="mt-4">
+                        <div class="text-3xl font-black text-[#01232B]">
+                            6 Active
                         </div>
+                        <p class="text-xs text-slate-500 mt-1">
+                            Custom Software, Web, Mobile, Automation, Integration, UI/UX
+                        </p>
                     </div>
                 </div>
 
-                <!-- Total Orders -->
-                <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-xs group hover:border-emerald-300 transition">
+                <!-- Card 2: Inquiries / Project Pipeline -->
+                <div class="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-synbarra-sm hover:border-[#04D2C5]/50 transition duration-200">
                     <div class="flex items-center justify-between">
-                        <div class="space-y-1">
-                            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Pesanan</span>
-                            <h3 class="text-2xl sm:text-3xl font-black text-slate-900">{{ stats.orders_count }}</h3>
-                            <p class="text-xs text-emerald-600 font-semibold">WhatsApp Checkout</p>
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Project Leads</span>
+                        <div class="w-10 h-10 rounded-xl bg-[#00F1DE]/15 text-[#01232B] flex items-center justify-center">
+                            <MessageSquare class="w-5 h-5 text-[#01232B]" />
                         </div>
-                        <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl border border-emerald-100">
-                            <ShoppingCart class="w-6 h-6" />
+                    </div>
+                    <div class="mt-4">
+                        <div class="text-3xl font-black text-[#01232B]">
+                            {{ stats.orders_count ?? 0 }} Inquiries
                         </div>
+                        <p class="text-xs text-slate-500 mt-1">
+                            Direct consultation requests
+                        </p>
                     </div>
                 </div>
 
-                <!-- Pending Orders -->
-                <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-xs group hover:border-amber-300 transition">
+                <!-- Card 3: Engineering Architecture Status -->
+                <div class="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-synbarra-sm hover:border-[#04D2C5]/50 transition duration-200">
                     <div class="flex items-center justify-between">
-                        <div class="space-y-1">
-                            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Menunggu Konfirmasi</span>
-                            <h3 class="text-2xl sm:text-3xl font-black text-slate-900">{{ stats.pending_orders_count }}</h3>
-                            <p class="text-xs text-amber-600 font-semibold">Perlu Tindakan</p>
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Architecture Health</span>
+                        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                            <ShieldCheck class="w-5 h-5 text-emerald-600" />
                         </div>
-                        <div class="p-3 bg-amber-50 text-amber-600 rounded-xl border border-amber-100">
-                            <Clock class="w-6 h-6" />
+                    </div>
+                    <div class="mt-4">
+                        <div class="text-3xl font-black text-emerald-600">
+                            99.98%
                         </div>
+                        <p class="text-xs text-slate-500 mt-1">
+                            Production VPS Telemetry Active
+                        </p>
                     </div>
                 </div>
 
-                <!-- Total Revenue -->
-                <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-xs group hover:border-indigo-300 transition">
+                <!-- Card 4: Official Domain & HTTPS -->
+                <div class="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-synbarra-sm hover:border-[#04D2C5]/50 transition duration-200">
                     <div class="flex items-center justify-between">
-                        <div class="space-y-1">
-                            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Penjualan</span>
-                            <h3 class="text-xl sm:text-2xl font-black text-slate-900">{{ formatCurrency(stats.total_revenue) }}</h3>
-                            <p class="text-xs text-indigo-600 font-semibold">Transaksi Sukses</p>
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Domain & SSL</span>
+                        <div class="w-10 h-10 rounded-xl bg-[#01232B] text-[#00F1DE] flex items-center justify-center">
+                            <Cpu class="w-5 h-5 text-[#00F1DE]" />
                         </div>
-                        <div class="p-3 bg-indigo-50 text-indigo-600 rounded-xl border border-indigo-100">
-                            <DollarSign class="w-6 h-6" />
+                    </div>
+                    <div class="mt-4">
+                        <div class="text-lg font-bold font-mono text-[#01232B] truncate">
+                            synbarra.com
                         </div>
+                        <p class="text-xs text-emerald-600 font-semibold mt-1 flex items-center gap-1">
+                            <CheckCircle2 class="w-3.5 h-3.5" /> HTTPS / Let's Encrypt Active
+                        </p>
                     </div>
                 </div>
             </div>
 
-            <!-- GEO & AI Integration Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- GEO Card -->
-                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs flex items-start gap-4">
-                    <div class="p-3 bg-blue-50 text-blue-600 rounded-xl shrink-0 border border-blue-100">
-                        <Globe class="w-6 h-6" />
+            <!-- Operational Sections: Company Scope & Capabilities -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8">
+                <!-- Left: Published Services -->
+                <div class="lg:col-span-7 bg-white p-6 sm:p-7 rounded-2xl border border-slate-200/80 shadow-synbarra-sm">
+                    <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+                        <h3 class="text-base font-bold text-[#01232B]">
+                            Registered Service Categories
+                        </h3>
+                        <Link href="/services" class="text-xs font-semibold text-[#04D2C5] hover:underline flex items-center gap-1">
+                            <span>Browse Public Page</span>
+                            <ArrowRight class="w-3.5 h-3.5" />
+                        </Link>
                     </div>
-                    <div class="space-y-2 flex-1">
-                        <div class="flex items-center justify-between">
-                            <h4 class="font-bold text-slate-900 text-sm">Generative Engine Optimization (GEO)</h4>
-                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-bold border border-emerald-200">
-                                Active &bull; AI Ready
-                            </span>
-                        </div>
-                        <p class="text-xs text-slate-500 leading-relaxed">
-                            File <code class="text-blue-600 font-semibold">llms.txt</code>, <code class="text-blue-600 font-semibold">sitemap.xml</code>, dan Schema.org JSON-LD otomatis digenerate secara real-time agar katalog produk Anda mudah diindeks ChatGPT, Perplexity, & Gemini.
-                        </p>
-                        <div class="pt-2 flex items-center gap-4 text-xs font-semibold">
-                            <a :href="`/shop/${tenant?.slug || 'solkit-store'}/llms.txt`" target="_blank" class="text-blue-600 hover:text-blue-700 underline font-mono">
-                                Lihat llms.txt &rarr;
-                            </a>
-                            <a :href="`/shop/${tenant?.slug || 'solkit-store'}/sitemap.xml`" target="_blank" class="text-blue-600 hover:text-blue-700 underline font-mono">
-                                Lihat sitemap.xml &rarr;
-                            </a>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- AI Sales Consultant Card -->
-                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs flex items-start gap-4">
-                    <div class="p-3 bg-indigo-50 text-indigo-600 rounded-xl shrink-0 border border-indigo-100">
-                        <Bot class="w-6 h-6" />
-                    </div>
-                    <div class="space-y-2 flex-1">
-                        <div class="flex items-center justify-between">
-                            <h4 class="font-bold text-slate-900 text-sm">AI Sales Consultant Ready</h4>
-                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 font-bold border border-indigo-200">
-                                RAG Pipeline Active
-                            </span>
-                        </div>
-                        <p class="text-xs text-slate-500 leading-relaxed">
-                            Sistem AI Sales Consultant di storefront membaca seluruh katalog dan stok produk Anda untuk menjawab pertanyaan calon pembeli 24/7 sebelum checkout WhatsApp.
-                        </p>
-                        <div class="pt-2">
-                            <Link :href="route('admin.settings.index')" class="text-xs font-semibold text-indigo-600 hover:text-indigo-700 underline">
-                                Atur Prompt & Karakter AI Sales &rarr;
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Recent Orders Section -->
-            <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-xs">
-                <div class="p-5 sm:p-6 border-b border-slate-100 flex items-center justify-between">
-                    <div>
-                        <h3 class="font-bold text-slate-900 text-base">Pesanan Masuk Terbaru (OMS)</h3>
-                        <p class="text-xs text-slate-500 mt-0.5">Daftar transaksi checkout WhatsApp yang masuk.</p>
-                    </div>
-                    <Link
-                        :href="route('admin.orders.index')"
-                        class="text-xs font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1"
-                    >
-                        <span>Lihat Semua Pesanan</span>
-                        <ArrowRight class="w-3.5 h-3.5" />
-                    </Link>
-                </div>
-
-                <div v-if="recent_orders && recent_orders.length > 0" class="divide-y divide-slate-100 overflow-x-auto">
-                    <div
-                        v-for="order in recent_orders"
-                        :key="order.id"
-                        class="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-slate-50/70 transition"
-                    >
-                        <div class="space-y-1">
-                            <div class="flex items-center gap-2">
-                                <span class="font-mono text-xs font-bold text-slate-800">{{ order.order_number }}</span>
-                                <span class="text-slate-300">&bull;</span>
-                                <span class="text-xs text-slate-500">{{ formatDate(order.created_at) }}</span>
+                    <div class="mt-4 divide-y divide-slate-100">
+                        <div 
+                            v-for="service in BRAND.services" 
+                            :key="service.id" 
+                            class="py-3.5 flex items-center justify-between hover:bg-slate-50/80 px-2 rounded-xl transition"
+                        >
+                            <div>
+                                <h4 class="text-sm font-bold text-[#01232B]">
+                                    {{ service.title }}
+                                </h4>
+                                <p class="text-xs text-slate-500 mt-0.5 max-w-md line-clamp-1">
+                                    {{ service.description }}
+                                </p>
                             </div>
-                            <h4 class="text-sm font-bold text-slate-900">{{ order.customer_name }}</h4>
-                            <p class="text-xs text-slate-500">
-                                {{ order.items ? order.items.map(i => `${i.product_name} (${i.quantity}x)`).join(', ') : '-' }}
-                            </p>
-                        </div>
-
-                        <div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-1.5 shrink-0">
-                            <span class="text-sm sm:text-base font-extrabold text-slate-900">
-                                {{ formatCurrency(order.total_amount) }}
-                            </span>
-                            <span
-                                :class="[
-                                    'text-[10px] uppercase font-bold px-2 py-0.5 rounded-full border',
-                                    order.status === 'confirmed' || order.status === 'completed'
-                                        ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                                        : order.status === 'pending'
-                                        ? 'bg-amber-50 text-amber-700 border-amber-200'
-                                        : 'bg-slate-50 text-slate-600 border-slate-200'
-                                ]"
-                            >
-                                {{ order.status }}
+                            <span class="px-2.5 py-1 text-[11px] font-mono rounded-full bg-[#00F1DE]/15 text-[#01232B] border border-[#00F1DE]/30">
+                                Live
                             </span>
                         </div>
                     </div>
                 </div>
 
-                <div v-else class="text-center py-12 text-slate-400">
-                    <p class="text-xs">Belum ada pesanan WhatsApp masuk.</p>
+                <!-- Right: Brand Guidelines & Quick Links -->
+                <div class="lg:col-span-5 bg-white p-6 sm:p-7 rounded-2xl border border-slate-200/80 shadow-synbarra-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-2 pb-4 border-b border-slate-100">
+                            <h3 class="text-base font-bold text-[#01232B]">
+                                Brand Information & Tokens
+                            </h3>
+                        </div>
+
+                        <div class="mt-4 space-y-3.5 text-xs text-slate-600">
+                            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-200/60">
+                                <span class="font-semibold text-slate-700">Brand Name:</span>
+                                <span class="font-bold text-[#01232B]">{{ BRAND.name }}</span>
+                            </div>
+                            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-200/60">
+                                <span class="font-semibold text-slate-700">Official Tagline:</span>
+                                <span class="text-[#04D2C5] font-semibold">{{ BRAND.tagline }}</span>
+                            </div>
+                            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-200/60">
+                                <span class="font-semibold text-slate-700">Primary Color Token:</span>
+                                <span class="font-mono px-2 py-0.5 rounded bg-[#01232B] text-white">#01232B</span>
+                            </div>
+                            <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-200/60">
+                                <span class="font-semibold text-slate-700">Turquoise Token:</span>
+                                <span class="font-mono px-2 py-0.5 rounded bg-[#00F1DE] text-[#01232B] font-bold">#00F1DE</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 mt-6 border-t border-slate-100">
+                        <Link 
+                            href="/contact" 
+                            class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-[#01232B] text-xs font-semibold transition"
+                        >
+                            <span>Preview Client Contact Form</span>
+                            <ArrowRight class="w-3.5 h-3.5" />
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>

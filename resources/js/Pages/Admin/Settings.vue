@@ -49,7 +49,7 @@ const submit = () => {
 </script>
 
 <template>
-  <Head title="Pengaturan Toko - Solkit Hub" />
+  <Head title="Pengaturan Sistem — Synbarra Technologies" />
 
   <AdminLayout>
     <div class="space-y-6 max-w-5xl">

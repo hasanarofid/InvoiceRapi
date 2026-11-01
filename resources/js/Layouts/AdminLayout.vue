@@ -82,7 +82,7 @@ const logout = () => {
             :href="item.href"
             :class="[
               item.current 
-                ? 'bg-blue-50 text-blue-600 border-r-4 border-blue-600 font-bold' 
+                ? 'bg-[#01232B] text-[#00F1DE] border-r-4 border-[#00F1DE] font-bold shadow-xs' 
                 : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 border-r-4 border-transparent font-medium',
               isSidebarCollapsed ? 'lg:justify-center lg:px-0' : 'px-4',
               'group flex items-center py-3 text-sm rounded-l-xl transition-all duration-200'
@@ -92,7 +92,7 @@ const logout = () => {
             <component 
               :is="item.icon" 
               :class="[
-                item.current ? 'text-blue-600' : 'text-slate-400 group-hover:text-slate-600',
+                item.current ? 'text-[#00F1DE]' : 'text-slate-400 group-hover:text-slate-600',
                 isSidebarCollapsed ? 'lg:mr-0' : 'mr-3',
                 'h-5 w-5 flex-shrink-0 transition-transform duration-200 group-hover:scale-105'
               ]" 
@@ -109,10 +109,10 @@ const logout = () => {
           <a
             href="/"
             target="_blank"
-            class="w-full flex items-center justify-center gap-2 py-2 px-3 text-xs font-semibold rounded-xl bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200/60 transition"
+            class="w-full flex items-center justify-center gap-2 py-2 px-3 text-xs font-semibold rounded-xl bg-[#01232B] text-white hover:text-[#00F1DE] border border-transparent hover:border-[#00F1DE]/40 transition"
           >
-            <ExternalLink class="w-3.5 h-3.5" />
-            <span>Kunjungi Storefront</span>
+            <ExternalLink class="w-3.5 h-3.5 text-[#00F1DE]" />
+            <span>Kunjungi Website</span>
           </a>
         </div>
 
