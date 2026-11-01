@@ -10,35 +10,33 @@ export default {
         './resources/js/**/*.vue',
     ],
 
+    darkMode: 'class',
+
     theme: {
         extend: {
             colors: {
-                brand: {
-                    // Background & Surface (Warm/Classic)
-                    cream: '#fff8cf',      // Warm Off-White / Cream background utama
-                    sand: '#fbe6c2',       // Light Yellow / Beige untuk card/section alternate
-                    
-                    // Text & Deep Elements (Dark Greens)
-                    dark: '#063b00',       // Sangat gelap, untuk teks heading/paragraf utama
-                    deep: '#266210',       // Dark green untuk footer atau dark section
-                    
-                    // Primary Brand (Greens)
-                    primary: '#2a7c13',    // Elemen UI utama, garis arsitektur, border, aksen
-                    light: '#76c457',      // Ikon, badge sekunder, elemen hijau segar
-                    
-                    // Accent & Highlight
-                    leaf: '#90b800',       // Leaf green aksen
-                    cta: '#e1e100',        // Bright lime/yellow (KHUSUS CTA Button "Hubungi Kami" / "Konsultasi")
+                synbarra: {
+                    // Approved brand tokens directly extracted from logo
+                    primary: 'var(--color-primary, #01232B)',
+                    'primary-deep': 'var(--color-primary-deep, #011E26)',
+                    secondary: 'var(--color-secondary, #00F1DE)',
+                    accent: 'var(--color-accent, #04D2C5)',
+                    surface: 'var(--color-surface, #F8FAFA)',
+                    'surface-dark': 'var(--color-surface-dark, #022B31)',
+                    border: 'var(--color-border, #E2E8F0)',
+                    'border-dark': 'var(--color-border-dark, #0A3B43)',
                 },
             },
             fontFamily: {
-                serif: ['"Playfair Display"', 'Georgia', ...defaultTheme.fontFamily.serif],
-                sans: ['"Plus Jakarta Sans"', '"DM Sans"', ...defaultTheme.fontFamily.sans],
+                sans: ['"Plus Jakarta Sans"', 'Inter', ...defaultTheme.fontFamily.sans],
+                mono: ['"JetBrains Mono"', ...defaultTheme.fontFamily.mono],
             },
             boxShadow: {
-                'architectural': '0 20px 45px -15px rgba(6, 59, 0, 0.12)',
-                'card-hover': '0 25px 50px -12px rgba(6, 59, 0, 0.18)',
-                'cta-glow': '0 10px 30px -5px rgba(225, 225, 0, 0.45)',
+                'synbarra-sm': '0 2px 8px -2px rgba(1, 35, 43, 0.08)',
+                'synbarra-md': '0 12px 30px -10px rgba(1, 35, 43, 0.12)',
+                'synbarra-lg': '0 24px 50px -12px rgba(1, 35, 43, 0.18)',
+                'synbarra-glow': '0 0 25px -4px rgba(0, 241, 222, 0.35)',
+                'synbarra-glow-subtle': '0 0 15px -2px rgba(4, 210, 197, 0.25)',
             },
         },
     },

@@ -1,3 +1,43 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    /* Synbarra Technologies — Single Source of Truth Brand Tokens */
+    --color-primary: #01232B;
+    --color-primary-deep: #011E26;
+    --color-secondary: #00F1DE;
+    --color-accent: #04D2C5;
+    --color-background: #FFFFFF;
+    --color-surface: #F8FAFA;
+    --color-surface-dark: #022B31;
+    --color-text-primary: #0F172A;
+    --color-text-secondary: #475569;
+    --color-border: #E2E8F0;
+    --color-border-dark: #0A3B43;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--color-text-primary);
+    background-color: var(--color-background);
+  }
+
+  /* Accessible focus indicator (WCAG 2.2 AA) */
+  :focus-visible {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

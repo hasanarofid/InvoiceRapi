@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" class="w-full h-full">
+  <defs>
+    <!-- Turquoise ribbon gradient -->
+    <linearGradient id="synbarra-ribbon-teal" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#022B31" />
+      <stop offset="50%" stop-color="#04D2C5" />
+      <stop offset="100%" stop-color="#00F1DE" />
+    </linearGradient>
+    <!-- White highlight ribbon gradient -->
+    <linearGradient id="synbarra-ribbon-light" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="65%" stop-color="#E2FAF8" />
+      <stop offset="100%" stop-color="#04D2C5" />
+    </linearGradient>
+    <filter id="synbarra-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Top Ribbon Loop of S -->
+  <path d="M 58 18 L 38 38 C 34 42 34 48 39 52 L 53 64 L 64 54 L 48 41 C 45 38 45 34 48 31 L 58 21 C 60 19 60 16 58 18 Z" 
+        fill="url(#synbarra-ribbon-light)" />
+
+  <!-- Lower Ribbon Loop of S -->
+  <path d="M 42 82 L 62 62 C 66 58 66 52 61 48 L 47 36 L 36 46 L 52 59 C 55 62 55 66 52 69 L 42 79 C 40 81 40 84 42 82 Z" 
+        fill="url(#synbarra-ribbon-teal)" />
+
+  <!-- Dynamic Center Bridge / Fold -->
+  <path d="M 37 45 L 63 55 L 53 64 L 37 45 Z" fill="#00A89B" opacity="0.9" />
+  <path d="M 63 55 L 39 52 L 48 41 L 63 55 Z" fill="#022B31" opacity="0.35" />
+</svg>
