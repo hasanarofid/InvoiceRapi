@@ -6,6 +6,13 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="theme-color" content="#01232B">
 
+        <!-- Google AdSense -->
+        <meta name="google-adsense-account" content="ca-pub-7190047001129861">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7190047001129861" crossorigin="anonymous"></script>
+
+        <!-- Google Search Console Verification -->
+        <meta name="google-site-verification" content="google587f0f47640fdb34">
+
         @php
             $defaultSiteName = 'Synbarra Technologies';
             $defaultTitle = 'Synbarra Technologies | Software House & Custom Development';
