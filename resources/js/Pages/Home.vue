@@ -429,15 +429,20 @@ const getWaLink = (serviceTitle: string) => {
             <div 
               v-for="tech in BRAND.techStack" 
               :key="tech.name"
-              class="flex flex-col items-center text-center p-5 rounded-2xl bg-white border border-[#D5F5EE] shadow-xs hover:border-[#00BFA5] hover:shadow-md transition-all duration-200"
+              class="group flex flex-col items-center text-center p-5 rounded-2xl bg-white border border-[#D5F5EE] shadow-xs hover:border-[#00BFA5] hover:shadow-md transition-all duration-200"
             >
-              <div class="w-12 h-12 rounded-xl bg-[#F4FCFB] border border-[#D5F5EE] flex items-center justify-center font-black text-sm text-[#0D2329] mb-3">
-                {{ tech.name[0] }}
+              <div class="w-14 h-14 rounded-2xl bg-[#F8FCFB] border border-[#D5F5EE] p-2.5 flex items-center justify-center mb-3 shadow-2xs group-hover:scale-110 transition-transform duration-200">
+                <img 
+                  :src="tech.logo" 
+                  :alt="tech.name" 
+                  class="w-full h-full object-contain"
+                  loading="lazy"
+                />
               </div>
-              <h3 class="text-sm font-bold text-[#0D2329]">
+              <h3 class="text-sm font-bold text-[#0D2329] group-hover:text-[#008F7A] transition-colors">
                 {{ tech.name }}
               </h3>
-              <span class="text-[10px] text-slate-500 mt-1 line-clamp-1">
+              <span class="text-[11px] text-slate-500 mt-1 line-clamp-1">
                 {{ tech.role }}
               </span>
             </div>

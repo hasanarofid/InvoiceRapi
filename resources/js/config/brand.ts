@@ -159,14 +159,14 @@ export const BRAND = {
 
   // Keahlian Teknologi (Sesuai Postingan 08)
   techStack: [
-    { name: 'Laravel', role: 'Enterprise PHP Framework', color: '#FF2D20' },
-    { name: 'React', role: 'Interactive Frontend', color: '#61DAFB' },
-    { name: 'Next.js', role: 'SSR & High Performance Web', color: '#000000' },
-    { name: 'Flutter', role: 'Cross-Platform Mobile Apps', color: '#02569B' },
-    { name: 'Node.js', role: 'Scalable Microservices Backend', color: '#339933' },
-    { name: 'PHP', role: 'Reliable Server Language', color: '#777BB4' },
-    { name: 'MySQL', role: 'High-Integrity Relational DB', color: '#4479A1' },
-    { name: 'AWS', role: 'Cloud Infrastructure & Scalability', color: '#FF9900' },
+    { name: 'Laravel', role: 'Enterprise PHP Framework', color: '#FF2D20', logo: '/images/tech/laravel.svg' },
+    { name: 'React', role: 'Interactive Frontend', color: '#61DAFB', logo: '/images/tech/react.svg' },
+    { name: 'Next.js', role: 'SSR & High Performance Web', color: '#000000', logo: '/images/tech/nextjs.svg' },
+    { name: 'Flutter', role: 'Cross-Platform Mobile Apps', color: '#02569B', logo: '/images/tech/flutter.svg' },
+    { name: 'Node.js', role: 'Scalable Microservices Backend', color: '#339933', logo: '/images/tech/nodejs.svg' },
+    { name: 'PHP', role: 'Reliable Server Language', color: '#777BB4', logo: '/images/tech/php.svg' },
+    { name: 'MySQL', role: 'High-Integrity Relational DB', color: '#4479A1', logo: '/images/tech/mysql.svg' },
+    { name: 'AWS', role: 'Cloud Infrastructure & Scalability', color: '#FF9900', logo: '/images/tech/aws.svg' },
   ],
 
   // Kontak & Media Sosial (Sesuai Postingan 09)
