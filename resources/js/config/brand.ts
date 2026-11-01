@@ -1,8 +1,7 @@
 /**
- * SYNBARRA TECHNOLOGIES — Brand Configuration & Design Tokens
+ * SYNBARRA TECHNOLOGIES — Brand Configuration & Single Source of Truth
  * 
- * Sesuai PRD Version 1.0 (synbarra.com)
- * Warna diekstrak langsung dari logo resmi (single source of truth).
+ * Selaras dengan Panduan Visual Resmi (9 Postingan Synbarra Technologies)
  */
 
 export const BRAND = {
@@ -11,109 +10,184 @@ export const BRAND = {
   legalName: 'Synbarra Technologies',
   domain: 'synbarra.com',
   url: 'https://synbarra.com',
-  tagline: 'Engineering the Digital Future.',
-  businessType: 'Custom Software Development / Software House',
+  tagline: 'Software House & Custom Development',
+  subtagline: 'Mitra teknologi yang menghadirkan solusi digital dan pengembangan sistem sesuai kebutuhan unik bisnis Anda.',
   
-  description: 'SYNBARRA TECHNOLOGIES adalah penyedia solusi teknologi digital yang membantu bisnis dan organisasi mengembangkan sistem, website, serta aplikasi sesuai kebutuhan. Kami berfokus pada pengembangan teknologi yang praktis, efisien, dan dapat mendukung pertumbuhan bisnis.',
+  description: 'SYNBARRA TECHNOLOGIES adalah software house yang berfokus pada pengembangan sistem, website, dan aplikasi custom sesuai kebutuhan unik bisnis Anda. Kami membantu bisnis berkembang melalui teknologi yang praktis, terstruktur, andal, dan scalable.',
 
-  coreServicesText: 'Website • Mobile Apps • Custom Software • Automation • System Integration • AI Solutions',
-  coreServices: [
-    'Website',
-    'Mobile Apps',
-    'Custom Software',
-    'Automation',
-    'System Integration',
-    'AI Solutions'
+  coreServicesText: 'Website • Mobile Apps • Sistem ERP / CRM • HRIS & Payroll • Integrasi API • Custom Software',
+
+  // 8 Solusi Digital Utama (Sesuai Postingan 06 & 03)
+  services: [
+    {
+      id: 'website',
+      title: 'Website Company Profile',
+      category: 'Web Presence',
+      description: 'Menampilkan kredibilitas dan profil bisnis profesional secara elegan, responsif, dan siap konversi.',
+      icon: 'Globe',
+      href: '/services#website',
+    },
+    {
+      id: 'mobile-app',
+      title: 'Aplikasi Mobile',
+      category: 'Mobile Platform',
+      description: 'Aplikasi iOS & Android performa tinggi berbasis Flutter atau native untuk kenyamanan pengguna.',
+      icon: 'Smartphone',
+      href: '/services#mobile-app',
+    },
+    {
+      id: 'erp-bisnis',
+      title: 'Sistem Bisnis / ERP',
+      category: 'Enterprise Solution',
+      description: 'Sentralisasi operasional, manajemen stok/inventaris, rantai pasok, dan pelaporan keuangan terpadu.',
+      icon: 'Layers',
+      href: '/services#erp-bisnis',
+    },
+    {
+      id: 'crm',
+      title: 'Sistem CRM',
+      category: 'Customer Management',
+      description: 'Pengelolaan prospek, otomatisasi sales pipeline, dan retensi interaksi pelanggan yang efektif.',
+      icon: 'Users',
+      href: '/services#crm',
+    },
+    {
+      id: 'hris-payroll',
+      title: 'Sistem HRIS & Payroll',
+      category: 'Internal Operation',
+      description: 'Absensi GPS, pengajuan cuti, perhitungan gaji otomatis, BPJS, dan master data karyawan terstruktur.',
+      icon: 'CalendarCheck',
+      href: '/services#hris-payroll',
+    },
+    {
+      id: 'api-integration',
+      title: 'Integrasi Sistem (API)',
+      category: 'Integration',
+      description: 'Menghubungkan ragam software, payment gateway, WhatsApp API, logistik, dan sistem legacy tanpa friksi.',
+      icon: 'Network',
+      href: '/services#api-integration',
+    },
+    {
+      id: 'ui-ux',
+      title: 'UI/UX Design',
+      category: 'Product Design',
+      description: 'Riset pengguna, pembuatan wireframe interaktif, dan desain interface modern yang memikat pengguna.',
+      icon: 'Palette',
+      href: '/services#ui-ux',
+    },
+    {
+      id: 'maintenance-support',
+      title: 'Maintenance & Support',
+      category: 'Care & Scalability',
+      description: 'Pemeliharaan rutin, monitoring performa server, update keamanan, dan technical assistance berkelanjutan.',
+      icon: 'Headset',
+      href: '/services#maintenance-support',
+    },
   ],
 
-  // Design Tokens (Derived from approved logo)
-  colors: {
-    primary: '#01232B',       // Dark Teal Signature Brand
-    primaryDeep: '#011E26',   // Deep Midnight Teal
-    secondary: '#00F1DE',     // Neon Turquoise Accent
-    accent: '#04D2C5',        // Medium Cyan / Turquoise
-    surface: '#F8FAFA',       // Light Neutral Surface
-    surfaceDark: '#022B31',   // Dark Surface / Card
-    background: '#FFFFFF',    // White
-    border: '#E2E8F0',        // Border Neutral
-    borderDark: '#0A3B43',    // Dark Border
-    textPrimary: '#0F172A',   // Dark Charcoal
-    textSecondary: '#475569', // Muted Slate
-    textLight: '#F1F5F9',     // Light Text on Dark
-    textMutedDark: '#8DA5A8', // Secondary Text on Dark
-  },
+  // 4 Pilar Mengapa Memilih Synbarra (Sesuai Postingan 02)
+  advantages: [
+    {
+      title: 'Solusi Sesuai Kebutuhan (Custom)',
+      description: 'Sistem dirancang dan dibangun menyesuaikan alur kerja, aturan operasional, serta kebutuhan unik bisnis Anda tanpa batasan template kaku.',
+      icon: 'Sparkles',
+    },
+    {
+      title: 'Tim Berpengalaman dan Profesional',
+      description: 'Didukung oleh tim engineer, arsitek sistem, dan UI/UX designer berpengalaman dengan standar industri modern dan best practices.',
+      icon: 'Users',
+    },
+    {
+      title: 'Proses Terstruktur dan Transparan',
+      description: 'Pengerjaan transparan dengan roadmap sprint yang jelas, pelaporan progress berkala, dan komunikasi intensif di setiap tahapan.',
+      icon: 'Layers',
+    },
+    {
+      title: 'Dukungan & Pemeliharaan Jangka Panjang',
+      description: 'Komitmen pendampingan pasca-peluncuran, garansi bebas bug, monitoring performa server, dan peningkatan fitur berkala.',
+      icon: 'Headset',
+    },
+  ],
 
-  // Contact Details
+  // Masalah Bisnis yang Sering Dihadapi Klien (Sesuai Postingan 04)
+  painPoints: [
+    {
+      title: 'Proses kerja masih manual dan memakan waktu',
+      description: 'Input data berulang secara manual meningkatkan risiko human error dan menghambat efisiensi operasional tim.',
+    },
+    {
+      title: 'Data tersebar di banyak tempat dan sulit dipantau',
+      description: 'Laporan tersimpan di berbagai spreadsheet terpisah membuat manajemen kesulitan mengambil keputusan cepat berbasis data akurat.',
+    },
+    {
+      title: 'Sistem yang ada tidak sesuai dengan alur bisnis',
+      description: 'Aplikasi siap pakai (off-the-shelf) sering kali kaku, memaksa alur kerja bisnis beradaptasi dengan sistem bukan sebaliknya.',
+    },
+    {
+      title: 'Sulit mengintegrasikan berbagai tools',
+      description: 'Sistem kasir, inventaris, WhatsApp, dan akuntansi berjalan terisolasi tanpa sinkronisasi otomatis.',
+    },
+  ],
+
+  // Alur Kerja 4 Langkah (Sesuai Postingan 07)
+  workflow: [
+    {
+      step: '01',
+      title: 'Analisis',
+      description: 'Memahami kebutuhan, tantangan, dan tujuan bisnis Anda secara menyeluruh untuk merumuskan spesifikasi sistem.',
+      icon: 'Search',
+    },
+    {
+      step: '02',
+      title: 'Perancangan',
+      description: 'Menyusun solusi arsitektur, skema database, user journey, dan desain antarmuka (UI/UX prototype).',
+      icon: 'PenTool',
+    },
+    {
+      step: '03',
+      title: 'Pengembangan',
+      description: 'Membangun sistem dengan clean code, strict typing, integrasi database, dan pengujian fitur ketat per modul.',
+      icon: 'Code2',
+    },
+    {
+      step: '04',
+      title: 'Implementasi & Support',
+      description: 'Deployment ke cloud server, User Acceptance Testing (UAT), pelatihan staf, dan pemeliharaan jangka panjang.',
+      icon: 'Rocket',
+    },
+  ],
+
+  // Keahlian Teknologi (Sesuai Postingan 08)
+  techStack: [
+    { name: 'Laravel', role: 'Enterprise PHP Framework', color: '#FF2D20' },
+    { name: 'React', role: 'Interactive Frontend', color: '#61DAFB' },
+    { name: 'Next.js', role: 'SSR & High Performance Web', color: '#000000' },
+    { name: 'Flutter', role: 'Cross-Platform Mobile Apps', color: '#02569B' },
+    { name: 'Node.js', role: 'Scalable Microservices Backend', color: '#339933' },
+    { name: 'PHP', role: 'Reliable Server Language', color: '#777BB4' },
+    { name: 'MySQL', role: 'High-Integrity Relational DB', color: '#4479A1' },
+    { name: 'AWS', role: 'Cloud Infrastructure & Scalability', color: '#FF9900' },
+  ],
+
+  // Kontak & Media Sosial (Sesuai Postingan 09)
   contact: {
     email: 'synbarr.techno@gmail.com',
     whatsapp: '6288804958476',
     whatsappRaw: '088804958476',
     whatsappDisplay: '0888-0495-8476',
     whatsappUrl: 'https://wa.me/6288804958476?text=Halo%20Synbarra%20Technologies,%20saya%20ingin%20konsultasi%20pengembangan%20sistem%20/%20aplikasi.',
+    instagram: '@synbarra.technologies',
+    instagramUrl: 'https://instagram.com/synbarra.technologies',
     location: 'Indonesia',
   },
 
-  // Navigation Links
+  // Navigasi Utama
   navigation: [
     { label: 'Home', href: '/' },
-    { label: 'About Us', href: '/about' },
-    { label: 'Services', href: '/services' },
-    { label: 'Our Approach', href: '/approach' },
-    { label: 'Contact', href: '/contact' },
+    { label: 'Mengapa Kami', href: '/#keunggulan' },
+    { label: 'Layanan', href: '/services' },
+    { label: 'Alur Kerja', href: '/approach' },
+    { label: 'Tentang Kami', href: '/about' },
+    { label: 'Kontak', href: '/contact' },
   ],
-
-  // Services as specified in Section 4.1-C
-  services: [
-    {
-      id: 'custom-software',
-      title: 'Custom Software Development',
-      description: 'Development of tailored software applications based on specific business requirements.',
-      icon: 'Code2',
-      href: '/services#custom-software',
-    },
-    {
-      id: 'web-application',
-      title: 'Web Application Development',
-      description: 'Responsive and scalable web-based applications for business operations and customer experiences.',
-      icon: 'Globe',
-      href: '/services#web-application',
-    },
-    {
-      id: 'mobile-application',
-      title: 'Mobile Application Development',
-      description: 'Mobile solutions designed to support modern business processes and user needs.',
-      icon: 'Smartphone',
-      href: '/services#mobile-application',
-    },
-    {
-      id: 'process-automation',
-      title: 'Business Process Automation',
-      description: 'Digitalization and automation of repetitive workflows to improve operational efficiency.',
-      icon: 'Cpu',
-      href: '/services#process-automation',
-    },
-    {
-      id: 'system-integration',
-      title: 'System Integration',
-      description: 'Connecting existing business systems, applications, and data into a more efficient ecosystem.',
-      icon: 'Network',
-      href: '/services#system-integration',
-    },
-    {
-      id: 'ui-ux-design',
-      title: 'UI/UX Design',
-      description: 'Designing intuitive digital interfaces focused on usability and user experience.',
-      icon: 'Palette',
-      href: '/services#ui-ux-design',
-    },
-  ],
-
-  // 5-Step Process (Section 4.1-E)
-  process: [
-    { step: '01', title: 'Discover', description: 'Understand business needs and operational challenges thoroughly.' },
-    { step: '02', title: 'Define', description: 'Establish clear requirements, tech architecture, and project scope.' },
-    { step: '03', title: 'Design', description: 'Create intuitive UI/UX journeys and scalable system architecture.' },
-    { step: '04', title: 'Develop', description: 'Build with clean, maintainable code backed by rigorous testing.' },
-    { step: '05', title: 'Deliver', description: 'Deploy seamlessly, provide support, and optimize continuously.' },
-  ],
-} as const;
+};

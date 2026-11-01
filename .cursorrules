@@ -1,75 +1,58 @@
-# Product Requirements Document (PRD) & Execution Roadmap
-**Product Name:** Solkit Smart Merchant (AI-GEO Ready Catalog & WA Checkout)
-**Live Prototype URL:** https://system.solkit.tech/
-**Entity:** Solkit.tech
-**Tech Stack:** Laravel / Node.js (API Backend), Vue 3 / React (Storefront & Admin), MySQL / PostgreSQL, Redis, Docker, MinIO/S3 Storage
+# Synbarra Technologies — UI/UX & Product Design Guidelines
+
+**Entity:** Synbarra Technologies  
+**Domain:** https://synbarra.com  
+**Business Type:** Software House & Custom Development  
+**Core Motto:** "Mitra teknologi yang menghadirkan solusi digital dan pengembangan sistem sesuai kebutuhan unik bisnis Anda."  
+**Tech Stack:** Laravel (Backend API / Inertia SSR), Vue 3 + TypeScript, Tailwind CSS, MySQL, Nginx, Redis  
 
 ---
 
-## 1. Executive Summary & Product Objective
-Solkit Smart Merchant adalah platform e-commerce / catalog engine B2B Multi-tenant instan berkecepatan tinggi yang dirancang untuk UMKM, brand ritel, dan bisnis lokal. Platform ini menggabungkan tampilan katalog modern, Checkout langsung ke WhatsApp, AI Sales Consultant Agent, serta pemetaan otomatis Generative Engine Optimization (GEO) (llms.txt, JSON-LD Schema) agar produk merchant mudah ditemukan oleh mesin pencari berbasis AI (ChatGPT, Gemini, Perplexity).
+## 1. Brand Identity & Visual Aesthetic (Source of Truth)
+Desain UI/UX Synbarra Technologies mengacu langsung pada panduan visual resmi (9 Postingan Synbarra):
+- **Gaya Desain:** Clean, Modern, Bright, Professional Software House. Menampilkan kredibilitas, transparansi, dan kecanggihan teknologi tanpa kesan gelap/sci-fi yang berlebihan.
+- **Background Utama:**
+  - Light mode: Putih murni (`#FFFFFF`) dipadukan dengan aksen kurva gradien mint/teal lembut (`#EBF9F7` ke `#F4FCFA`).
+  - Dark accents (Footer / High-contrast badges): Deep Teal / Pine (`#011E26` / `#0D2329`).
+- **Palet Warna:**
+  - `Primary Dark`: `#0D2329` (Warna teks heading & kontras utama)
+  - `Primary Teal`: `#00BFA5` / `#00CBA9` (Aksen tombol, garis dekorasi, badge)
+  - `Accent Mint`: `#00F1DE` / `#38E1CD` (Gradien cerah, hover state, glow halus)
+  - `Surface Card`: `#FFFFFF` dengan border halus `#D7F3ED` / `#E2E8F0` dan soft shadow `rgba(0, 191, 165, 0.08)`.
+  - `Body Text`: Slate 600 (`#475569`) untuk keterbacaan tinggi.
+- **Tipografi:** Modern Grotesque Sans-Serif (Plus Jakarta Sans / Inter), bold headings dengan line-height proporsional.
+- **Elemen UI:** Rounded pill buttons (`rounded-full`), soft cards dengan border tipis, icon 3D / outline mint, dan flow arrows antar tahap.
 
 ---
 
-## 2. Core Modules Specification
-
-| Modul | Komponen / Fitur | Deskripsi Teknis |
-| :--- | :--- | :--- |
-| **Storefront (Front-End)** | • Responsive Product Grid<br>• Dynamic Search & Filter Category<br>• Direct WA Checkout Modal | UI/UX ringan (fast loading), mendukung variasi SKU, harga coret, dan badge ("Unggulan"). Cart state dikelola di client side secara reaktif. |
-| **AI Sales Agent** | • Widget "Tanya AI Sales"<br>• Catalog RAG System | Chatbot berbasis LLM API yang diinjeksi dengan seluruh data produk (SKU, deskripsi, harga, stok) untuk membantu pembeli memilih produk sebelum checkout. |
-| **GEO Engine (AI-SEO)** | • Auto Generator llms.txt<br>• Auto Schema.org (JSON-LD)<br>• Dynamic sitemap.xml & robots.txt | Menghasilkan file semantik otomatis untuk setiap tenant agar terindeks sempurna oleh web crawler AI Search. |
-| **Multi-Tenant Admin** | • Product & Inventory Management<br>• WhatsApp Message Formatter<br>• Tenant Settings | Panel admin untuk merchant menginput produk, mengubah nomor WA tujuan, mengelola kategori, dan mengunggah gambar produk ke Storage. |
-
----
-
-## 3. 6-Week Development Timeline (Sprint Execution)
-
-### Minggu 1: Fondasi Backend & Arsitektur Multi-Tenant [COMPLETED]
-- [x] Inisialisasi struktur database dengan pemisahan data berbasis `tenant_id`.
-- [x] Pemasangan Authentication System untuk Admin Merchant (Laravel Sanctum/Breeze).
-- [x] Pengembangan REST API CRUD Produk, Kategori, dan SKU.
-
-### Minggu 2: Storage Infrastructure & Storefront Rendering [CURRENT]
-- [x] Penyesuaian UI/UX Front-End agar selaras dengan prototype system.solkit.tech (Header, Search Bar, Product Grid, Floating Cart).
-- [x] Implementasi sistem Cart & Local Storage Management.
-- [ ] Konfigurasi MinIO / S3 Storage Support guna menangani pengunggahan aset/gambar produk merchant.
-
-### Minggu 3: AI Sales Consultant Module
-- [x] Pembuatan pipeline ekstraksi data katalog produk ke format konteks prompt LLM (RAG-lite).
-- [x] Pengembangan endpoint `/api/v1/chat` & `/shop/{slug}/chat` untuk merespon pertanyaan pembeli di modal "Tanya AI Sales".
-- [x] Integrasi guardrails agar AI Sales fokus menjawab informasi seputar produk merchant.
-
-### Minggu 4: Engine GEO & Routing WhatsApp Checkout
-- [x] Pembuatan otomatis file `/llms.txt` per-tenant yang merangkum katalog produk untuk mesin pencari AI.
-- [x] Injeksi Schema.org (Product, Offer, BreadcrumbList) pada HTML Storefront.
-- [x] Penyesuaian generator pesan WhatsApp (Format rapi: Daftar Item, Total Harga, SKU, dan Alamat Pengiriman).
-
-### Minggu 5: QA, Performance Tuning, & Hardening
-- [x] Integrasi SSL, domain wildcard, dan konfigurasi Reverse Proxy (Nginx).
-- [ ] Pengujian beban (Stress Test) pada VPS untuk memastikan daya tahan shared backend.
-- [ ] Pengujian responsivitas seluler (Mobile UX) dan optimasi skor Google PageSpeed.
-
-### Minggu 6: Peluncuran Resmi & Onboarding
-- [x] Deployment versi produksi v1.0 ke VPS host (`system.solkit.tech`).
-- [ ] Migrasi akun merchant uji coba awal.
-- [ ] Pembukaan sistem pendaftaran merchant/klien secara komersial.
+## 2. 8 Solusi Digital Utama (Core Services)
+1. **Website Company Profile** — Menampilkan kredibilitas dan profil bisnis profesional secara elegan dan responsif.
+2. **Aplikasi Mobile** — Aplikasi Android & iOS berperforma tinggi (Flutter / Native) untuk memudahkan akses pengguna.
+3. **Sistem Bisnis / ERP** — Sentralisasi operasional, inventaris, logistik, dan keuangan dalam satu platform.
+4. **Sistem CRM** — Manajemen prospek, sales pipeline, dan retensi pelanggan otomatis.
+5. **Sistem HRIS & Payroll** — Manajemen absensi, cuti, payroll terotomatisasi, dan master data karyawan.
+6. **Integrasi Sistem (API)** — Menghubungkan beragam tools, payment gateway, dan sistem legacy tanpa friksi.
+7. **UI/UX Design** — Perancangan interface intuitif dan modern berbasis riset pengguna.
+8. **Maintenance & Support** — Pemeliharaan berkala, optimasi server, dan dukungan teknis jangka panjang.
 
 ---
 
-## 4. Go-To-Market & Commercialization Strategy
-
-### A. Model Penetapan Harga (Pricing Strategy)
-1. **Paket Starter (Rp 1.500.000 / setup):** Profil Usaha + Katalog Produk (hingga 50 produk) + WA Checkout.
-2. **Paket E-Commerce Lite + AI (Rp 2.800.000 / setup atau Rp 250.000/bulan):** Katalog Lengkap + Fitur "Tanya AI Sales" + Optimasi GEO (llms.txt) + Keranjang Belanja.
-3. **Paket Custom Enterprise (Mulai Rp 4.500.000+):** Custom Domain, Multi-Location Inventory, dan Integrasi Payment Gateway.
-
-### B. Matriks Strategi Promosi
-- **Minggu 1-2:** Pre-Launch Outreach (DM & Threads Strategy).
-- **Minggu 3-4:** Content Marketing & AI-GEO Authority Building (Video/Carousel demonstrasi toko online AI Sales).
-- **Minggu 5-6:** Direct Sales Blitz & B2B Demo (F&B lokal, brand fashion, toko gadget dengan program "Free Setup 14 Hari").
+## 3. Metodologi Kerja 4 Tahap
+- **01 Analisis:** Memahami kebutuhan, alur kerja, dan tujuan bisnis klien.
+- **02 Perancangan:** Menyusun arsitektur sistem, skema database, dan prototipe UI/UX.
+- **03 Pengembangan:** Membangun sistem dengan clean code, strict typing, dan standar keamanan tinggi.
+- **04 Implementasi & Support:** Deployment, User Acceptance Testing (UAT), training, dan garansi pemeliharaan.
 
 ---
 
-## 5. Key Performance Indicators (KPIs)
-- **Technical KPI:** Waktu page load Storefront < 1.5 detik, uptime server 99.9%.
-- **Business KPI:** Mendapatkan 10 Merchant Aktif dalam 30 hari pertama setelah launch; mencapai Recurring Revenue (MRR) awal dari biaya langganan/maintenance sistem.
+## 4. Keahlian Teknologi (Tech Stack)
+- **Frontend / Mobile:** React, Next.js, Vue 3, Flutter, TypeScript, Tailwind CSS.
+- **Backend & Cloud:** Laravel, PHP, Node.js, MySQL, AWS, Docker, Nginx.
+
+---
+
+## 5. Kontak Resmi
+- **Website:** www.synbarra.com
+- **WhatsApp:** 088804958476 (https://wa.me/6288804958476)
+- **Email:** synbarr.techno@gmail.com
+- **Instagram:** @synbarra.technologies

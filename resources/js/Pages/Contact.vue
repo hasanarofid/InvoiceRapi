@@ -2,10 +2,8 @@
 import { useForm, usePage } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Container from '@/Components/UI/Container.vue';
-import Button from '@/Components/UI/Button.vue';
-import Card from '@/Components/UI/Card.vue';
 import { BRAND } from '@/config/brand';
-import { Mail, Globe, Clock, CheckCircle2, AlertCircle } from '@lucide/vue';
+import { Mail, Globe, Clock, CheckCircle2, AlertCircle, Smartphone, Send } from '@lucide/vue';
 
 const page = usePage();
 
@@ -14,18 +12,20 @@ const form = useForm({
   companyName: '',
   email: '',
   whatsappNumber: '',
-  serviceRequired: 'Custom Software Development',
+  serviceRequired: 'Website Company Profile',
   projectDescription: '',
 });
 
 const serviceOptions = [
-  'Custom Software Development',
-  'Web Application Development',
-  'Mobile Application Development',
-  'Business Process Automation',
-  'System Integration',
+  'Website Company Profile',
+  'Aplikasi Mobile (Android & iOS)',
+  'Sistem Bisnis / ERP',
+  'Sistem CRM',
+  'Sistem HRIS & Payroll',
+  'Integrasi Sistem (API)',
   'UI/UX Design',
-  'Other',
+  'Maintenance & Support',
+  'Custom Software & Pengembangan Khusus',
 ];
 
 const submit = () => {
@@ -39,222 +39,223 @@ const submit = () => {
 </script>
 
 <template>
-  <AppLayout title="Contact Us | Synbarra Technologies">
-    <!-- Header -->
-    <section class="bg-[#011E26] text-white py-16 lg:py-24 relative overflow-hidden">
-      <div class="absolute inset-0 bg-[radial-gradient(#00F1DE_1px,transparent_1px)] [background-size:28px_28px] opacity-[0.05]"></div>
-      
+  <AppLayout title="Kontak & Konsultasi | Synbarra Technologies">
+    <!-- Header Banner -->
+    <section class="bg-gradient-to-b from-[#EBF9F7] via-[#F4FCFA] to-white py-16 lg:py-24 relative overflow-hidden">
+      <!-- Ambient Mint Glow -->
+      <div class="absolute top-0 right-1/4 w-96 h-96 bg-[#00F1DE]/15 rounded-full blur-[130px] pointer-events-none"></div>
+
       <Container class="relative z-10 text-center max-w-3xl mx-auto">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00F1DE]/10 border border-[#00F1DE]/25 text-[#00F1DE] text-xs font-semibold tracking-wider uppercase mb-6">
-          Direct Inquiries
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-[#A7EADF] text-[#008F7A] text-xs font-semibold tracking-wider uppercase mb-5 shadow-xs">
+          <span class="w-2 h-2 rounded-full bg-[#00BFA5] animate-pulse"></span>
+          Konsultasi Proyek & Sistem
         </div>
 
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
-          Let's Build Something That Moves Your Business Forward.
+        <h1 class="text-3xl sm:text-5xl font-black text-[#0D2329] tracking-tight leading-tight">
+          YUK, DISKUSIKAN KEBUTUHAN ANDA!
         </h1>
 
-        <p class="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
-          Have an idea, an operational challenge, or a business process that needs a custom digital solution? Fill out the form below to start a conversation.
+        <div class="w-16 h-1 bg-[#00BFA5] rounded-full mx-auto my-5"></div>
+
+        <p class="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
+          Punya ide proyek, kebutuhan sistem, atau tantangan digital di bisnis Anda? Kami siap menjadi partner teknologi untuk mewujudkannya.
         </p>
       </Container>
     </section>
 
     <!-- Main Form Section -->
-    <section class="py-16 sm:py-20 bg-white">
+    <section class="py-16 bg-white relative">
       <Container>
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 max-w-6xl mx-auto items-start">
-          <!-- Left Column: Contact Channels & Scope Advice -->
-          <div class="lg:col-span-5 space-y-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 max-w-6xl mx-auto">
+          <!-- Left: Information Cards & Direct WhatsApp -->
+          <div class="lg:col-span-5 space-y-6">
             <div>
-              <h2 class="text-2xl font-extrabold text-[#01232B] tracking-tight">
-                Direct Engineering Consultation
+              <h2 class="text-xl sm:text-2xl font-bold text-[#0D2329] mb-2">
+                Konsultasi Langsung dengan Tim Kami
               </h2>
-              <p class="mt-3 text-sm text-slate-600 leading-relaxed">
-                We respect your time. When you reach out, our technical leads review your requirements directly to provide clear feasibility and architecture recommendations.
+              <p class="text-sm text-slate-600 leading-relaxed">
+                Tim teknis kami siap memberikan estimasi awal, saran arsitektur, dan rekomendasi solusi yang efisien untuk bisnis Anda.
               </p>
             </div>
 
-            <div class="space-y-4 pt-4 border-t border-slate-200">
-              <div class="flex items-start gap-4">
-                <div class="w-10 h-10 rounded-lg bg-[#01232B] text-[#00F1DE] flex items-center justify-center flex-shrink-0">
-                  <Mail class="w-5 h-5" />
+            <!-- Direct Channels List -->
+            <div class="space-y-4 pt-2">
+              <a 
+                :href="BRAND.contact.whatsappUrl"
+                target="_blank"
+                rel="noopener"
+                class="flex items-center gap-4 p-4 rounded-2xl bg-[#F0FDFB] border border-[#BCEEE5] hover:border-[#00BFA5] hover:shadow-sm transition-all group"
+              >
+                <div class="w-11 h-11 rounded-xl bg-[#00BFA5] text-white flex items-center justify-center shrink-0 shadow-xs">
+                  <Smartphone class="w-5 h-5 stroke-[2.2]" />
                 </div>
                 <div>
-                  <span class="block text-xs font-semibold text-slate-500 uppercase tracking-wider">Official Email</span>
-                  <a :href="'mailto:' + BRAND.contact.email" class="text-sm font-medium text-[#01232B] hover:text-[#04D2C5]">
+                  <span class="block text-xs font-semibold text-[#008F7A] uppercase tracking-wider">WhatsApp Langsung</span>
+                  <span class="text-sm font-bold text-[#0D2329] group-hover:text-[#00BFA5] transition-colors">
+                    {{ BRAND.contact.whatsappDisplay }}
+                  </span>
+                </div>
+              </a>
+
+              <a 
+                :href="'mailto:' + BRAND.contact.email"
+                class="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-200 hover:border-[#00BFA5] hover:shadow-sm transition-all group"
+              >
+                <div class="w-11 h-11 rounded-xl bg-[#E6FAF7] text-[#00BFA5] flex items-center justify-center shrink-0">
+                  <Mail class="w-5 h-5 stroke-[2.2]" />
+                </div>
+                <div>
+                  <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Email Resmi</span>
+                  <span class="text-sm font-bold text-[#0D2329] group-hover:text-[#00BFA5] transition-colors">
                     {{ BRAND.contact.email }}
-                  </a>
-                </div>
-              </div>
-
-              <div class="flex items-start gap-4">
-                <div class="w-10 h-10 rounded-lg bg-[#01232B] text-[#00F1DE] flex items-center justify-center flex-shrink-0">
-                  <Globe class="w-5 h-5" />
-                </div>
-                <div>
-                  <span class="block text-xs font-semibold text-slate-500 uppercase tracking-wider">Domain</span>
-                  <span class="text-sm font-medium text-[#01232B]">
-                    {{ BRAND.domain }}
                   </span>
                 </div>
-              </div>
+              </a>
 
-              <div class="flex items-start gap-4">
-                <div class="w-10 h-10 rounded-lg bg-[#01232B] text-[#00F1DE] flex items-center justify-center flex-shrink-0">
-                  <Clock class="w-5 h-5" />
+              <a 
+                :href="BRAND.contact.instagramUrl"
+                target="_blank"
+                rel="noopener"
+                class="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-200 hover:border-[#00BFA5] hover:shadow-sm transition-all group"
+              >
+                <div class="w-11 h-11 rounded-xl bg-[#E6FAF7] text-[#00BFA5] flex items-center justify-center shrink-0">
+                  <span class="font-bold text-base">@</span>
                 </div>
                 <div>
-                  <span class="block text-xs font-semibold text-slate-500 uppercase tracking-wider">Response Window</span>
-                  <span class="text-sm font-medium text-[#01232B]">
-                    Within 1 Business Day
+                  <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Instagram</span>
+                  <span class="text-sm font-bold text-[#0D2329] group-hover:text-[#00BFA5] transition-colors">
+                    {{ BRAND.contact.instagram }}
                   </span>
                 </div>
-              </div>
+              </a>
             </div>
 
-            <!-- Privacy & Anti-Spam Notice -->
-            <div class="p-4 rounded-xl bg-[#F8FAFA] border border-slate-200 text-xs text-slate-500 leading-relaxed">
-              <strong>Confidentiality First:</strong> We treat all project inquiries and technical briefs with strict confidentiality. Your information is never shared or used for spam.
+            <!-- Post 09 Graphic Card -->
+            <div class="pt-4">
+              <div class="rounded-3xl overflow-hidden border border-[#D5F5EE] shadow-md">
+                <img
+                  src="/images/posts/Synbarra_Post_09.png"
+                  alt="Yuk Diskusikan Kebutuhan Anda"
+                  class="w-full h-auto object-cover"
+                  loading="lazy"
+                />
+              </div>
             </div>
           </div>
 
-          <!-- Right Column: Form -->
+          <!-- Right: Contact Form -->
           <div class="lg:col-span-7">
-            <Card class="p-8 sm:p-10 bg-white border border-slate-200 shadow-synbarra-sm">
-              <!-- Success Alert -->
+            <div class="bg-white p-6 sm:p-10 rounded-3xl border border-[#D5F5EE] shadow-[0_10px_35px_-5px_rgba(0,191,165,0.08)]">
+              <!-- Success Banner -->
               <div 
                 v-if="page.props.flash?.success" 
-                class="mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-start gap-3"
+                class="mb-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-start gap-3"
               >
-                <CheckCircle2 class="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
-                <div class="text-sm">
-                  {{ page.props.flash.success }}
+                <CheckCircle2 class="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                <div>
+                  <p class="font-bold text-sm">Pesan Berhasil Terkirim!</p>
+                  <p class="text-xs mt-1 text-emerald-700">
+                    {{ page.props.flash.success }}
+                  </p>
                 </div>
               </div>
 
-              <form @submit.prevent="submit" class="space-y-6">
-                <!-- Full Name -->
-                <div>
-                  <label for="fullName" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                    Full Name <span class="text-rose-500">*</span>
-                  </label>
-                  <input
-                    id="fullName"
-                    v-model="form.fullName"
-                    type="text"
-                    required
-                    placeholder="e.g. Budi Santoso"
-                    class="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-slate-900 text-sm focus:border-[#04D2C5] focus:ring-2 focus:ring-[#00F1DE]/30 outline-none transition-colors"
-                    :class="{ 'border-rose-400': form.errors.fullName }"
-                  />
-                  <p v-if="form.errors.fullName" class="text-xs text-rose-500 mt-1">
-                    {{ form.errors.fullName }}
-                  </p>
-                </div>
-
-                <!-- Company Name (Optional) -->
-                <div>
-                  <label for="companyName" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                    Company Name <span class="text-xs font-normal text-slate-400 lowercase">(optional)</span>
-                  </label>
-                  <input
-                    id="companyName"
-                    v-model="form.companyName"
-                    type="text"
-                    placeholder="e.g. PT Maju Bersama Digital"
-                    class="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-slate-900 text-sm focus:border-[#04D2C5] focus:ring-2 focus:ring-[#00F1DE]/30 outline-none transition-colors"
-                  />
-                </div>
-
-                <!-- Email & WhatsApp Grid -->
+              <!-- Form Element -->
+              <form @submit.prevent="submit" class="space-y-5">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label for="email" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                      Email Address <span class="text-rose-500">*</span>
+                    <label class="block text-xs font-bold text-[#0D2329] uppercase tracking-wider mb-2">
+                      Nama Lengkap *
                     </label>
-                    <input
-                      id="email"
-                      v-model="form.email"
-                      type="email"
-                      required
-                      placeholder="budi@company.com"
-                      class="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-slate-900 text-sm focus:border-[#04D2C5] focus:ring-2 focus:ring-[#00F1DE]/30 outline-none transition-colors"
-                      :class="{ 'border-rose-400': form.errors.email }"
+                    <input 
+                      v-model="form.fullName" 
+                      type="text" 
+                      required 
+                      placeholder="e.g. Budi Santoso"
+                      class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#00BFA5] focus:ring-2 focus:ring-[#00BFA5]/20 text-sm text-[#0D2329] transition-all outline-none"
                     />
-                    <p v-if="form.errors.email" class="text-xs text-rose-500 mt-1">
-                      {{ form.errors.email }}
-                    </p>
                   </div>
 
                   <div>
-                    <label for="whatsappNumber" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                      WhatsApp Number <span class="text-rose-500">*</span>
+                    <label class="block text-xs font-bold text-[#0D2329] uppercase tracking-wider mb-2">
+                      Perusahaan / Organisasi (Opsional)
                     </label>
-                    <input
-                      id="whatsappNumber"
-                      v-model="form.whatsappNumber"
-                      type="tel"
-                      required
-                      placeholder="+62 812-xxxx-xxxx"
-                      class="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-slate-900 text-sm focus:border-[#04D2C5] focus:ring-2 focus:ring-[#00F1DE]/30 outline-none transition-colors"
-                      :class="{ 'border-rose-400': form.errors.whatsappNumber }"
+                    <input 
+                      v-model="form.companyName" 
+                      type="text" 
+                      placeholder="e.g. PT Maju Bersama"
+                      class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#00BFA5] focus:ring-2 focus:ring-[#00BFA5]/20 text-sm text-[#0D2329] transition-all outline-none"
                     />
-                    <p v-if="form.errors.whatsappNumber" class="text-xs text-rose-500 mt-1">
-                      {{ form.errors.whatsappNumber }}
-                    </p>
                   </div>
                 </div>
 
-                <!-- Service Required -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div>
+                    <label class="block text-xs font-bold text-[#0D2329] uppercase tracking-wider mb-2">
+                      Alamat Email *
+                    </label>
+                    <input 
+                      v-model="form.email" 
+                      type="email" 
+                      required 
+                      placeholder="budi@company.com"
+                      class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#00BFA5] focus:ring-2 focus:ring-[#00BFA5]/20 text-sm text-[#0D2329] transition-all outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label class="block text-xs font-bold text-[#0D2329] uppercase tracking-wider mb-2">
+                      Nomor WhatsApp *
+                    </label>
+                    <input 
+                      v-model="form.whatsappNumber" 
+                      type="tel" 
+                      required 
+                      placeholder="+62 812-xxxx-xxxx"
+                      class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#00BFA5] focus:ring-2 focus:ring-[#00BFA5]/20 text-sm text-[#0D2329] transition-all outline-none"
+                    />
+                  </div>
+                </div>
+
                 <div>
-                  <label for="serviceRequired" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                    Service Required <span class="text-rose-500">*</span>
+                  <label class="block text-xs font-bold text-[#0D2329] uppercase tracking-wider mb-2">
+                    Layanan yang Dibutuhkan *
                   </label>
-                  <select
-                    id="serviceRequired"
+                  <select 
                     v-model="form.serviceRequired"
-                    required
-                    class="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-slate-900 text-sm focus:border-[#04D2C5] focus:ring-2 focus:ring-[#00F1DE]/30 outline-none bg-white transition-colors"
+                    class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#00BFA5] focus:ring-2 focus:ring-[#00BFA5]/20 text-sm text-[#0D2329] transition-all outline-none bg-white"
                   >
-                    <option v-for="srv in serviceOptions" :key="srv" :value="srv">
-                      {{ srv }}
+                    <option v-for="opt in serviceOptions" :key="opt" :value="opt">
+                      {{ opt }}
                     </option>
                   </select>
                 </div>
 
-                <!-- Project Description -->
                 <div>
-                  <label for="projectDescription" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                    Project Description <span class="text-rose-500">*</span>
+                  <label class="block text-xs font-bold text-[#0D2329] uppercase tracking-wider mb-2">
+                    Deskripsi Kebutuhan Proyek *
                   </label>
-                  <textarea
-                    id="projectDescription"
-                    v-model="form.projectDescription"
+                  <textarea 
+                    v-model="form.projectDescription" 
+                    rows="4" 
                     required
-                    rows="4"
-                    placeholder="Briefly describe your business goals, target timeline, or current technical challenges..."
-                    class="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-slate-900 text-sm focus:border-[#04D2C5] focus:ring-2 focus:ring-[#00F1DE]/30 outline-none transition-colors"
-                    :class="{ 'border-rose-400': form.errors.projectDescription }"
+                    placeholder="Ceritakan gambaran alur bisnis, target fitur, atau kendala operasional yang ingin diselesaikan..."
+                    class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#00BFA5] focus:ring-2 focus:ring-[#00BFA5]/20 text-sm text-[#0D2329] transition-all outline-none resize-none"
                   ></textarea>
-                  <p v-if="form.errors.projectDescription" class="text-xs text-rose-500 mt-1">
-                    {{ form.errors.projectDescription }}
-                  </p>
                 </div>
 
-                <!-- Submit Button -->
-                <div>
-                  <Button
-                    type="submit"
-                    variant="primary"
-                    size="lg"
-                    :loading="form.processing"
-                    class="w-full text-center"
+                <div class="pt-2">
+                  <button 
+                    type="submit" 
+                    :disabled="form.processing"
+                    class="w-full py-4 rounded-full font-bold text-sm text-white bg-gradient-to-r from-[#0D2329] via-[#0A4D4F] to-[#00BFA5] hover:opacity-95 shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                   >
-                    Submit Project Inquiry
-                  </Button>
+                    <Send class="w-4 h-4" />
+                    <span>{{ form.processing ? 'Mengirim Pesan...' : 'Kirim Permintaan Konsultasi' }}</span>
+                  </button>
                 </div>
               </form>
-            </Card>
+            </div>
           </div>
         </div>
       </Container>

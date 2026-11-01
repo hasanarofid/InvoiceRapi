@@ -67,9 +67,15 @@ onUnmounted(() => {
 
         <!-- Primary CTA Desktop -->
         <div class="hidden md:flex items-center gap-3">
-          <Button href="/contact" variant="primary" size="sm">
-            Let's Discuss Your Project
-          </Button>
+          <a
+            :href="BRAND.contact.whatsappUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold text-white bg-gradient-to-r from-[#0D2329] to-[#0A4D4F] hover:from-[#00BFA5] hover:to-[#00D9C5] shadow-sm hover:shadow-md transition-all duration-200 transform hover:-translate-y-0.5"
+          >
+            <span class="w-2 h-2 rounded-full bg-[#00F1DE] animate-pulse"></span>
+            Konsultasi Sekarang
+          </a>
         </div>
 
         <!-- Mobile Menu Toggle Button -->
