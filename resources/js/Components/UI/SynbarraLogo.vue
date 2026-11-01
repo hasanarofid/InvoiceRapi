@@ -37,18 +37,17 @@ const heightClass = computed(() => {
       <!-- Dark Theme (For Footer & Dark Backgrounds) -->
       <img
         v-if="theme === 'dark'"
-        src="/images/logo/synbarra-footer-crisp.png"
+        src="/images/logo/synbarra-horizontal-dark.png"
         alt="SYNBARRA TECHNOLOGIES"
-        :class="[heightClass, 'w-auto object-contain transition-transform duration-200 hover:opacity-95 drop-shadow-sm']"
-        style="image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;"
+        :class="[heightClass, 'w-auto object-contain transition-transform duration-200 hover:opacity-95']"
       />
-      <!-- Light Theme (For Header & Light Backgrounds) -->
+      <!-- Light Theme (For Header & Light Backgrounds) - File Asli Langsung dengan CSS Transparency -->
       <img
         v-else
-        src="/images/logo/synbarra-header-crisp.png"
+        src="/images/logo/synbarra-official.jpeg"
         alt="SYNBARRA TECHNOLOGIES"
-        :class="[heightClass, 'w-auto object-contain transition-transform duration-200 hover:opacity-95 drop-shadow-sm']"
-        style="image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;"
+        :class="[heightClass, 'w-auto object-contain mix-blend-multiply transition-transform duration-200 hover:opacity-95']"
+        style="mix-blend-mode: multiply;"
       />
     </template>
 
