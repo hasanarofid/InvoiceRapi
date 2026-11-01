@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactInquiryMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -136,9 +139,17 @@ class SynbarraController extends Controller
             'projectDescription' => 'required|string|min:10|max:2000',
         ]);
 
-        // Simpan log atau teruskan ke notifikasi
-        \Log::info('New Synbarra Inquiry:', $validated);
+        // Kirim email notifikasi ke tim Synbarra & CC ke hasanarofid@gmail.com
+        try {
+            Mail::to('synbarr.techno@gmail.com')
+                ->cc('hasanarofid@gmail.com')
+                ->send(new ContactInquiryMail($validated));
+        } catch (\Throwable $e) {
+            Log::error('Failed to send contact inquiry email: ' . $e->getMessage());
+        }
 
-        return back()->with('success', 'Thank you! Your project inquiry has been received. Our team will review your requirements and get in touch promptly.');
+        Log::info('New Synbarra Inquiry:', $validated);
+
+        return back()->with('success', 'Terima kasih! Permintaan konsultasi Anda telah kami terima. Tim kami akan segera menghubungi Anda.');
     }
 }
