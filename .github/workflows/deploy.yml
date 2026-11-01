@@ -27,25 +27,30 @@ jobs:
             exit 1
           fi
 
-          TARGET_PORT="${SSH_PORT:-22}"
-          if [ -z "$TARGET_PORT" ]; then TARGET_PORT="22"; fi
+          CLEAN_HOST=$(echo "$SSH_HOST" | tr -d '[:space:]')
+          CLEAN_USER=$(echo "$SSH_USER" | tr -d '[:space:]')
+          CLEAN_PORT=$(echo "${SSH_PORT:-22}" | tr -d '[:space:]')
+          if [ -z "$CLEAN_PORT" ]; then CLEAN_PORT="22"; fi
 
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
           printf "%s\n" "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_deploy
           chmod 600 ~/.ssh/id_deploy
 
-          echo "🚀 Connecting to $SSH_USER@$SSH_HOST on port $TARGET_PORT..."
+          echo "🔍 Validating deploy key fingerprint..."
+          ssh-keygen -lf ~/.ssh/id_deploy || true
 
-          # Execute deployment on VPS with resilient SSH configuration
-          ssh -i ~/.ssh/id_deploy \
-              -p "$TARGET_PORT" \
+          echo "🚀 Connecting to $CLEAN_USER@$CLEAN_HOST on port $CLEAN_PORT..."
+
+          # Execute deployment on VPS with verbose SSH debugging
+          ssh -v \
+              -i ~/.ssh/id_deploy \
+              -p "$CLEAN_PORT" \
               -o StrictHostKeyChecking=no \
               -o UserKnownHostsFile=/dev/null \
-              -o ConnectTimeout=15 \
+              -o ConnectTimeout=20 \
               -o BatchMode=yes \
-              "$SSH_USER@$SSH_HOST" << 'EOF'
-            set -e
+              "$CLEAN_USER@$CLEAN_HOST" 'bash -se' << 'EOF'
             echo "🚀 Starting automated deployment for synbarra.com..."
             cd /var/www/synbarra.com
 
