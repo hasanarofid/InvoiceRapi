@@ -16,11 +16,14 @@ use Illuminate\Support\Str;
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Seed the application's database for Solkit Smart-Commerce & AI-GEO Hub.
+     * Seed the application's database for Synbarra Technologies.
      */
     public function run(): void
     {
-        // 1. Seed Roles & Permissions if exists
+        // 1. Seed Synbarra Technologies Corporate Core Data
+        $this->call(SynbarraSeeder::class);
+
+        // 2. Seed Roles & Permissions if exists
         if (class_exists(RoleAndPermissionSeeder::class)) {
             $this->call(RoleAndPermissionSeeder::class);
         }

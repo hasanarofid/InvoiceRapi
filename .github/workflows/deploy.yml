@@ -1,4 +1,4 @@
-name: Deploy to Production (System Solkit)
+name: Deploy to Production (Synbarra Technologies)
 
 on:
   push:
@@ -36,8 +36,8 @@ jobs:
           # Execute automated deployment on VPS
           ssh -i ~/.ssh/id_deploy -p "${SSH_PORT:-22}" -o BatchMode=yes -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new "$SSH_USER@$SSH_HOST" << 'EOF'
             set -e
-            echo "🚀 Starting automated deployment for system.solkit.tech..."
-            cd /var/www/system.solkit.tech
+            echo "🚀 Starting automated deployment for synbarra.com..."
+            cd /var/www/synbarra.com
 
             echo "📥 Fetching latest code from main branch..."
             git fetch origin main
@@ -48,8 +48,9 @@ jobs:
             echo "📦 Installing composer dependencies..."
             COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader --no-interaction
 
-            echo "🗄️ Running database migrations..."
+            echo "🗄️ Running database migrations and PRD seeders..."
             php artisan migrate --force
+            php artisan db:seed --class=SynbarraSeeder --force
 
             echo "⚡ Building frontend assets..."
             npm ci || npm install
@@ -60,11 +61,11 @@ jobs:
             php artisan optimize
 
             echo "🔒 Ensuring correct permissions..."
-            chown -R www-data:www-data /var/www/system.solkit.tech/storage /var/www/system.solkit.tech/bootstrap/cache
-            chmod -R 775 /var/www/system.solkit.tech/storage /var/www/system.solkit.tech/bootstrap/cache
+            chown -R www-data:www-data /var/www/synbarra.com/storage /var/www/synbarra.com/bootstrap/cache
+            chmod -R 775 /var/www/synbarra.com/storage /var/www/synbarra.com/bootstrap/cache
 
             echo "🔄 Reloading PHP-FPM..."
             systemctl reload php8.5-fpm
 
-            echo "✅ Deployment completed successfully for system.solkit.tech!"
+            echo "✅ Deployment completed successfully for synbarra.com!"
           EOF
