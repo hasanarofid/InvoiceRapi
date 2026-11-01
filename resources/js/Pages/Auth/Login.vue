@@ -100,7 +100,7 @@ const submit = () => {
             <!-- Demo Account Helper -->
             <div class="mt-6 pt-4 border-t border-slate-100 text-center">
                 <p class="text-[11px] text-slate-400">
-                    Akun Demo Admin: <span class="font-mono text-slate-600 font-semibold">admin@solkit.tech</span> / <span class="font-mono text-slate-600 font-semibold">password</span>
+                    Akun Administrator: <span class="font-mono text-slate-600 font-semibold">admin@synbarra.com</span>
                 </p>
             </div>
         </form>

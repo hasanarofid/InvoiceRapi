@@ -56,14 +56,14 @@ const logout = () => {
         <!-- Sidebar Header / Logo -->
         <div :class="[isSidebarCollapsed ? 'lg:px-0 lg:justify-center' : 'px-6 justify-between', 'flex items-center h-16 border-b border-slate-200/80']">
           <Link :href="route('admin.dashboard')" class="flex items-center gap-3 min-w-0">
-            <div class="p-1 bg-white rounded-lg border border-slate-200 shadow-2xs shrink-0">
-              <img src="/images/solkit-clean.png" alt="Solkit" class="w-7 h-7 object-contain" />
+            <div class="p-1 bg-[#01232B] rounded-lg shadow-2xs shrink-0 flex items-center justify-center">
+              <img src="/icons/icon-192.png" alt="Synbarra" class="w-7 h-7 object-contain" />
             </div>
             <div :class="[isSidebarCollapsed ? 'lg:hidden' : 'block', 'transition-opacity duration-300 min-w-0']">
-              <h1 class="text-sm font-extrabold tracking-tight text-slate-900 uppercase">
-                Solkit <span class="text-blue-600">Hub</span>
+              <h1 class="text-sm font-extrabold tracking-tight text-[#01232B] uppercase">
+                SYNBARRA <span class="text-[#04D2C5]">ADMIN</span>
               </h1>
-              <p class="text-[10px] text-blue-600 font-semibold tracking-wide truncate">Smart-Commerce &amp; GEO</p>
+              <p class="text-[10px] text-[#04D2C5] font-semibold tracking-wide truncate">Technologies Panel</p>
             </div>
           </Link>
           <button 
@@ -118,8 +118,8 @@ const logout = () => {
 
         <div :class="[isSidebarCollapsed ? 'lg:px-0 lg:justify-center' : 'px-1 justify-between', 'mb-3 flex items-center text-[10px] text-slate-400 font-semibold uppercase tracking-wider']">
           <div v-if="!isSidebarCollapsed" class="flex items-center gap-1">
-            <a href="https://solkit.tech" target="_blank" class="text-slate-500 hover:text-blue-600 transition-colors normal-case">
-              Powered by Solkit.tech
+            <a href="https://synbarra.com" target="_blank" class="text-slate-500 hover:text-[#01232B] transition-colors normal-case">
+              Synbarra Technologies &bull; 2026
             </a>
           </div>
           <!-- Collapse Toggle for Desktop -->
