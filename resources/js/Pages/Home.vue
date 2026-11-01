@@ -43,7 +43,11 @@ const getWaLink = (serviceTitle: string) => {
 </script>
 
 <template>
-  <AppLayout>
+  <AppLayout
+    title="Synbarra Technologies | Software House & Custom Development"
+    description="SYNBARRA TECHNOLOGIES adalah software house yang berfokus pada pengembangan sistem ERP bisnis, website, dan aplikasi mobile custom sesuai kebutuhan unik bisnis Anda."
+    image="/images/posts/Synbarra_Post_01.png"
+  >
     <!-- ========================================================================= -->
     <!-- 1. HERO SECTION (Sesuai Postingan 01: Kenalan dengan Synbarra Teknologi)  -->
     <!-- ========================================================================= -->

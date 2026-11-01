@@ -1,36 +1,116 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="bg-white">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
-        <!-- Primary Meta Tags -->
-        <title inertia>Synbarra Technologies | Custom Software Development</title>
-        <meta name="title" content="Synbarra Technologies | Custom Software Development">
-        <meta name="description" content="SYNBARRA TECHNOLOGIES adalah penyedia solusi teknologi digital yang membantu bisnis dan organisasi mengembangkan sistem, website, serta aplikasi sesuai kebutuhan. Kami berfokus pada pengembangan teknologi yang praktis, efisien, dan dapat mendukung pertumbuhan bisnis.">
-        <meta name="keywords" content="Synbarra Technologies, Software House Indonesia, Custom Software Development, Web Application Development, Mobile App Development, Automation, System Integration, AI Solutions">
-        <meta name="author" content="Synbarra Technologies">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="theme-color" content="#01232B">
 
+        @php
+            $defaultSiteName = 'Synbarra Technologies';
+            $defaultTitle = 'Synbarra Technologies | Software House & Custom Development';
+            $defaultDescription = 'SYNBARRA TECHNOLOGIES adalah software house yang berfokus pada pengembangan sistem ERP bisnis, website, dan aplikasi mobile custom sesuai kebutuhan unik bisnis Anda.';
+            $defaultKeywords = 'Synbarra Technologies, Software House Indonesia, Jasa Pembuatan Website, Jasa Pembuatan Aplikasi Mobile, Custom ERP, HRIS Payroll, Integrasi API, Custom Software Development';
+
+            $pageProps = $page['props'] ?? [];
+            $meta = $meta ?? ($pageProps['meta'] ?? []);
+
+            $seoTitle = (!empty($meta['title'])) ? $meta['title'] : $defaultTitle;
+            $seoDesc = (!empty($meta['description'])) ? $meta['description'] : $defaultDescription;
+            $seoKeywords = $meta['keywords'] ?? $defaultKeywords;
+
+            $rawCanonical = !empty($meta['canonical']) ? $meta['canonical'] : request()->url();
+            // Normalisasi ke domain kanonis https://synbarra.com (tanpa www & query string)
+            $cleanCanonical = preg_replace('#^https?://(www\.)?synbarra\.com#i', 'https://synbarra.com', $rawCanonical);
+            $parsedUrl = parse_url($cleanCanonical);
+            $path = $parsedUrl['path'] ?? '/';
+            $canonicalUrl = 'https://synbarra.com' . (rtrim($path, '/') ?: '/');
+
+            $ogTitle = !empty($meta['og_title']) ? $meta['og_title'] : $seoTitle;
+            $ogDesc = !empty($meta['og_description']) ? $meta['og_description'] : $seoDesc;
+            
+            $rawImage = !empty($meta['og_image']) ? $meta['og_image'] : (!empty($meta['image']) ? $meta['image'] : 'images/posts/Synbarra_Post_01.png');
+            $seoImage = \App\Helpers\OgImageHelper::getOptimizedOgUrl($rawImage);
+            if (request()->getHost() === 'synbarra.com' || str_contains(config('app.url'), 'synbarra.com')) {
+                $seoImage = preg_replace('#^https?://[^/]+#i', 'https://synbarra.com', $seoImage);
+            }
+            $seoType = $meta['type'] ?? 'website';
+            $seoTwitter = $meta['twitter_card'] ?? 'summary_large_image';
+
+            // Robots directive resolution
+            $isPrivatePath = request()->is('admin*') || request()->is('dashboard*') || request()->is('profile*');
+            $robotsContent = !empty($meta['robots']) 
+                ? $meta['robots'] 
+                : ($isPrivatePath ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
+        @endphp
+
+        <!-- Title for Crawlers & Inertia -->
+        <title inertia>{{ $seoTitle }}</title>
+
+        <!-- Canonical URL -->
+        <link rel="canonical" href="{{ $canonicalUrl }}">
+
+        <!-- Robots Meta Tag -->
+        <meta name="robots" content="{{ $robotsContent }}">
+
+        <!-- GEO & Local Targeting for Indonesia -->
+        <meta name="geo.region" content="ID">
+        <meta name="geo.placename" content="Indonesia">
+        <meta name="language" content="id-ID">
+        <meta http-equiv="content-language" content="id-ID">
+
+        <!-- Primary Meta Tags -->
+        <meta name="title" content="{{ $seoTitle }}">
+        <meta name="description" content="{{ $seoDesc }}">
+        <meta name="keywords" content="{{ $seoKeywords }}">
+        <meta name="author" content="Synbarra Technologies">
+
         <!-- Open Graph / Facebook / WhatsApp -->
-        <meta property="og:type" content="website">
-        <meta property="og:url" content="https://synbarra.com/">
-        <meta property="og:site_name" content="Synbarra Technologies">
-        <meta property="og:title" content="Synbarra Technologies | Engineering the Digital Future">
-        <meta property="og:description" content="SYNBARRA TECHNOLOGIES adalah penyedia solusi teknologi digital yang membantu bisnis dan organisasi mengembangkan sistem, website, serta aplikasi sesuai kebutuhan.">
-        <meta property="og:image" content="https://synbarra.com/images/logo/synbarra-full.png">
-        <meta property="og:image:width" content="1205">
-        <meta property="og:image:height" content="316">
-        <meta property="og:image:type" content="image/png">
+        <meta property="og:site_name" content="{{ $defaultSiteName }}">
+        <meta property="og:type" content="{{ $seoType }}">
+        <meta property="og:url" content="{{ $canonicalUrl }}">
+        <meta property="og:title" content="{{ $ogTitle }}">
+        <meta property="og:description" content="{{ $ogDesc }}">
+        <meta property="og:image" content="{{ $seoImage }}">
+        <meta property="og:image:secure_url" content="{{ $seoImage }}">
+        <meta property="og:image:type" content="image/jpeg">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
 
         <!-- Twitter Card -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:url" content="https://synbarra.com/">
-        <meta name="twitter:title" content="Synbarra Technologies | Engineering the Digital Future">
-        <meta name="twitter:description" content="SYNBARRA TECHNOLOGIES adalah penyedia solusi teknologi digital yang membantu bisnis dan organisasi mengembangkan sistem, website, serta aplikasi sesuai kebutuhan.">
-        <meta name="twitter:image" content="https://synbarra.com/images/logo/synbarra-full.png">
+        <meta name="twitter:card" content="{{ $seoTwitter }}">
+        <meta name="twitter:url" content="{{ $canonicalUrl }}">
+        <meta name="twitter:title" content="{{ $ogTitle }}">
+        <meta name="twitter:description" content="{{ $ogDesc }}">
+        <meta name="twitter:image" content="{{ $seoImage }}">
 
-        <!-- Favicons (Crisp Geometric 'S' Ribbon Symbol) -->
+        @php
+            $jsonLd = [
+                '@context' => 'https://schema.org',
+                '@type' => 'ProfessionalService',
+                'name' => 'Synbarra Technologies',
+                'url' => 'https://synbarra.com',
+                'logo' => 'https://synbarra.com/images/logo/synbarra-full.png',
+                'image' => $seoImage,
+                'description' => $defaultDescription,
+                'telephone' => '+6288804958476',
+                'priceRange' => '$$',
+                'address' => [
+                    '@type' => 'PostalAddress',
+                    'addressCountry' => 'ID',
+                ],
+                'sameAs' => [
+                    'https://instagram.com/synbarra.technologies',
+                ],
+            ];
+        @endphp
+
+        <!-- Schema.org JSON-LD (Search Console Structured Data) -->
+        <script type="application/ld+json">
+        {!! json_encode($jsonLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+        </script>
+
+        <!-- Favicons -->
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=3">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=3">
         <link rel="icon" type="image/x-icon" href="/favicon.ico?v=3">
@@ -50,5 +130,22 @@
     </head>
     <body class="font-sans antialiased text-slate-900 bg-white selection:bg-[#00F1DE]/30 selection:text-[#01232B]">
         @inertia
+
+        <!-- SEO / Crawler Fallback for Search Engines & Social Scrapers -->
+        <noscript>
+            <div style="padding: 24px; font-family: system-ui, -apple-system, sans-serif; color: #0D2329; background: #fff;">
+                <h1>{{ $seoTitle }}</h1>
+                <p>{{ $seoDesc }}</p>
+                <h2>Navigasi Synbarra Technologies</h2>
+                <ul>
+                    <li><a href="/">Beranda</a></li>
+                    <li><a href="/portofolio">Portofolio Solusi Digital</a></li>
+                    <li><a href="/services">Layanan Pengembangan Sistem</a></li>
+                    <li><a href="/approach">Metodologi &amp; Alur Kerja</a></li>
+                    <li><a href="/about">Tentang Kami</a></li>
+                    <li><a href="/contact">Kontak &amp; Konsultasi</a></li>
+                </ul>
+            </div>
+        </noscript>
     </body>
 </html>

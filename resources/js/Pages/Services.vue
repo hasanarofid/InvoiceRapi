@@ -33,7 +33,10 @@ const getWaLink = (serviceTitle: string) => {
 </script>
 
 <template>
-  <AppLayout title="Layanan Kami | Synbarra Technologies">
+  <AppLayout 
+    title="Layanan Pengembangan Sistem & Solusi Digital | Synbarra Technologies"
+    description="8 Solusi digital unggulan Synbarra Technologies: Website Company Profile, Aplikasi Mobile iOS/Android, Sistem Bisnis ERP, CRM, HRIS & Payroll, Integrasi API, UI/UX, dan Maintenance."
+  >
     <!-- Header Banner -->
     <section class="bg-gradient-to-b from-[#EBF9F7] via-[#F4FCFA] to-white py-16 lg:py-24 relative overflow-hidden">
       <!-- Ambient Mint Glow -->

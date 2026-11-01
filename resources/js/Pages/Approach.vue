@@ -6,7 +6,10 @@ import { Search, PenTool, Code2, Rocket, ArrowRight, CheckCircle2 } from '@lucid
 </script>
 
 <template>
-  <AppLayout title="Alur Kerja & Metodologi | Synbarra Technologies">
+  <AppLayout 
+    title="Metodologi & Alur Kerja 4 Tahap | Synbarra Technologies"
+    description="Metodologi 4 tahap terstruktur Synbarra Technologies: 01 Analisis Kebutuhan, 02 Perancangan Arsitektur & Prototype, 03 Pengembangan Clean Code & Strict Typing, 04 Implementasi & Garansi Support."
+  >
     <!-- Header Banner -->
     <section class="bg-gradient-to-b from-[#EBF9F7] via-[#F4FCFA] to-white py-16 lg:py-24 relative overflow-hidden">
       <!-- Ambient Mint Glow -->

@@ -13,51 +13,18 @@ class SynbarraController extends Controller
      */
     public function home(): Response
     {
+        $meta = [
+            'title' => 'Synbarra Technologies | Software House & Custom Development',
+            'subtitle' => 'Mitra Teknologi Solusi Digital & Pengembangan Sistem Bisnis Kustom',
+            'description' => 'SYNBARRA TECHNOLOGIES adalah software house yang berfokus pada pengembangan sistem ERP bisnis, website, dan aplikasi mobile custom sesuai kebutuhan unik bisnis Anda.',
+            'keywords' => 'Synbarra Technologies, Software House Indonesia, Jasa Pembuatan Website, Jasa Pembuatan Aplikasi Mobile, Custom ERP, HRIS Payroll, Integrasi API, Custom Software Development',
+            'og_image' => 'images/posts/Synbarra_Post_01.png',
+            'type' => 'website',
+        ];
+
         return Inertia::render('Home', [
-            'meta' => [
-                'title' => 'Synbarra Technologies | Custom Software Development',
-                'description' => 'We design and develop custom software solutions that help businesses operate smarter, scale faster, and create meaningful digital experiences.',
-            ],
-        ]);
-    }
-
-    /**
-     * About Us: Company identity and credibility.
-     */
-    public function about(): Response
-    {
-        return Inertia::render('About', [
-            'meta' => [
-                'title' => 'About Us | Synbarra Technologies',
-                'description' => 'Learn more about Synbarra Technologies, our vision, mission, and commitment to engineering reliable digital solutions.',
-            ],
-        ]);
-    }
-
-    /**
-     * Services: Dedicated service overview and business outcomes.
-     */
-    public function services(): Response
-    {
-        return Inertia::render('Services', [
-            'meta' => [
-                'title' => 'Services | Synbarra Technologies',
-                'description' => 'Explore our full spectrum of technology services, from custom software and web applications to process automation and system integration.',
-            ],
-        ]);
-    }
-
-    /**
-     * Our Approach: Structured engineering methodology.
-     */
-    public function approach(): Response
-    {
-        return Inertia::render('Approach', [
-            'meta' => [
-                'title' => 'Our Approach | Synbarra Technologies',
-                'description' => 'Discover our structured five-stage software development process: Discover, Define, Design, Develop, and Deliver.',
-            ],
-        ]);
+            'meta' => $meta,
+        ])->withViewData(['meta' => $meta]);
     }
 
     /**
@@ -65,12 +32,75 @@ class SynbarraController extends Controller
      */
     public function portfolio(): Response
     {
+        $meta = [
+            'title' => 'Portofolio Proyek & Solusi Digital | Synbarra Technologies',
+            'subtitle' => 'Rekam Jejak Sistem ERP, Aplikasi Web, dan Platform Digital Terpercaya',
+            'description' => 'Kumpulan proyek sukses yang telah dibangun Synbarra Technologies: Sistem ERP Mr. Lux, Portal Akademik Sekolah, Infrastruktur EV Amtech, Platform Umroh Mitra Syiar, dan CleanTech Gringgo.',
+            'keywords' => 'portofolio software house, portofolio sistem erp, aplikasi web kustom, sistem enterprise, proyek synbarra technologies',
+            'og_image' => 'images/portfolio/mrluxindonesia.png',
+            'type' => 'website',
+        ];
+
         return Inertia::render('Portfolio', [
-            'meta' => [
-                'title' => 'Portofolio Solusi & Sistem | Synbarra Technologies',
-                'description' => 'Jelajahi portofolio rekayasa perangkat lunak, sistem ERP bisnis, dan platform digital yang telah kami bangun dengan standar keandalan tinggi.',
-            ],
-        ]);
+            'meta' => $meta,
+        ])->withViewData(['meta' => $meta]);
+    }
+
+    /**
+     * Services: Dedicated service overview and business outcomes.
+     */
+    public function services(): Response
+    {
+        $meta = [
+            'title' => 'Layanan Pengembangan Sistem & Solusi Digital | Synbarra Technologies',
+            'subtitle' => '8 Solusi Teknologi Kustom untuk Efisiensi & Skalabilitas Bisnis Anda',
+            'description' => '8 Solusi digital unggulan Synbarra Technologies: Website Company Profile, Aplikasi Mobile iOS/Android, Sistem Bisnis ERP, CRM, HRIS & Payroll, Integrasi API, UI/UX, dan Maintenance.',
+            'keywords' => 'layanan software house, jasa pembuatan website, jasa aplikasi mobile flutter, jasa erp kustom, sistem crm, sistem hris, integrasi payment gateway',
+            'og_image' => 'images/posts/Synbarra_Post_06.png',
+            'type' => 'website',
+        ];
+
+        return Inertia::render('Services', [
+            'meta' => $meta,
+        ])->withViewData(['meta' => $meta]);
+    }
+
+    /**
+     * Our Approach: Structured engineering methodology.
+     */
+    public function approach(): Response
+    {
+        $meta = [
+            'title' => 'Metodologi & Alur Kerja 4 Tahap | Synbarra Technologies',
+            'subtitle' => 'Proses Pengembangan Terstruktur: Analisis, Perancangan, Pengembangan & Delivery',
+            'description' => 'Metodologi 4 tahap Synbarra Technologies: 01 Analisis Kebutuhan, 02 Perancangan Arsitektur & Prototype, 03 Pengembangan Clean Code & Strict Typing, 04 Implementasi & Garansi Support.',
+            'keywords' => 'metodologi pengembangan software, alur kerja software house, arsitektur sistem, clean code, uat deployment',
+            'og_image' => 'images/posts/Synbarra_Post_07.png',
+            'type' => 'website',
+        ];
+
+        return Inertia::render('Approach', [
+            'meta' => $meta,
+        ])->withViewData(['meta' => $meta]);
+    }
+
+    /**
+     * About Us: Company identity and credibility.
+     */
+    public function about(): Response
+    {
+        $meta = [
+            'title' => 'Tentang Kami & Profil Perusahaan | Synbarra Technologies',
+            'subtitle' => 'Software House Berdedikasi untuk Transformasi Digital Bisnis Anda',
+            'description' => 'Kenalan dengan Synbarra Technologies. Kami membantu bisnis berkembang melalui rekayasa teknologi praktis, arsitektur andal, transparansi sprint, dan dukungan pemeliharaan jangka panjang.',
+            'keywords' => 'tentang synbarra technologies, profil software house indonesia, visi misi synbarra, software engineer indonesia',
+            'og_image' => 'images/posts/Synbarra_Post_02.png',
+            'type' => 'website',
+        ];
+
+        return Inertia::render('About', [
+            'meta' => $meta,
+        ])->withViewData(['meta' => $meta]);
     }
 
     /**
@@ -78,12 +108,18 @@ class SynbarraController extends Controller
      */
     public function contact(): Response
     {
+        $meta = [
+            'title' => 'Hubungi Kami & Konsultasi Sistem | Synbarra Technologies',
+            'subtitle' => 'Mulai Konsultasi Gratis untuk Perancangan Sistem & Aplikasi Bisnis Anda',
+            'description' => 'Diskusikan ide proyek atau tantangan operasional bisnis Anda bersama tim engineer Synbarra Technologies. Tersedia konsultasi langsung via WhatsApp atau formulir brief proyek.',
+            'keywords' => 'kontak software house, konsultasi pembuatan aplikasi, tanya biaya pembuatan web, hubungi synbarra technologies',
+            'og_image' => 'images/posts/Synbarra_Post_09.png',
+            'type' => 'website',
+        ];
+
         return Inertia::render('Contact', [
-            'meta' => [
-                'title' => 'Contact Us | Synbarra Technologies',
-                'description' => 'Let us build something that moves your business forward. Start a conversation with our technology team.',
-            ],
-        ]);
+            'meta' => $meta,
+        ])->withViewData(['meta' => $meta]);
     }
 
     /**

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { computed } from 'vue';
+import { Head, usePage } from '@inertiajs/vue3';
 import Header from '@/Components/Layout/Header.vue';
 import Footer from '@/Components/Layout/Footer.vue';
 import WhatsAppFloat from '@/Components/UI/WhatsAppFloat.vue';
@@ -7,23 +8,61 @@ import WhatsAppFloat from '@/Components/UI/WhatsAppFloat.vue';
 interface Props {
   title?: string;
   description?: string;
+  keywords?: string;
+  image?: string;
+  type?: string;
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  title: 'Synbarra Technologies | Custom Software Development',
-  description: 'Synbarra Technologies builds custom software, web applications, mobile applications, and digital solutions designed around your business needs.',
+const props = defineProps<Props>();
+const page = usePage();
+
+const meta = computed(() => (page.props.meta as Record<string, string> | undefined) || {});
+
+const pageTitle = computed(() => {
+  return props.title || meta.value.title || 'Synbarra Technologies | Software House & Custom Development';
+});
+
+const pageDescription = computed(() => {
+  return props.description || meta.value.description || 'SYNBARRA TECHNOLOGIES adalah software house yang berfokus pada pengembangan sistem ERP bisnis, website, dan aplikasi mobile custom sesuai kebutuhan unik bisnis Anda.';
+});
+
+const pageKeywords = computed(() => {
+  return props.keywords || meta.value.keywords || 'Synbarra Technologies, Software House Indonesia, Jasa Pembuatan Website, Jasa Pembuatan Aplikasi Mobile, Custom ERP, HRIS Payroll, Integrasi API';
+});
+
+const pageImage = computed(() => {
+  return props.image || meta.value.og_image || 'https://synbarra.com/images/posts/Synbarra_Post_01.png';
+});
+
+const currentUrl = computed(() => {
+  if (typeof window !== 'undefined') {
+    return window.location.origin + window.location.pathname;
+  }
+  return 'https://synbarra.com' + (page.url || '');
 });
 </script>
 
 <template>
   <div class="min-h-screen flex flex-col bg-white text-slate-900 antialiased selection:bg-[#00F1DE]/30 selection:text-[#01232B]">
     <Head>
-      <title>{{ title }}</title>
-      <meta name="description" :content="description" />
-      <meta property="og:title" :content="title" />
-      <meta property="og:description" :content="description" />
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://synbarra.com" />
+      <title>{{ pageTitle }}</title>
+      <meta name="description" :content="pageDescription" />
+      <meta name="keywords" :content="pageKeywords" />
+
+      <!-- Open Graph / WhatsApp / Facebook -->
+      <meta property="og:site_name" content="Synbarra Technologies" />
+      <meta property="og:type" :content="props.type || 'website'" />
+      <meta property="og:url" :content="currentUrl" />
+      <meta property="og:title" :content="pageTitle" />
+      <meta property="og:description" :content="pageDescription" />
+      <meta property="og:image" :content="pageImage" />
+
+      <!-- Twitter Card -->
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:url" :content="currentUrl" />
+      <meta name="twitter:title" :content="pageTitle" />
+      <meta name="twitter:description" :content="pageDescription" />
+      <meta name="twitter:image" :content="pageImage" />
     </Head>
 
     <!-- Accessibility Skip Link -->

@@ -39,7 +39,10 @@ const submit = () => {
 </script>
 
 <template>
-  <AppLayout title="Kontak & Konsultasi | Synbarra Technologies">
+  <AppLayout 
+    title="Hubungi Kami & Konsultasi Sistem | Synbarra Technologies"
+    description="Diskusikan ide proyek atau tantangan operasional bisnis Anda bersama tim engineer Synbarra Technologies. Tersedia konsultasi langsung via WhatsApp atau formulir brief proyek."
+  >
     <!-- Header Banner -->
     <section class="bg-gradient-to-b from-[#EBF9F7] via-[#F4FCFA] to-white py-16 lg:py-24 relative overflow-hidden">
       <!-- Ambient Mint Glow -->

@@ -6,7 +6,10 @@ import { Sparkles, Users, Layers, Headset, ArrowRight, CheckCircle2 } from '@luc
 </script>
 
 <template>
-  <AppLayout title="Tentang Kami | Synbarra Technologies">
+  <AppLayout 
+    title="Tentang Kami & Profil Perusahaan | Synbarra Technologies"
+    description="Kenalan dengan Synbarra Technologies. Kami membantu bisnis berkembang melalui rekayasa teknologi praktis, arsitektur andal, transparansi sprint, dan dukungan pemeliharaan jangka panjang."
+  >
     <!-- Header Banner -->
     <section class="bg-gradient-to-b from-[#EBF9F7] via-[#F4FCFA] to-white py-16 lg:py-24 relative overflow-hidden">
       <!-- Ambient Mint Glow -->

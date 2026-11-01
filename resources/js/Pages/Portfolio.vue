@@ -88,8 +88,9 @@ const getWaInquiryUrl = (projectTitle: string) => {
 
 <template>
   <AppLayout 
-    title="Portofolio Solusi & Sistem | Synbarra Technologies"
-    description="Jelajahi rekam jejak solusi digital, sistem ERP bisnis, web platform, dan aplikasi kustom yang telah berhasil dibangun oleh Synbarra Technologies."
+    title="Portofolio Proyek & Solusi Digital | Synbarra Technologies"
+    description="Kumpulan proyek sukses yang telah dibangun Synbarra Technologies: Sistem ERP Mr. Lux, Portal Akademik Sekolah, Infrastruktur EV Amtech, Platform Umroh Mitra Syiar, dan CleanTech Gringgo."
+    image="/images/portfolio/mrluxindonesia.png"
   >
     <!-- ========================================================================= -->
     <!-- 1. HERO BANNER                                                            -->
