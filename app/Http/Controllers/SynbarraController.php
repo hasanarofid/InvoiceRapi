@@ -61,6 +61,19 @@ class SynbarraController extends Controller
     }
 
     /**
+     * Portfolio: Showcase of built digital solutions and systems.
+     */
+    public function portfolio(): Response
+    {
+        return Inertia::render('Portfolio', [
+            'meta' => [
+                'title' => 'Portofolio Solusi & Sistem | Synbarra Technologies',
+                'description' => 'Jelajahi portofolio rekayasa perangkat lunak, sistem ERP bisnis, dan platform digital yang telah kami bangun dengan standar keandalan tinggi.',
+            ],
+        ]);
+    }
+
+    /**
      * Contact: Inquiries and project discussion.
      */
     public function contact(): Response

@@ -19,6 +19,8 @@ Route::get('/', [SynbarraController::class, 'home'])->name('home');
 Route::get('/about', [SynbarraController::class, 'about'])->name('about');
 Route::get('/services', [SynbarraController::class, 'services'])->name('services');
 Route::get('/approach', [SynbarraController::class, 'approach'])->name('approach');
+Route::get('/portofolio', [SynbarraController::class, 'portfolio'])->name('portfolio');
+Route::get('/portfolio', fn () => redirect()->route('portfolio', [], 301));
 Route::get('/contact', [SynbarraController::class, 'contact'])->name('contact');
 Route::post('/contact', [SynbarraController::class, 'submitContact'])->name('contact.submit');
 
