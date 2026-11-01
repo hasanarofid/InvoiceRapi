@@ -57,8 +57,7 @@ class OgImageHelper
                 return self::getFallbackUrl();
             }
 
-            $mtime = filemtime($fullPath) ?: 1;
-            $hash = md5($fullPath . '_' . $mtime);
+            $hash = 'og_' . md5($cleanPath);
             $cacheFile = $cacheDir . '/' . $hash . '.jpg';
 
             if (!file_exists($cacheFile)) {

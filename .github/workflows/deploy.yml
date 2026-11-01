@@ -76,8 +76,9 @@ jobs:
             php artisan optimize
 
             echo "🔒 Ensuring correct permissions..."
-            chown -R www-data:www-data /var/www/synbarra.com/storage /var/www/synbarra.com/bootstrap/cache
-            chmod -R 775 /var/www/synbarra.com/storage /var/www/synbarra.com/bootstrap/cache
+            mkdir -p /var/www/synbarra.com/public/images/og-cache
+            chown -R www-data:www-data /var/www/synbarra.com/storage /var/www/synbarra.com/bootstrap/cache /var/www/synbarra.com/public/images/og-cache
+            chmod -R 775 /var/www/synbarra.com/storage /var/www/synbarra.com/bootstrap/cache /var/www/synbarra.com/public/images/og-cache
 
             echo "🔄 Reloading PHP-FPM..."
             systemctl reload php8.5-fpm
