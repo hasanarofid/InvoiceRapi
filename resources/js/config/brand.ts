@@ -14,7 +14,17 @@ export const BRAND = {
   tagline: 'Engineering the Digital Future.',
   businessType: 'Custom Software Development / Software House',
   
-  description: 'We design and develop custom software solutions that help businesses operate smarter, scale faster, and create meaningful digital experiences.',
+  description: 'SYNBARRA TECHNOLOGIES adalah penyedia solusi teknologi digital yang membantu bisnis dan organisasi mengembangkan sistem, website, serta aplikasi sesuai kebutuhan. Kami berfokus pada pengembangan teknologi yang praktis, efisien, dan dapat mendukung pertumbuhan bisnis.',
+
+  coreServicesText: 'Website • Mobile Apps • Custom Software • Automation • System Integration • AI Solutions',
+  coreServices: [
+    'Website',
+    'Mobile Apps',
+    'Custom Software',
+    'Automation',
+    'System Integration',
+    'AI Solutions'
+  ],
 
   // Design Tokens (Derived from approved logo)
   colors: {
@@ -33,11 +43,13 @@ export const BRAND = {
     textMutedDark: '#8DA5A8', // Secondary Text on Dark
   },
 
-  // Contact Placeholders (Configurable, no fabricated data)
+  // Contact Details
   contact: {
-    email: 'contact@synbarra.com',
-    whatsapp: '', // Menunggu nomor resmi
-    whatsappDisplay: 'Direct Message',
+    email: 'synbarr.techno@gmail.com',
+    whatsapp: '6288804958476',
+    whatsappRaw: '088804958476',
+    whatsappDisplay: '0888-0495-8476',
+    whatsappUrl: 'https://wa.me/6288804958476?text=Halo%20Synbarra%20Technologies,%20saya%20ingin%20konsultasi%20pengembangan%20sistem%20/%20aplikasi.',
     location: 'Indonesia',
   },
 

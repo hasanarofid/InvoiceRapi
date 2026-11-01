@@ -2,6 +2,7 @@
 import { Head } from '@inertiajs/vue3';
 import Header from '@/Components/Layout/Header.vue';
 import Footer from '@/Components/Layout/Footer.vue';
+import WhatsAppFloat from '@/Components/UI/WhatsAppFloat.vue';
 
 interface Props {
   title?: string;
@@ -40,6 +41,9 @@ const props = withDefaults(defineProps<Props>(), {
     <main id="main-content" class="flex-grow">
       <slot />
     </main>
+
+    <!-- Floating WhatsApp Action -->
+    <WhatsAppFloat />
 
     <!-- Footer -->
     <Footer />

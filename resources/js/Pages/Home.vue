@@ -21,11 +21,8 @@ import {
   ShieldCheck, 
   Layers, 
   Workflow, 
-  Sparkles,
-  Eye
+  Sparkles
 } from '@lucide/vue';
-
-const showTokenInspector = ref(false);
 
 const serviceIcons: Record<string, any> = {
   Code2,
@@ -107,10 +104,31 @@ const differentiators = [
               </span>
             </h1>
 
-            <!-- Supporting Text -->
-            <p class="mt-6 text-lg sm:text-xl text-slate-300 leading-relaxed max-w-2xl font-normal">
-              We design and develop custom software solutions that help businesses operate smarter, scale faster, and create meaningful digital experiences.
+            <!-- Supporting Text (Official Description) -->
+            <p class="mt-6 text-base sm:text-lg text-slate-200 leading-relaxed max-w-2xl font-normal">
+              <strong class="font-semibold text-white">SYNBARRA TECHNOLOGIES</strong> adalah penyedia solusi teknologi digital yang membantu bisnis dan organisasi mengembangkan sistem, website, serta aplikasi sesuai kebutuhan. Kami berfokus pada pengembangan teknologi yang praktis, efisien, dan dapat mendukung pertumbuhan bisnis.
             </p>
+
+            <!-- Core Services Highlight -->
+            <div class="mt-6 p-4 rounded-2xl bg-white/[0.05] border border-[#00F1DE]/25 backdrop-blur-sm max-w-2xl w-full">
+              <div class="text-[11px] font-mono tracking-widest uppercase font-semibold text-[#00F1DE] mb-2.5 flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#00F1DE] animate-pulse"></span>
+                OUR CORE SERVICES
+              </div>
+              <div class="flex flex-wrap items-center gap-x-2.5 gap-y-2 text-xs sm:text-sm font-medium text-slate-200">
+                <span class="inline-flex items-center text-white">Website</span>
+                <span class="text-[#00F1DE]/60 font-bold">•</span>
+                <span class="inline-flex items-center text-white">Mobile Apps</span>
+                <span class="text-[#00F1DE]/60 font-bold">•</span>
+                <span class="inline-flex items-center text-white">Custom Software</span>
+                <span class="text-[#00F1DE]/60 font-bold">•</span>
+                <span class="inline-flex items-center text-white">Automation</span>
+                <span class="text-[#00F1DE]/60 font-bold">•</span>
+                <span class="inline-flex items-center text-white">System Integration</span>
+                <span class="text-[#00F1DE]/60 font-bold">•</span>
+                <span class="inline-flex items-center text-[#00F1DE] font-semibold">AI Solutions</span>
+              </div>
+            </div>
 
             <!-- Action CTAs -->
             <div class="mt-8 sm:mt-10 flex flex-wrap items-center gap-4 w-full sm:w-auto">
@@ -145,9 +163,9 @@ const differentiators = [
               <!-- Official Logo Badge inside geometric frame -->
               <div class="relative w-48 h-48 sm:w-56 sm:h-56 p-4 flex items-center justify-center">
                 <img 
-                  src="/images/logo/synbarra-badge.png" 
+                  src="/images/logo/synbarra-symbol.png" 
                   alt="Synbarra Technologies Geometric Symbol" 
-                  class="w-full h-full object-contain filter drop-shadow-[0_0_25px_rgba(0,241,222,0.3)] transition-transform duration-500 group-hover:scale-105"
+                  class="w-full h-full object-contain filter drop-shadow-[0_0_25px_rgba(0,241,222,0.35)] transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
 
@@ -358,67 +376,6 @@ const differentiators = [
           <Button href="/approach" variant="outline" size="lg" class="!border-[#0A3B43] !text-white hover:!bg-[#022B31]">
             Our Engineering Approach
           </Button>
-        </div>
-      </Container>
-    </section>
-
-    <!-- ========================================================================= -->
-    <!-- PHASE 1 VERIFICATION & DESIGN TOKEN INSPECTOR                             -->
-    <!-- ========================================================================= -->
-    <section class="py-10 bg-slate-100 border-t border-slate-300/80">
-      <Container>
-        <div class="flex items-center justify-between mb-4">
-          <div class="flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-            <h3 class="text-sm font-bold text-slate-800">
-              PRD Phase 1 Foundation & UI Design Tokens Inspector
-            </h3>
-          </div>
-          <button 
-            type="button"
-            @click="showTokenInspector = !showTokenInspector"
-            class="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-medium bg-white border border-slate-300 rounded-lg text-slate-700 hover:bg-slate-50 transition-colors"
-          >
-            <Eye class="w-3.5 h-3.5" />
-            {{ showTokenInspector ? 'Hide Token Inspector' : 'Show Token Inspector' }}
-          </button>
-        </div>
-
-        <div v-if="showTokenInspector" class="mt-4 p-6 bg-white rounded-2xl border border-slate-300 shadow-sm transition-all duration-300">
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <!-- Token 1 -->
-            <div class="p-4 rounded-xl border border-slate-200 bg-[#01232B] text-white">
-              <div class="text-xs font-mono text-[#00F1DE]">Primary (Dark Teal)</div>
-              <div class="text-lg font-bold font-mono mt-1">#01232B</div>
-              <div class="text-[11px] text-slate-400 mt-2">Exact approved logo background & brand color</div>
-            </div>
-
-            <!-- Token 2 -->
-            <div class="p-4 rounded-xl border border-slate-200 bg-[#00F1DE] text-[#01232B]">
-              <div class="text-xs font-mono text-[#01232B] font-semibold">Secondary (Turquoise)</div>
-              <div class="text-lg font-bold font-mono mt-1">#00F1DE</div>
-              <div class="text-[11px] text-slate-800 mt-2">Exact approved logo ribbon & ring accent</div>
-            </div>
-
-            <!-- Token 3 -->
-            <div class="p-4 rounded-xl border border-slate-200 bg-[#04D2C5] text-[#01232B]">
-              <div class="text-xs font-mono text-[#01232B] font-semibold">Accent (Cyan)</div>
-              <div class="text-lg font-bold font-mono mt-1">#04D2C5</div>
-              <div class="text-[11px] text-slate-800 mt-2">Logo 'A' chevron & gradient mid-tone</div>
-            </div>
-
-            <!-- Token 4 -->
-            <div class="p-4 rounded-xl border border-slate-200 bg-white text-slate-800">
-              <div class="text-xs font-mono text-slate-500">Surface / Background</div>
-              <div class="text-lg font-bold font-mono mt-1">#FFFFFF / #F8FAFA</div>
-              <div class="text-[11px] text-slate-500 mt-2">Light neutral clean corporate UI system</div>
-            </div>
-          </div>
-
-          <div class="mt-6 pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500">
-            <div>Domain: <code class="font-mono text-[#01232B]">synbarra.com</code> &bull; Tagline: <span class="font-semibold text-[#01232B]">Engineering the Digital Future.</span></div>
-            <div class="font-mono text-emerald-600 font-semibold">All Phase 1 Tokens Verified</div>
-          </div>
         </div>
       </Container>
     </section>

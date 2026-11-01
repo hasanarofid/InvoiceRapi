@@ -94,31 +94,70 @@ onUnmounted(() => {
       </div>
     </Container>
 
-    <!-- Mobile Navigation Drawer -->
-    <div
-      v-if="mobileMenuOpen"
-      class="fixed inset-0 top-[65px] z-40 bg-white/95 backdrop-blur-lg md:hidden flex flex-col justify-between p-6 overflow-y-auto"
-    >
-      <nav class="flex flex-col space-y-3">
-        <Link
-          v-for="item in BRAND.navigation"
-          :key="item.href"
-          :href="item.href"
-          @click="closeMobileMenu"
-          class="px-4 py-3 text-lg font-semibold text-slate-800 hover:text-[#01232B] hover:bg-slate-100 rounded-xl transition-colors"
+    <!-- Mobile Navigation Drawer Teleported Directly to Body (Prevents backdrop-filter clipping) -->
+    <Teleport to="body">
+      <Transition
+        enter-active-class="transition duration-200 ease-out"
+        enter-from-class="opacity-0 -translate-y-2"
+        enter-to-class="opacity-100 translate-y-0"
+        leave-active-class="transition duration-150 ease-in"
+        leave-from-class="opacity-100 translate-y-0"
+        leave-to-class="opacity-0 -translate-y-2"
+      >
+        <div
+          v-if="mobileMenuOpen"
+          class="fixed inset-0 z-[999] bg-white md:hidden flex flex-col justify-between overflow-y-auto"
         >
-          {{ item.label }}
-        </Link>
-      </nav>
+          <!-- Mobile Drawer Top Bar -->
+          <div class="flex items-center justify-between px-5 py-4 border-b border-slate-200 bg-white sticky top-0 z-10">
+            <Link href="/" @click="closeMobileMenu" class="flex items-center">
+              <SynbarraLogo size="md" />
+            </Link>
+            <button
+              type="button"
+              @click="closeMobileMenu"
+              class="p-2 text-slate-700 hover:text-[#01232B] hover:bg-slate-100 rounded-lg focus:outline-none"
+              aria-label="Tutup menu navigasi"
+            >
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
 
-      <div class="pt-6 border-t border-slate-200 flex flex-col gap-4">
-        <Button href="/contact" variant="primary" size="lg" @click="closeMobileMenu" class="w-full text-center">
-          Let's Discuss Your Project
-        </Button>
-        <p class="text-xs text-center text-slate-500">
-          {{ BRAND.tagline }}
-        </p>
-      </div>
-    </div>
+          <!-- Navigation Links -->
+          <nav class="flex flex-col p-6 space-y-1.5 flex-grow" aria-label="Mobile Navigation">
+            <Link
+              v-for="item in BRAND.navigation"
+              :key="item.href"
+              :href="item.href"
+              @click="closeMobileMenu"
+              class="px-4 py-3 text-base font-semibold text-slate-800 hover:text-[#01232B] hover:bg-slate-100 rounded-xl transition-colors flex items-center justify-between"
+            >
+              <span>{{ item.label }}</span>
+              <span class="text-slate-400 text-sm font-normal">&rarr;</span>
+            </Link>
+          </nav>
+
+          <!-- Drawer Footer with CTAs & Official Contacts -->
+          <div class="p-6 border-t border-slate-200 bg-slate-50 flex flex-col gap-3">
+            <Button href="/contact" variant="primary" size="lg" @click="closeMobileMenu" class="w-full text-center">
+              Let's Discuss Your Project
+            </Button>
+            <a 
+              :href="BRAND.contact.whatsappUrl" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="w-full py-3 px-4 rounded-xl bg-[#25D366] text-white font-semibold text-sm text-center flex items-center justify-center gap-2 shadow-sm active:scale-98 transition-transform"
+            >
+              <span>Chat WhatsApp: {{ BRAND.contact.whatsappDisplay }}</span>
+            </a>
+            <p class="text-[11px] text-center text-slate-500 pt-1">
+              {{ BRAND.contact.email }} &bull; {{ BRAND.domain }}
+            </p>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
   </header>
 </template>
