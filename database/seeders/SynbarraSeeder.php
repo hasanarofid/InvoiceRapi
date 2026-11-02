@@ -58,5 +58,8 @@ class SynbarraSeeder extends Seeder
                 );
             }
         }
+
+        // 3. Seed Development & Client Acquisition Roadmap
+        $this->call(RoadmapTaskSeeder::class);
     }
 }

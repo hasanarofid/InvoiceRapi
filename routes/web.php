@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\LeadController;
 use App\Http\Controllers\Admin\OrderManagerController;
 use App\Http\Controllers\Admin\ProductManagerController;
+use App\Http\Controllers\Admin\RoadmapController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SynbarraController;
@@ -23,6 +25,7 @@ Route::get('/portofolio', [SynbarraController::class, 'portfolio'])->name('portf
 Route::get('/portfolio', fn () => redirect()->route('portfolio', [], 301));
 Route::get('/contact', [SynbarraController::class, 'contact'])->name('contact');
 Route::post('/contact', [SynbarraController::class, 'submitContact'])->name('contact.submit');
+Route::get('/sitemap.xml', [SynbarraController::class, 'sitemap'])->name('sitemap');
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +44,13 @@ Route::get('/dashboard', function () {
 
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Roadmap Pengembangan & Akuisisi Klien (Sprint Tahap 1 - 5)
+    Route::resource('roadmap', RoadmapController::class);
+    Route::patch('/roadmap/{roadmap}/status', [RoadmapController::class, 'updateStatus'])->name('roadmap.update-status');
+
+    // Lead Management & Inbox Prospek
+    Route::resource('leads', LeadController::class);
 
     // Products / Service Catalog Management
     Route::resource('products', ProductManagerController::class);

@@ -13,7 +13,9 @@ import {
   ChevronDown,
   Search,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  ListTodo,
+  Users
 } from '@lucide/vue';
 
 const page = usePage();
@@ -25,6 +27,8 @@ const isUserMenuOpen = ref(false);
 
 const navigation = [
   { name: 'Dashboard', href: route('admin.dashboard'), icon: LayoutDashboard, current: route().current('admin.dashboard') },
+  { name: 'Roadmap Sprint 30 Hari', href: route('admin.roadmap.index'), icon: ListTodo, current: route().current('admin.roadmap.*') },
+  { name: 'Leads & Prospek', href: route('admin.leads.index'), icon: Users, current: route().current('admin.leads.*') },
   { name: 'Katalog Produk', href: route('admin.products.index'), icon: ShoppingBag, current: route().current('admin.products.*') },
   { name: 'Pesanan Masuk (OMS)', href: route('admin.orders.index'), icon: ShoppingCart, current: route().current('admin.orders.*') },
   { name: 'Pengaturan Toko', href: route('admin.settings.index'), icon: SettingsIcon, current: route().current('admin.settings.*') },
