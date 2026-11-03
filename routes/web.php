@@ -26,6 +26,7 @@ Route::get('/portfolio', fn () => redirect()->route('portfolio', [], 301));
 Route::get('/contact', [SynbarraController::class, 'contact'])->name('contact');
 Route::post('/contact', [SynbarraController::class, 'submitContact'])->name('contact.submit');
 Route::get('/sitemap.xml', [SynbarraController::class, 'sitemap'])->name('sitemap');
+Route::get('/template-showcase', fn () => inertia('TemplateShowcase'))->name('template.showcase');
 
 /*
 |--------------------------------------------------------------------------
