@@ -187,6 +187,7 @@ class SynbarraController extends Controller
 
         $staticPages = [
             ['loc' => $baseUrl . '/', 'priority' => '1.0', 'changefreq' => 'weekly'],
+            ['loc' => $baseUrl . '/produk', 'priority' => '0.9', 'changefreq' => 'weekly'],
             ['loc' => $baseUrl . '/services', 'priority' => '0.9', 'changefreq' => 'weekly'],
             ['loc' => $baseUrl . '/portofolio', 'priority' => '0.9', 'changefreq' => 'weekly'],
             ['loc' => $baseUrl . '/approach', 'priority' => '0.8', 'changefreq' => 'monthly'],

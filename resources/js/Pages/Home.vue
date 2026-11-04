@@ -120,6 +120,14 @@ const getWaLink = (serviceTitle: string) => {
                 </span>
               </a>
 
+              <Link
+                href="/produk"
+                class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full text-sm font-bold text-[#0D2329] bg-[#E6FAF7] border border-[#A7EADF] hover:bg-[#D4F7F0] hover:border-[#00BFA5] transition-all duration-200"
+              >
+                <Sparkles class="w-4 h-4 text-[#00BFA5]" />
+                <span>Katalog Produk Software</span>
+              </Link>
+
               <a
                 href="#solusi"
                 class="inline-flex items-center justify-center px-6 py-3.5 rounded-full text-sm font-bold text-[#0D2329] bg-white border border-[#BCEEE5] hover:bg-[#F0FDFB] hover:border-[#00BFA5] transition-all duration-200"
@@ -296,6 +304,133 @@ const getWaLink = (serviceTitle: string) => {
                   class="w-full h-auto object-cover rounded-2xl"
                   loading="lazy"
                 />
+              </div>
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- 4.5. PRODUK DIGITAL & STARTER KIT (Sesuai PRD CRUD Starter Kit)           -->
+    <!-- ========================================================================= -->
+    <section id="produk-digital" class="py-16 lg:py-24 bg-gradient-to-b from-[#F4FCFA] to-white relative overflow-hidden">
+      <!-- Ambient Glows -->
+      <div class="absolute top-10 left-1/4 w-[400px] h-[400px] bg-[#00F1DE]/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+      <Container class="relative z-10">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div class="max-w-2xl">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white text-[#008F7A] text-xs font-bold uppercase tracking-wider mb-4 border border-[#BCEEE5] shadow-xs">
+              <span class="w-2 h-2 rounded-full bg-[#00BFA5] animate-pulse"></span>
+              Produk Software Siap Pakai
+            </div>
+            <h2 class="text-2xl sm:text-4xl font-extrabold text-[#0D2329] leading-tight mb-3">
+              PRODUK SOFTWARE & DEVELOPER STARTER KIT
+            </h2>
+            <div class="w-16 h-1.5 bg-[#00BFA5] rounded-full mb-4"></div>
+            <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+              Kurangi pekerjaan berulang. Dapatkan fondasi aplikasi bisnis siap pakai yang dibangun dengan <em>Clean Code</em>, <em>Strict Typing</em>, dan dokumentasi lengkap.
+            </p>
+          </div>
+
+          <Link
+            href="/produk"
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs sm:text-sm font-bold text-[#0D2329] bg-white border border-[#BCEEE5] hover:border-[#00BFA5] hover:bg-[#EBF9F7] shadow-xs transition-all shrink-0"
+          >
+            <span>Lihat Semua Produk</span>
+            <ArrowRight class="w-4 h-4 text-[#00BFA5]" />
+          </Link>
+        </div>
+
+        <!-- Flagship Product Featured Box -->
+        <div class="bg-white rounded-3xl border border-[#C6F2EB] shadow-[0_15px_40px_-10px_rgba(0,191,165,0.08)] overflow-hidden">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center p-6 sm:p-10 lg:p-12">
+            <!-- Left: Graphic / Screenshot -->
+            <div class="lg:col-span-5 flex justify-center">
+              <div class="relative w-full max-w-md rounded-2xl overflow-hidden border border-[#D5F5EE] shadow-md group">
+                <img
+                  src="/images/posts/Synbarra_Post_08.png"
+                  alt="Synbarra CRUD Starter Kit"
+                  class="w-full h-auto object-cover group-hover:scale-102 transition-transform duration-300"
+                  loading="lazy"
+                />
+                <div class="absolute top-3 left-3 bg-[#0D2329]/90 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-bold text-[#00F1DE] border border-[#00F1DE]/30">
+                  ⚡ Flagship Starter Kit
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Details & Features -->
+            <div class="lg:col-span-7 flex flex-col items-start">
+              <div class="flex flex-wrap items-center gap-2 mb-3">
+                <span class="px-3 py-1 rounded-full bg-[#E6FAF7] text-[#008F7A] text-xs font-bold">
+                  Next.js + PostgreSQL
+                </span>
+                <span class="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-mono">
+                  v1.0.0 Production-Ready
+                </span>
+                <span class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">
+                  Tersedia Versi Lite (Gratis)
+                </span>
+              </div>
+
+              <h3 class="text-xl sm:text-3xl font-extrabold text-[#0D2329] mb-3 leading-snug">
+                Synbarra CRUD Starter Kit
+              </h3>
+
+              <p class="text-sm sm:text-base text-slate-600 mb-6 leading-relaxed">
+                Fondasi aplikasi web modern untuk developer freelance dan software agency. Sudah dilengkapi autentikasi aman, Server-Side RBAC, komponen Data Table lengkap, dan pengujian otomatis Playwright.
+              </p>
+
+              <!-- Feature Bullets -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full mb-6">
+                <div class="flex items-center gap-2 text-xs sm:text-sm text-slate-700">
+                  <CheckCircle2 class="w-4 h-4 text-[#00BFA5] shrink-0" />
+                  <span>Autentikasi & Session Server-Side</span>
+                </div>
+                <div class="flex items-center gap-2 text-xs sm:text-sm text-slate-700">
+                  <CheckCircle2 class="w-4 h-4 text-[#00BFA5] shrink-0" />
+                  <span>Role-Based Access Control (RBAC)</span>
+                </div>
+                <div class="flex items-center gap-2 text-xs sm:text-sm text-slate-700">
+                  <CheckCircle2 class="w-4 h-4 text-[#00BFA5] shrink-0" />
+                  <span>Generic Data Table (Search & Filter)</span>
+                </div>
+                <div class="flex items-center gap-2 text-xs sm:text-sm text-slate-700">
+                  <CheckCircle2 class="w-4 h-4 text-[#00BFA5] shrink-0" />
+                  <span>Automated Playwright E2E Tests</span>
+                </div>
+              </div>
+
+              <!-- Tech Stack Badges -->
+              <div class="flex flex-wrap gap-1.5 mb-8">
+                <span class="text-[11px] font-semibold text-slate-500 py-1 mr-1">Stack:</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-[11px] font-medium">Next.js 14</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-[11px] font-medium">TypeScript</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-[11px] font-medium">Prisma ORM</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-[11px] font-medium">PostgreSQL</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-[11px] font-medium">shadcn/ui</span>
+              </div>
+
+              <!-- Price & CTA Bar -->
+              <div class="flex flex-wrap items-center gap-4 w-full pt-6 border-t border-slate-100">
+                <div>
+                  <div class="text-xs text-slate-500 font-medium">Harga Lisensi:</div>
+                  <div class="text-lg sm:text-xl font-black text-[#0D2329]">
+                    Mulai Rp 0 <span class="text-xs text-slate-500 font-normal">/ Rp 349.000 (Pro)</span>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-3 ml-auto">
+                  <Link
+                    href="/produk/synbarra-crud-starter-kit"
+                    class="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-[#0D2329] via-[#0A4D4F] to-[#00BFA5] hover:opacity-95 shadow-md transition-all duration-200"
+                  >
+                    <span>Pelajari & Coba Demo</span>
+                    <ArrowRight class="w-4 h-4" />
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

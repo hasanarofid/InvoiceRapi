@@ -184,8 +184,9 @@ export const BRAND = {
   // Navigasi Utama
   navigation: [
     { label: 'Home', href: '/' },
-    { label: 'Portofolio', href: '/portofolio' },
+    { label: 'Produk', href: '/produk' },
     { label: 'Layanan', href: '/services' },
+    { label: 'Portofolio', href: '/portofolio' },
     { label: 'Alur Kerja', href: '/approach' },
     { label: 'Tentang Kami', href: '/about' },
     { label: 'Kontak', href: '/contact' },

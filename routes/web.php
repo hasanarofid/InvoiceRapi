@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\OrderManagerController;
 use App\Http\Controllers\Admin\ProductManagerController;
 use App\Http\Controllers\Admin\RoadmapController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SynbarraController;
 use Illuminate\Support\Facades\Route;
@@ -20,13 +21,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [SynbarraController::class, 'home'])->name('home');
 Route::get('/about', [SynbarraController::class, 'about'])->name('about');
 Route::get('/services', [SynbarraController::class, 'services'])->name('services');
+Route::get('/produk', [ProductController::class, 'index'])->name('products.index');
+Route::get('/produk/{slug}', [ProductController::class, 'show'])->name('products.show');
 Route::get('/approach', [SynbarraController::class, 'approach'])->name('approach');
 Route::get('/portofolio', [SynbarraController::class, 'portfolio'])->name('portfolio');
 Route::get('/portfolio', fn () => redirect()->route('portfolio', [], 301));
 Route::get('/contact', [SynbarraController::class, 'contact'])->name('contact');
 Route::post('/contact', [SynbarraController::class, 'submitContact'])->name('contact.submit');
 Route::get('/sitemap.xml', [SynbarraController::class, 'sitemap'])->name('sitemap');
-Route::get('/template-showcase', fn () => inertia('TemplateShowcase'))->name('template.showcase');
+Route::get('/template-showcase', fn () => redirect()->route('products.index', [], 301))->name('template.showcase');
 
 /*
 |--------------------------------------------------------------------------
