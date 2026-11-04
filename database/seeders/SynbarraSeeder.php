@@ -61,5 +61,8 @@ class SynbarraSeeder extends Seeder
 
         // 3. Seed Development & Client Acquisition Roadmap
         $this->call(RoadmapTaskSeeder::class);
+
+        // 4. Seed First Flagship Digital Product (Synbarra CRUD Starter Kit)
+        $this->call(DigitalProductSeeder::class);
     }
 }
