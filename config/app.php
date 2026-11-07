@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Synbarra Technologies'),
+    'name' => env('APP_NAME', 'Synbarra InvoiceRapi'),
 
     /*
     |--------------------------------------------------------------------------

@@ -1,58 +1,120 @@
-# Synbarra Technologies — UI/UX & Product Design Guidelines
+# Synbarra InvoiceRapi — Product Architecture & Design Guidelines
 
 **Entity:** Synbarra Technologies  
-**Domain:** https://synbarra.com  
-**Business Type:** Software House & Custom Development  
-**Core Motto:** "Mitra teknologi yang menghadirkan solusi digital dan pengembangan sistem sesuai kebutuhan unik bisnis Anda."  
-**Tech Stack:** Laravel (Backend API / Inertia SSR), Vue 3 + TypeScript, Tailwind CSS, MySQL, Nginx, Redis  
+**Product:** Synbarra InvoiceRapi (SaaS Platform)  
+**Product Type:** B2B Multi-tenant Invoice & Receivable Management SaaS  
+**Domain:** https://invoicerapi.synbarra.com  
+**Tagline:** "Urus Tagihan, Jadi Lebih Rapi."  
+**Target Market:** Bisnis jasa berbasis proyek di Indonesia (Wedding Organizer, Fotografer/Videografer, Event Organizer, Kontraktor/Interior, Jasa Profesional).  
+**Tech Stack:** Laravel 13, Inertia.js v2 + Vue 3 (Composition API, `<script setup>`), Tailwind CSS v3/v4, TypeScript, MySQL/PostgreSQL, Redis, Nginx.
 
 ---
 
-## 1. Brand Identity & Visual Aesthetic (Source of Truth)
-Desain UI/UX Synbarra Technologies mengacu langsung pada panduan visual resmi (9 Postingan Synbarra):
-- **Gaya Desain:** Clean, Modern, Bright, Professional Software House. Menampilkan kredibilitas, transparansi, dan kecanggihan teknologi tanpa kesan gelap/sci-fi yang berlebihan.
+## 1. Brand Identity & Design System (Source of Truth)
+Desain UI/UX mengacu langsung pada Mockup & Brand Board Resmi (`ChatGPT Image Nov 7, 2026, 09_06_12 PM.png`):
+
+### 1.1 Visual Aesthetic
+- **Karakter Desain:** Modern, Clean, Friendly, Trustworthy & Ultra-responsive SaaS.
 - **Background Utama:**
-  - Light mode: Putih murni (`#FFFFFF`) dipadukan dengan aksen kurva gradien mint/teal lembut (`#EBF9F7` ke `#F4FCFA`).
-  - Dark accents (Footer / High-contrast badges): Deep Teal / Pine (`#011E26` / `#0D2329`).
-- **Palet Warna:**
-  - `Primary Dark`: `#0D2329` (Warna teks heading & kontras utama)
-  - `Primary Teal`: `#00BFA5` / `#00CBA9` (Aksen tombol, garis dekorasi, badge)
-  - `Accent Mint`: `#00F1DE` / `#38E1CD` (Gradien cerah, hover state, glow halus)
-  - `Surface Card`: `#FFFFFF` dengan border halus `#D7F3ED` / `#E2E8F0` dan soft shadow `rgba(0, 191, 165, 0.08)`.
-  - `Body Text`: Slate 600 (`#475569`) untuk keterbacaan tinggi.
-- **Tipografi:** Modern Grotesque Sans-Serif (Plus Jakarta Sans / Inter), bold headings dengan line-height proporsional.
-- **Elemen UI:** Rounded pill buttons (`rounded-full`), soft cards dengan border tipis, icon 3D / outline mint, dan flow arrows antar tahap.
+  - Light canvas: `#FFFFFF` dengan latar body aksen ungu lembut `#FAF8FF` / `#F5F3FF` (`bg-violet-50/40`).
+  - Active Sidebar / Accent Cards: Soft violet card dengan border tipis `#EDE9FE`.
+  - Contrast Badges & Buttons: Deep rich violet `#6D28D9` dan `#8B5CF6`.
+
+### 1.2 Palet Warna Resmi
+- **Primary Purple:** `#6D28D9` (`violet-700`) — Tombol CTA utama, status aktif navigasi, kartu Pro, branding utama.
+- **Secondary Violet:** `#8B5CF6` (`violet-500`) — Aksen sekunder, hover glow, garis grafik pendapatan.
+- **Background Tint:** `#EDE9FE` (`violet-100`) — Background badge, hover state ringan, border highlight.
+- **Success Green:** `#22C55E` (`green-500`) — Badge status **Lunas**, icon checklist termin, badge verifikasi.
+- **Warning Amber:** `#F59E0B` (`amber-500`) — Badge status **Dibayar Sebagian** / Pending, icon piutang berjalan.
+- **Danger Red:** `#EF4444` (`red-500`) — Badge status **Terlambat (Overdue)**, alert piutang macet, aksi void/cancel.
+- **Typography & Dark Contrast:**
+  - Heading & High-Contrast Text: `#0F172A` (`slate-900`) / `#1E293B` (`slate-800`).
+  - Body Text: `#475569` (`slate-600`) untuk kenyamanan membaca invoice & tabel.
+  - Muted Text: `#94A3B8` (`slate-400`).
+
+### 1.3 Tipografi
+- **Font Family:** `Inter`, `Plus Jakarta Sans`, atau `Poppins` (Google Fonts).
+- **Hierarchy:**
+  - Title / Large Heading: Bold / ExtraBold (e.g., `text-3xl font-extrabold tracking-tight`).
+  - Subheading / Section Title: SemiBold (e.g., `text-xl font-bold text-slate-800`).
+  - Stat Numbers / Currency: Bold / ExtraBold dengan format Rupiah (e.g., `Rp 78.000.000`).
+  - Body & Table: Regular & Medium (`text-sm text-slate-600`).
+
+### 1.4 Komponen & Gaya UI
+- **Buttons:** Rounded full / rounded-xl (`rounded-full px-5 py-2.5 font-medium shadow-sm transition`).
+- **Cards:** Clean white card (`bg-white rounded-2xl border border-slate-100 shadow-[0_4px_20px_-4px_rgba(109,40,217,0.06)] p-6`).
+- **Icons:** Outline Rounded style (Lucide Vue Next).
+- **Stat Cards:** Icon rounded container dengan warna aksen terkait + Nominal besar + Label deskriptif.
 
 ---
 
-## 2. 8 Solusi Digital Utama (Core Services)
-1. **Website Company Profile** — Menampilkan kredibilitas dan profil bisnis profesional secara elegan dan responsif.
-2. **Aplikasi Mobile** — Aplikasi Android & iOS berperforma tinggi (Flutter / Native) untuk memudahkan akses pengguna.
-3. **Sistem Bisnis / ERP** — Sentralisasi operasional, inventaris, logistik, dan keuangan dalam satu platform.
-4. **Sistem CRM** — Manajemen prospek, sales pipeline, dan retensi pelanggan otomatis.
-5. **Sistem HRIS & Payroll** — Manajemen absensi, cuti, payroll terotomatisasi, dan master data karyawan.
-6. **Integrasi Sistem (API)** — Menghubungkan beragam tools, payment gateway, dan sistem legacy tanpa friksi.
-7. **UI/UX Design** — Perancangan interface intuitif dan modern berbasis riset pengguna.
-8. **Maintenance & Support** — Pemeliharaan berkala, optimasi server, dan dukungan teknis jangka panjang.
+## 2. Struktur Navigasi & Halaman
+
+### 2.1 Landing Page Publik
+1. **Navbar:** Logo Synbarra InvoiceRapi, Link (Beranda, Fitur, Solusi, Harga, Demo, FAQ), CTA: Masuk, Coba Gratis 14 Hari.
+2. **Hero Section:**
+   - Headline: *"Kelola Invoice, DP, Termin, dan Pelunasan Klien dalam Satu Aplikasi"*
+   - Subheadline penjelasan bisnis jasa.
+   - Dual CTA: "Coba Gratis 14 Hari" & "Lihat Demo".
+   - Feature pills: Buat Invoice Profesional, Atur DP & Termin Pembayaran, Pengingat Jatuh Tempo, Pantau Piutang & Pelunasan.
+   - Interactive Device Mockup (Laptop & Mobile preview).
+3. **Paket Langganan (Pricing):**
+   - **Gratis (Rp 0/bulan):** 5 invoice/bulan, 10 klien, Unduh PDF, Dashboard sederhana, 1 pengguna.
+   - **Pro (Rp 99.000/bulan) — [Paling Populer]:** 100 invoice/bulan, Unlimited klien, Atur DP & Termin, Pengingat otomatis, Laporan piutang, 2 pengguna.
+   - **Bisnis (Rp 199.000/bulan):** 500 invoice/bulan, 5 pengguna, Laporan lengkap, Pengingat terjadwal, Prioritas dukungan.
+4. **Halaman Publik Invoice Klien (`/i/{token}`):**
+   - Akses via token acak aman (tanpa butuh login).
+   - Menampilkan detail invoice, termin DP/pelunasan, instruksi pembayaran, dan tombol download PDF.
+
+### 2.2 Dashboard Aplikasi (Authenticated)
+- **Sidebar Navigasi:**
+  - Header: Logo Synbarra InvoiceRapi.
+  - Menu Items: Dashboard, Klien, Proyek, Invoice, Pembayaran, Laporan, Pengaturan.
+  - Footer Card: Status Paket (e.g., "Paket Pro - Aktif hingga 12 Mar 2026") & Kelola Langganan.
+- **Top Bar:** Workspace Switcher (e.g., "Mulia Event Organizer"), Notifikasi, Profile Menu.
+- **Konten Dashboard:**
+  - 4 Stat Cards: Total Tagihan, Sudah Dibayar, Piutang (Outstanding), Terlambat (Overdue).
+  - Grafik Pendapatan Bulanan (Area / Line Chart ungu gradien).
+  - Donut Chart Status Invoice (Lunas, Sebagian, Belum Bayar, Draft).
 
 ---
 
-## 3. Metodologi Kerja 4 Tahap
-- **01 Analisis:** Memahami kebutuhan, alur kerja, dan tujuan bisnis klien.
-- **02 Perancangan:** Menyusun arsitektur sistem, skema database, dan prototipe UI/UX.
-- **03 Pengembangan:** Membangun sistem dengan clean code, strict typing, dan standar keamanan tinggi.
-- **04 Implementasi & Support:** Deployment, User Acceptance Testing (UAT), training, dan garansi pemeliharaan.
+## 3. Data Model & Prinsip Bisnis Multi-Tenant
+
+### 3.1 Multi-Tenancy & Isolasi Data
+- Setiap data bisnis terikat pada `tenant_id` (Workspace).
+- Tidak boleh ada query bisnis tanpa scoping `tenant_id` aktif.
+- Authorization dilakukan server-side (jangan percaya input `tenant_id` dari browser).
+
+### 3.2 Siklus Status Invoice & Termin
+- **Status Invoice:**
+  - `draft`: Baru dibuat, belum diterbitkan, tidak muncul di piutang.
+  - `issued`: Telah diterbitkan, menunggu pembayaran.
+  - `partial`: Telah dibayar sebagian (e.g. baru DP).
+  - `paid`: Lunas 100%.
+  - `overdue`: Melewati tanggal jatuh tempo dan belum lunas.
+  - `canceled`: Dibatalkan (tidak masuk hitungan piutang).
+- **Termin Pembayaran:**
+  - Tiap invoice dapat dipecah menjadi beberapa termin (DP, Termin 1, Pelunasan).
+  - Total termin wajib sama dengan total invoice.
+- **Presisi Finansial:**
+  - Simpan angka uang dalam tipe `DECIMAL(15, 2)` / integer sen, **DILARANG** menggunakan floating point (`FLOAT`/`DOUBLE`).
+  - Selalu hitung `outstanding = total_invoice - total_paid_valid`.
 
 ---
 
-## 4. Keahlian Teknologi (Tech Stack)
-- **Frontend / Mobile:** React, Next.js, Vue 3, Flutter, TypeScript, Tailwind CSS.
-- **Backend & Cloud:** Laravel, PHP, Node.js, MySQL, AWS, Docker, Nginx.
+## 4. Standar Kode & Aturan Pengembangan
 
----
-
-## 5. Kontak Resmi
-- **Website:** www.synbarra.com
-- **WhatsApp:** 088804958476 (https://wa.me/6288804958476)
-- **Email:** synbarr.techno@gmail.com
-- **Instagram:** @synbarra.technologies
+1. **Strict Typing & Validasi:**
+   - Gunakan PHP 8.3+ strict types (`declare(strict_types=1);`).
+   - Gunakan FormRequest / Zod untuk validasi setiap request backend dan frontend.
+2. **Atomic Financial Transactions:**
+   - Setiap operasi pencatatan pembayaran dan perubahan status termin/invoice wajib dibungkus dalam `DB::transaction`.
+3. **Audit Trail:**
+   - Setiap mutasi finansial (terbitkan invoice, catat bayar, void bayar, batalkan invoice) dicatat ke `audit_logs`.
+4. **Asset Management:**
+   - Gunakan logo dan mockup resmi yang telah di-crop di `/public/images/logo/` dan `/public/images/mockups/`.
+   - Favicon resmi tersimpan di `/public/favicon.png`.
+5. **No Halusinasi:**
+   - Periksa schema database dan file yang ada sebelum membuat fitur baru.
+   - Jangan memasang package npm/composer sembarangan tanpa verifikasi.

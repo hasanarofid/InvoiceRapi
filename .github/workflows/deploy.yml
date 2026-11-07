@@ -1,4 +1,4 @@
-name: Deploy to Production (Synbarra Technologies)
+name: Deploy InvoiceRapi to Production
 
 on:
   push:
@@ -42,17 +42,23 @@ jobs:
 
           echo "🚀 Connecting to $CLEAN_USER@$CLEAN_HOST on port $CLEAN_PORT..."
 
-          # Execute deployment on VPS with verbose SSH debugging
-          ssh -v \
-              -i ~/.ssh/id_deploy \
-              -p "$CLEAN_PORT" \
-              -o StrictHostKeyChecking=no \
+          ssh -o StrictHostKeyChecking=no \
               -o UserKnownHostsFile=/dev/null \
               -o ConnectTimeout=20 \
               -o BatchMode=yes \
+              -i ~/.ssh/id_deploy \
+              -p "$CLEAN_PORT" \
               "$CLEAN_USER@$CLEAN_HOST" 'bash -se' << 'EOF'
-            echo "🚀 Starting automated deployment for synbarra.com..."
-            cd /var/www/synbarra.com
+            set -e
+            echo "🚀 Starting automated deployment for invoicerapi.synbarra.com..."
+            
+            TARGET_DIR="/var/www/invoicerapi.synbarra.com"
+            if [ ! -d "$TARGET_DIR" ]; then
+              echo "❌ Error: Target directory $TARGET_DIR does not exist yet. Please run initial git clone on VPS first."
+              exit 1
+            fi
+
+            cd "$TARGET_DIR"
 
             echo "📥 Fetching latest code from main branch..."
             git fetch origin main
@@ -63,9 +69,8 @@ jobs:
             echo "📦 Installing composer dependencies..."
             COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader --no-interaction
 
-            echo "🗄️ Running database migrations and seeders..."
+            echo "🗄️ Running database migrations..."
             php artisan migrate --force
-            php artisan db:seed --class=SynbarraSeeder --force
 
             echo "⚡ Building frontend assets..."
             npm ci || npm install
@@ -76,12 +81,12 @@ jobs:
             php artisan optimize
 
             echo "🔒 Ensuring correct permissions..."
-            mkdir -p /var/www/synbarra.com/public/images/og-cache
-            chown -R www-data:www-data /var/www/synbarra.com/storage /var/www/synbarra.com/bootstrap/cache /var/www/synbarra.com/public/images/og-cache
-            chmod -R 775 /var/www/synbarra.com/storage /var/www/synbarra.com/bootstrap/cache /var/www/synbarra.com/public/images/og-cache
+            mkdir -p "$TARGET_DIR/storage" "$TARGET_DIR/bootstrap/cache"
+            chown -R www-data:www-data "$TARGET_DIR/storage" "$TARGET_DIR/bootstrap/cache"
+            chmod -R 775 "$TARGET_DIR/storage" "$TARGET_DIR/bootstrap/cache"
 
             echo "🔄 Reloading PHP-FPM..."
             systemctl reload php8.5-fpm
 
-            echo "✅ Deployment completed successfully for synbarra.com!"
+            echo "✅ Deployment completed successfully for invoicerapi.synbarra.com!"
           EOF

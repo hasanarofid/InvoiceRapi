@@ -4,18 +4,18 @@
 
 @layer base {
   :root {
-    /* Synbarra Technologies — Single Source of Truth Brand Tokens */
-    --color-primary: #01232B;
-    --color-primary-deep: #011E26;
-    --color-secondary: #00F1DE;
-    --color-accent: #04D2C5;
+    /* Synbarra InvoiceRapi — Single Source of Truth Brand Tokens */
+    --color-primary: #6D28D9;
+    --color-primary-deep: #4C1D95;
+    --color-secondary: #8B5CF6;
+    --color-accent: #A78BFA;
     --color-background: #FFFFFF;
-    --color-surface: #F8FAFA;
-    --color-surface-dark: #022B31;
+    --color-surface: #FAF8FF;
+    --color-surface-dark: #1E1B4B;
     --color-text-primary: #0F172A;
     --color-text-secondary: #475569;
     --color-border: #E2E8F0;
-    --color-border-dark: #0A3B43;
+    --color-border-dark: #312E81;
   }
 
   html {

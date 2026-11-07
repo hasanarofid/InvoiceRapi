@@ -1,60 +1,81 @@
-# SYNBARRA TECHNOLOGIES — Corporate Website
+# Synbarra InvoiceRapi
 
-Official Corporate Website for **SYNBARRA TECHNOLOGIES**.
+> **"Urus Tagihan, Jadi Lebih Rapi."**  
+> Solusi SaaS manajemen klien, proyek, invoice, termin pembayaran (DP, Termin, Pelunasan), dan pemantauan piutang untuk bisnis jasa di Indonesia.
 
-- **Domain:** `https://synbarra.com`
-- **Tagline:** Engineering the Digital Future.
-- **Business:** Custom Software Development / Software House
-- **Positioning:** Premium, modern, professional, and internationally oriented.
-- **Tech Stack:** Laravel 11 Backend, Vue 3 (Inertia.js), Tailwind CSS, Lucide Icons, Vite.
+- **Produk:** Synbarra InvoiceRapi (Produk SaaS resmi dari Synbarra Technologies)
+- **Domain:** `https://invoicerapi.synbarra.com`
+- **Target Pasar:** Wedding Organizer, Fotografer/Videografer, Event Organizer, Kontraktor/Desain Interior, dan Konsultan Jasa Profesional.
+- **Tech Stack:** Laravel 13, Inertia.js v2 + Vue 3, Tailwind CSS, TypeScript, MySQL, Redis, Nginx.
 
 ---
 
 ## 🎨 Brand Identity & Design Tokens
 
-Derived directly from the official approved SYNBARRA logo:
+Mengacu langsung pada Brand Board & Mockup resmi (`public/images/mockups/design-system-board.png`):
 
-| Token | HEX Code | Purpose |
-|---|---|---|
-| `--color-primary` | `#01232B` | Signature Dark Teal Brand |
-| `--color-primary-deep` | `#011E26` | Deep Midnight Teal Base |
-| `--color-secondary` | `#00F1DE` | Neon Turquoise Accent |
-| `--color-accent` | `#04D2C5` | Medium Cyan Midtone |
-| `--color-background` | `#FFFFFF` | Primary Background |
-| `--color-surface` | `#F8FAFA` | Light Neutral Surface |
-| `--color-border` | `#E2E8F0` | Clean Border System |
-| `--color-text-primary` | `#0F172A` | Dark Charcoal Typography |
-| `--color-text-secondary` | `#475569` | Muted Slate Typography |
-
----
-
-## 🚀 Website Structure
-
-1. **Home (`/`)**: Hero, Introduction & Core Principles, Services Overview, Why Synbarra, Development Process, Closing CTA, and Token Verification.
-2. **About Us (`/about`)**: Vision, Mission, Company Values, and Quality Commitment.
-3. **Services (`/services`)**: In-depth breakdown of 6 core services (Custom Software, Web App, Mobile App, Business Process Automation, System Integration, UI/UX Design).
-4. **Our Approach (`/approach`)**: 7-stage engineering methodology from business discovery to continuous maintenance.
-5. **Contact (`/contact`)**: Validated project inquiry form with direct consultation channels.
+| Token | HEX Code | Tailwind Class | Penggunaan |
+|---|---|---|---|
+| **Primary** | `#6D28D9` | `bg-violet-700` / `text-violet-700` | Warna brand utama, tombol CTA, navigasi aktif, badge Pro |
+| **Secondary** | `#8B5CF6` | `bg-violet-500` / `text-violet-500` | Aksen sekunder, hover glow, garis grafik pendapatan |
+| **Background Tint** | `#EDE9FE` | `bg-violet-100` / `border-violet-100` | Latar badge, hover ringan, kontur card |
+| **Success** | `#22C55E` | `bg-emerald-500` / `text-emerald-500` | Status **Lunas**, icon checklist termin pembayaran |
+| **Warning** | `#F59E0B` | `bg-amber-500` / `text-amber-500` | Status **Dibayar Sebagian**, piutang aktif |
+| **Danger** | `#EF4444` | `bg-red-500` / `text-red-500` | Status **Terlambat (Overdue)**, alert piutang jatuh tempo |
+| **Dark Heading** | `#0F172A` | `text-slate-900` | Heading dan nominal rupiah utama |
+| **Body Text** | `#475569` | `text-slate-600` | Teks keterangan, deskripsi tabel, informasi invoice |
 
 ---
 
-## 🛠️ Local Development
+## 📱 Aset Brand & Mockup (Cropped)
+
+- **Logo Utama:** `public/images/logo/invoicerapi-logo-full.png`
+- **Logo Horizontal:** `public/images/logo/invoicerapi-logo-horizontal.png`
+- **Logo Purple Badge:** `public/images/logo/invoicerapi-logo-purple.png`
+- **Favicon & Icon:** `public/images/logo/invoicerapi-icon.png` & `public/favicon.png`
+- **Mockup Hero (Laptop & Mobile):** `public/images/mockups/mockup-hero.png`
+- **Mockup Dashboard Desktop:** `public/images/mockups/mockup-dashboard.png`
+- **Mockup Mobile Screens:** `public/images/mockups/mockup-mobile.png`
+- **Mockup Paket Langganan:** `public/images/mockups/mockup-pricing.png`
+
+---
+
+## 🚀 Fitur Utama MVP (Prioritas P0)
+
+1. **Authentication & Multi-Tenant Onboarding:** Registrasi, verifikasi email, login, dan setup workspace bisnis.
+2. **Dashboard Finansial:** Kartu ringkasan total tagihan, sudah dibayar, piutang, dan invoice overdue, grafik pendapatan bulanan, dan komposisi status invoice.
+3. **Manajemen Klien & Proyek:** Hubungkan invoice ke klien dan proyek dengan riwayat transaksi yang rapi.
+4. **Invoice & Termin Pembayaran:** Nomor invoice otomatis, pembuatan termin (DP, Termin 1, Pelunasan), kalkulasi saldo akurat (`DECIMAL`).
+5. **Pencatatan Pembayaran:** Catat pembayaran penuh / sebagian secara atomik (`DB::transaction`) dan unduh receipt.
+6. **Halaman Publik Invoice Klien (`/i/{token}`):** Klien dapat melihat status, rincian termin, instruksi pembayaran, dan unduh PDF tanpa login.
+
+---
+
+## 🛠️ Panduan Pengembangan Lokal
 
 ```bash
 # 1. Install dependencies
 composer install
 npm install
 
-# 2. Build assets
-npm run build
-# or run dev server
-npm run dev
+# 2. Salin environment dan generate app key
+cp .env.example .env
+php artisan key:generate
 
-# 3. Serve application
+# 3. Jalankan migrasi database
+php artisan migrate
+
+# 4. Jalankan development server
+npm run dev
+# di terminal lain:
 php artisan serve
 ```
 
 ---
 
-## 📄 Git Repository
-- GitHub: [https://github.com/hasanarofid/synbarra.git](https://github.com/hasanarofid/synbarra.git)
+## 🌐 Deployment & CI/CD
+
+- **Server VPS:** `root@201.18.218.42`
+- **Target Folder:** `/var/www/invoicerapi.synbarra.com`
+- **GitHub Repository:** `https://github.com/hasanarofid/InvoiceRapi.git`
+- **CI/CD Workflow:** Otomatis deploy saat push ke branch `main` via `.github/workflows/deploy.yml`.

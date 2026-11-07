@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <meta name="theme-color" content="#01232B">
+        <meta name="theme-color" content="#6D28D9">
 
         <!-- Google AdSense -->
         <meta name="google-adsense-account" content="ca-pub-7190047001129861">
@@ -14,10 +14,10 @@
         <meta name="google-site-verification" content="google587f0f47640fdb34">
 
         @php
-            $defaultSiteName = 'Synbarra Technologies';
-            $defaultTitle = 'Synbarra Technologies | Software House & Custom Development';
-            $defaultDescription = 'SYNBARRA TECHNOLOGIES adalah software house yang berfokus pada pengembangan sistem ERP bisnis, website, dan aplikasi mobile custom sesuai kebutuhan unik bisnis Anda.';
-            $defaultKeywords = 'Synbarra Technologies, Software House Indonesia, Jasa Pembuatan Website, Jasa Pembuatan Aplikasi Mobile, Custom ERP, HRIS Payroll, Integrasi API, Custom Software Development';
+            $defaultSiteName = 'Synbarra InvoiceRapi';
+            $defaultTitle = 'Synbarra InvoiceRapi | Urus Tagihan, Jadi Lebih Rapi';
+            $defaultDescription = 'Aplikasi SaaS manajemen invoice, DP, termin, dan pelunasan klien dalam satu aplikasi yang mudah untuk bisnis jasa di Indonesia.';
+            $defaultKeywords = 'InvoiceRapi, Synbarra InvoiceRapi, Aplikasi Invoice Indonesia, Invoice Wedding Organizer, Invoice Fotografer, Termin Pembayaran, Manajemen Piutang, DP dan Pelunasan';
 
             $pageProps = $page['props'] ?? [];
             $meta = $meta ?? ($pageProps['meta'] ?? []);
@@ -27,20 +27,16 @@
             $seoKeywords = $meta['keywords'] ?? $defaultKeywords;
 
             $rawCanonical = !empty($meta['canonical']) ? $meta['canonical'] : request()->url();
-            // Normalisasi ke domain kanonis https://synbarra.com (tanpa www & query string)
-            $cleanCanonical = preg_replace('#^https?://(www\.)?synbarra\.com#i', 'https://synbarra.com', $rawCanonical);
+            $cleanCanonical = preg_replace('#^https?://(www\.)?invoicerapi\.synbarra\.com#i', 'https://invoicerapi.synbarra.com', $rawCanonical);
             $parsedUrl = parse_url($cleanCanonical);
             $path = $parsedUrl['path'] ?? '/';
-            $canonicalUrl = 'https://synbarra.com' . (rtrim($path, '/') ?: '/');
+            $canonicalUrl = 'https://invoicerapi.synbarra.com' . (rtrim($path, '/') ?: '/');
 
             $ogTitle = !empty($meta['og_title']) ? $meta['og_title'] : $seoTitle;
             $ogDesc = !empty($meta['og_description']) ? $meta['og_description'] : $seoDesc;
             
-            $rawImage = !empty($meta['og_image']) ? $meta['og_image'] : (!empty($meta['image']) ? $meta['image'] : 'images/posts/Synbarra_Post_01.png');
-            $seoImage = \App\Helpers\OgImageHelper::getOptimizedOgUrl($rawImage);
-            if (request()->getHost() === 'synbarra.com' || str_contains(config('app.url'), 'synbarra.com')) {
-                $seoImage = preg_replace('#^https?://[^/]+#i', 'https://synbarra.com', $seoImage);
-            }
+            $rawImage = !empty($meta['og_image']) ? $meta['og_image'] : (!empty($meta['image']) ? $meta['image'] : 'images/mockups/design-system-board.png');
+            $seoImage = url($rawImage);
             $seoType = $meta['type'] ?? 'website';
             $seoTwitter = $meta['twitter_card'] ?? 'summary_large_image';
 
@@ -48,6 +44,8 @@
             $isPrivatePath = request()->is('admin*') || request()->is('dashboard*') || request()->is('profile*');
             $robotsContent = !empty($meta['robots']) 
                 ? $meta['robots'] 
+                : ($isPrivatePath ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
+        @endphp
                 : ($isPrivatePath ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
         @endphp
 
@@ -94,20 +92,17 @@
         @php
             $jsonLd = [
                 '@context' => 'https://schema.org',
-                '@type' => 'ProfessionalService',
-                'name' => 'Synbarra Technologies',
-                'url' => 'https://synbarra.com',
-                'logo' => 'https://synbarra.com/images/logo/synbarra-full.png',
+                '@type' => 'SoftwareApplication',
+                'name' => 'Synbarra InvoiceRapi',
+                'applicationCategory' => 'BusinessApplication',
+                'operatingSystem' => 'Web Browser',
+                'url' => 'https://invoicerapi.synbarra.com',
                 'image' => $seoImage,
                 'description' => $defaultDescription,
-                'telephone' => '+6288804958476',
-                'priceRange' => '$$',
-                'address' => [
-                    '@type' => 'PostalAddress',
-                    'addressCountry' => 'ID',
-                ],
-                'sameAs' => [
-                    'https://instagram.com/synbarra.technologies',
+                'creator' => [
+                    '@type' => 'Organization',
+                    'name' => 'Synbarra Technologies',
+                    'url' => 'https://synbarra.com',
                 ],
             ];
         @endphp
