@@ -59,6 +59,10 @@ class GoogleAuthController extends Controller
 
             Auth::login($user, remember: true);
 
+            if ($user->isSuperAdmin()) {
+                return redirect()->route('admin.dashboard');
+            }
+
             // If user has not completed onboarding (or has no tenant yet), redirect to onboarding
             if (! $user->tenant_id || ! optional($user->tenant)->onboarding_completed) {
                 return redirect()->route('onboarding.index');
@@ -74,3 +78,4 @@ class GoogleAuthController extends Controller
         }
     }
 }
+

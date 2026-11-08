@@ -49,3 +49,4 @@ class Project extends Model
         return $this->hasMany(Invoice::class);
     }
 }
+

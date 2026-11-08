@@ -21,6 +21,11 @@ class OnboardingController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
+        // Superadmin bypasses business onboarding entirely and goes straight to admin panel
+        if ($user->isSuperAdmin()) {
+            return redirect()->route('admin.dashboard');
+        }
+
         // If user already has an active workspace with completed onboarding, skip directly to dashboard
         if ($user->tenant_id && optional($user->tenant)->onboarding_completed) {
             return redirect()->route('dashboard');
@@ -111,3 +116,4 @@ class OnboardingController extends Controller
         return redirect()->route('dashboard')->with('success', 'Selamat datang di Synbarra InvoiceRapi! Masa trial 14 hari Paket Pro Anda aktif.');
     }
 }
+

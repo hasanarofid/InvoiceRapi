@@ -34,6 +34,10 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         $user = Auth::user();
+        if ($user?->isSuperAdmin()) {
+            return redirect()->route('admin.dashboard');
+        }
+
         if ($user && (! $user->tenant_id || ! optional($user->tenant)->onboarding_completed)) {
             return redirect()->route('onboarding.index');
         }

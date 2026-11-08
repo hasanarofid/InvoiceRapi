@@ -143,3 +143,4 @@ class TrialTrackerController extends Controller
         return back()->with('success', "Status follow-up untuk {$tenant->name} berhasil diperbarui.");
     }
 }
+
