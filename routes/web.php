@@ -46,9 +46,9 @@ Route::get('/admin', function () {
 
 Route::get('/dashboard', function () {
     return redirect()->route('admin.dashboard');
-})->middleware(['auth'])->name('dashboard');
+})->middleware(['auth', 'onboarded'])->name('dashboard');
 
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'onboarded'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Roadmap Pengembangan & Akuisisi Klien (Sprint Tahap 1 - 5)

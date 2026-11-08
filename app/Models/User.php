@@ -46,6 +46,11 @@ class User extends Authenticatable
 
     public function isSuperAdmin(): bool
     {
-        return $this->role === 'superadmin' || is_null($this->tenant_id);
+        return $this->role === 'superadmin';
+    }
+
+    public function hasCompletedOnboarding(): bool
+    {
+        return !is_null($this->tenant_id) && (bool) optional($this->tenant)->onboarding_completed;
     }
 }
