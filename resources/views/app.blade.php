@@ -46,8 +46,6 @@
                 ? $meta['robots'] 
                 : ($isPrivatePath ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
         @endphp
-                : ($isPrivatePath ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
-        @endphp
 
         <!-- Title for Crawlers & Inertia -->
         <title inertia>{{ $seoTitle }}</title>

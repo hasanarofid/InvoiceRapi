@@ -3,7 +3,6 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import { BRAND } from '@/config/brand';
 import SynbarraLogo from '@/Components/UI/SynbarraLogo.vue';
-import Button from '@/Components/UI/Button.vue';
 import Container from '@/Components/UI/Container.vue';
 
 const isScrolled = ref(false);
@@ -42,40 +41,43 @@ onUnmounted(() => {
     :class="[
       'sticky top-0 z-50 w-full transition-all duration-300',
       isScrolled 
-        ? 'bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-synbarra-sm py-3' 
+        ? 'bg-white/95 backdrop-blur-md border-b border-purple-100 shadow-sm py-3' 
         : 'bg-white/80 backdrop-blur-sm border-b border-transparent py-4 sm:py-5'
     ]"
   >
     <Container>
       <div class="flex items-center justify-between">
         <!-- Brand Logo -->
-        <Link href="/" class="flex items-center group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00F1DE] rounded-lg p-1">
-          <SynbarraLogo size="md" />
+        <Link href="/" class="flex items-center group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded-lg p-1">
+          <SynbarraLogo size="md" variant="horizontal" />
         </Link>
 
         <!-- Desktop Navigation -->
         <nav class="hidden md:flex items-center space-x-1 lg:space-x-2" aria-label="Main Navigation">
-          <Link
+          <a
             v-for="item in BRAND.navigation"
             :key="item.href"
             :href="item.href"
-            class="px-3.5 py-2 text-sm font-medium text-slate-700 hover:text-[#01232B] hover:bg-slate-50 rounded-lg transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00F1DE]"
+            class="px-3.5 py-2 text-sm font-medium text-slate-700 hover:text-violet-700 hover:bg-violet-50/60 rounded-full transition-colors duration-150"
           >
-            {{ item.label }}
-          </Link>
+            {{ item.name }}
+          </a>
         </nav>
 
-        <!-- Primary CTA Desktop -->
+        <!-- Action Buttons (Masuk & Coba Gratis sesuai Mockup) -->
         <div class="hidden md:flex items-center gap-3">
-          <a
-            :href="BRAND.contact.whatsappUrl"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold text-white bg-gradient-to-r from-[#0D2329] to-[#0A4D4F] hover:from-[#00BFA5] hover:to-[#00D9C5] shadow-sm hover:shadow-md transition-all duration-200 transform hover:-translate-y-0.5"
+          <Link
+            href="/login"
+            class="px-5 py-2 text-sm font-semibold text-slate-700 hover:text-violet-700 hover:bg-slate-50 border border-slate-200 rounded-full transition-all duration-150"
           >
-            <span class="w-2 h-2 rounded-full bg-[#00F1DE] animate-pulse"></span>
-            Konsultasi Sekarang
-          </a>
+            Masuk
+          </Link>
+          <Link
+            href="/register"
+            class="px-5 py-2 text-sm font-semibold text-white bg-violet-700 hover:bg-violet-800 rounded-full shadow-sm hover:shadow transition-all duration-150 transform hover:-translate-y-0.5"
+          >
+            Coba Gratis
+          </Link>
         </div>
 
         <!-- Mobile Menu Toggle Button -->
@@ -83,15 +85,13 @@ onUnmounted(() => {
           <button
             type="button"
             @click="toggleMobileMenu"
-            class="p-2 text-slate-700 hover:text-[#01232B] hover:bg-slate-100 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00F1DE]"
+            class="p-2 text-slate-700 hover:text-violet-700 hover:bg-violet-50 rounded-lg focus-visible:outline-none"
             :aria-expanded="mobileMenuOpen"
             aria-label="Toggle navigation menu"
           >
-            <!-- Hamburger icon -->
             <svg v-if="!mobileMenuOpen" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
-            <!-- Close icon -->
             <svg v-else class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -100,7 +100,7 @@ onUnmounted(() => {
       </div>
     </Container>
 
-    <!-- Mobile Navigation Drawer Teleported Directly to Body (Prevents backdrop-filter clipping) -->
+    <!-- Mobile Drawer -->
     <Teleport to="body">
       <Transition
         enter-active-class="transition duration-200 ease-out"
@@ -114,15 +114,14 @@ onUnmounted(() => {
           v-if="mobileMenuOpen"
           class="fixed inset-0 z-[999] bg-white md:hidden flex flex-col justify-between overflow-y-auto"
         >
-          <!-- Mobile Drawer Top Bar -->
           <div class="flex items-center justify-between px-5 py-4 border-b border-slate-200 bg-white sticky top-0 z-10">
             <Link href="/" @click="closeMobileMenu" class="flex items-center">
-              <SynbarraLogo size="md" />
+              <SynbarraLogo size="md" variant="horizontal" />
             </Link>
             <button
               type="button"
               @click="closeMobileMenu"
-              class="p-2 text-slate-700 hover:text-[#01232B] hover:bg-slate-100 rounded-lg focus:outline-none"
+              class="p-2 text-slate-700 hover:text-violet-700 hover:bg-violet-50 rounded-lg focus:outline-none"
               aria-label="Tutup menu navigasi"
             >
               <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -131,36 +130,33 @@ onUnmounted(() => {
             </button>
           </div>
 
-          <!-- Navigation Links -->
-          <nav class="flex flex-col p-6 space-y-1.5 flex-grow" aria-label="Mobile Navigation">
-            <Link
+          <nav class="flex flex-col p-6 space-y-2 flex-grow" aria-label="Mobile Navigation">
+            <a
               v-for="item in BRAND.navigation"
               :key="item.href"
               :href="item.href"
               @click="closeMobileMenu"
-              class="px-4 py-3 text-base font-semibold text-slate-800 hover:text-[#01232B] hover:bg-slate-100 rounded-xl transition-colors flex items-center justify-between"
+              class="px-4 py-3 text-base font-medium text-slate-800 hover:text-violet-700 hover:bg-violet-50 rounded-xl transition"
             >
-              <span>{{ item.label }}</span>
-              <span class="text-slate-400 text-sm font-normal">&rarr;</span>
-            </Link>
+              {{ item.name }}
+            </a>
           </nav>
 
-          <!-- Drawer Footer with CTAs & Official Contacts -->
-          <div class="p-6 border-t border-slate-200 bg-slate-50 flex flex-col gap-3">
-            <Button href="/contact" variant="primary" size="lg" @click="closeMobileMenu" class="w-full text-center">
-              Let's Discuss Your Project
-            </Button>
-            <a 
-              :href="BRAND.contact.whatsappUrl" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              class="w-full py-3 px-4 rounded-xl bg-[#25D366] text-white font-semibold text-sm text-center flex items-center justify-center gap-2 shadow-sm active:scale-98 transition-transform"
+          <div class="p-6 border-t border-slate-100 bg-slate-50 space-y-3">
+            <Link
+              href="/login"
+              @click="closeMobileMenu"
+              class="block w-full text-center py-3 text-sm font-semibold text-slate-800 bg-white border border-slate-200 rounded-full shadow-sm"
             >
-              <span>Chat WhatsApp: {{ BRAND.contact.whatsappDisplay }}</span>
-            </a>
-            <p class="text-[11px] text-center text-slate-500 pt-1">
-              {{ BRAND.contact.email }} &bull; {{ BRAND.domain }}
-            </p>
+              Masuk
+            </Link>
+            <Link
+              href="/register"
+              @click="closeMobileMenu"
+              class="block w-full text-center py-3 text-sm font-semibold text-white bg-violet-700 hover:bg-violet-800 rounded-full shadow-md"
+            >
+              Coba Gratis 14 Hari
+            </Link>
           </div>
         </div>
       </Transition>

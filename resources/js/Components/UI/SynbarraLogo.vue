@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 
 interface Props {
-  variant?: 'full' | 'symbol' | 'badge';
+  variant?: 'full' | 'symbol' | 'horizontal' | 'badge';
   theme?: 'dark' | 'light';
   size?: 'sm' | 'md' | 'lg' | 'xl';
   showTagline?: boolean;
@@ -25,37 +25,45 @@ const heightClass = computed(() => {
       return 'h-14 sm:h-16';
     case 'md':
     default:
-      return 'h-9 sm:h-11';
+      return 'h-9 sm:h-10';
   }
 });
 </script>
 
 <template>
   <div class="inline-flex items-center select-none">
-    <!-- Full Official Horizontal Logo (High-Res 2x Crisp Master from WhatsApp Image 2026-11-01 at 16.02.11) -->
-    <template v-if="variant === 'full'">
-      <!-- Dark Theme (For Footer & Dark Backgrounds) -->
+    <!-- Icon Symbol only -->
+    <template v-if="variant === 'symbol'">
       <img
-        v-if="theme === 'dark'"
-        src="/images/logo/synbarra-horizontal-dark.png"
-        alt="SYNBARRA TECHNOLOGIES"
-        :class="[heightClass, 'w-auto object-contain transition-transform duration-200 hover:opacity-95']"
-      />
-      <!-- Light Theme (For Header & Light Backgrounds) - File Asli Langsung dengan CSS Transparency -->
-      <img
-        v-else
-        src="/images/logo/synbarra-official.jpeg"
-        alt="SYNBARRA TECHNOLOGIES"
-        :class="[heightClass, 'w-auto object-contain mix-blend-multiply transition-transform duration-200 hover:opacity-95']"
-        style="mix-blend-mode: multiply;"
+        src="/images/logo/invoicerapi-icon.png"
+        alt="Synbarra InvoiceRapi Icon"
+        :class="[heightClass, 'w-auto object-contain']"
       />
     </template>
 
-    <!-- Symbol Only Variant -->
-    <template v-else-if="variant === 'symbol' || variant === 'badge'">
+    <!-- Horizontal Logo on Purple Badge / Dark Mode -->
+    <template v-else-if="theme === 'dark' || variant === 'badge'">
       <img
-        src="/images/logo/synbarra-symbol.png"
-        alt="Synbarra Symbol"
+        src="/images/logo/invoicerapi-logo-purple.png"
+        alt="Synbarra InvoiceRapi"
+        :class="[heightClass, 'w-auto object-contain rounded-xl shadow-sm']"
+      />
+    </template>
+
+    <!-- Horizontal Light Logo without tagline -->
+    <template v-else-if="variant === 'horizontal'">
+      <img
+        src="/images/logo/invoicerapi-logo-horizontal.png"
+        alt="Synbarra InvoiceRapi"
+        :class="[heightClass, 'w-auto object-contain']"
+      />
+    </template>
+
+    <!-- Full Official Logo (with tagline or primary) -->
+    <template v-else>
+      <img
+        src="/images/logo/invoicerapi-logo-full.png"
+        alt="Synbarra InvoiceRapi - Urus Tagihan, Jadi Lebih Rapi."
         :class="[heightClass, 'w-auto object-contain']"
       />
     </template>

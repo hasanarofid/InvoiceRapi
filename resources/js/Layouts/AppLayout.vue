@@ -38,19 +38,19 @@ const currentUrl = computed(() => {
   if (typeof window !== 'undefined') {
     return window.location.origin + window.location.pathname;
   }
-  return 'https://synbarra.com' + (page.url || '');
+  return 'https://invoicerapi.synbarra.com' + (page.url || '');
 });
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col bg-white text-slate-900 antialiased selection:bg-[#00F1DE]/30 selection:text-[#01232B]">
+  <div class="min-h-screen flex flex-col bg-white text-slate-900 antialiased selection:bg-violet-100 selection:text-violet-900">
     <Head>
       <title>{{ pageTitle }}</title>
       <meta name="description" :content="pageDescription" />
       <meta name="keywords" :content="pageKeywords" />
 
       <!-- Open Graph / WhatsApp / Facebook -->
-      <meta property="og:site_name" content="Synbarra Technologies" />
+      <meta property="og:site_name" content="Synbarra InvoiceRapi" />
       <meta property="og:type" :content="props.type || 'website'" />
       <meta property="og:url" :content="currentUrl" />
       <meta property="og:title" :content="pageTitle" />

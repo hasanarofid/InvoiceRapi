@@ -1,156 +1,158 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Container from '@/Components/UI/Container.vue';
 import { BRAND } from '@/config/brand';
-import { 
-  Code2, 
-  Globe, 
-  Smartphone, 
-  Layers, 
-  Users, 
-  CalendarCheck, 
-  Network, 
-  Palette, 
-  Headset, 
-  Sparkles, 
-  CheckCircle2, 
-  ArrowRight, 
-  Search, 
-  PenTool, 
-  Rocket, 
-  TrendingUp, 
-  ChevronRight,
-  ShieldCheck,
-  Check
-} from '@lucide/vue';
-
-const iconMap: Record<string, any> = {
-  Globe,
-  Smartphone,
+import {
+  FileText,
   Layers,
-  Users,
-  CalendarCheck,
-  Network,
-  Palette,
-  Headset,
+  Bell,
+  BarChart3,
+  CheckCircle2,
+  ArrowRight,
+  Clock,
+  CreditCard,
+  ShieldCheck,
+  Check,
+  ChevronRight,
+  Sparkles,
+  Smartphone,
+  Play,
+  HelpCircle,
+} from 'lucide-vue-next';
+
+// Toggle billing period: monthly or annual (save 30%)
+const isAnnual = ref(false);
+
+// FAQ accordion state
+const activeFaq = ref<number | null>(0);
+const toggleFaq = (index: number) => {
+  activeFaq.value = activeFaq.value === index ? null : index;
 };
 
-const getWaLink = (serviceTitle: string) => {
-  const text = encodeURIComponent(`Halo Synbarra Technologies, saya tertarik dan ingin konsultasi mengenai layanan ${serviceTitle}.`);
-  return `https://wa.me/${BRAND.contact.whatsapp}?text=${text}`;
-};
+const faqs = [
+  {
+    q: 'Apakah saya perlu menginstal aplikasi atau menyiapkan server sendiri?',
+    a: 'Tidak perlu sama sekali. InvoiceRapi adalah platform SaaS berbasis cloud. Anda cukup mendaftar dan langsung dapat menggunakannya lewat browser di laptop, tablet, atau smartphone tanpa instalasi teknis apa pun.',
+  },
+  {
+    q: 'Bagaimana cara kerja pembayaran bertahap (DP, termin, pelunasan)?',
+    a: 'Saat membuat invoice, Anda dapat membagi jadwal pembayaran menjadi beberapa termin, misalnya DP 30%, Termin 1 40%, dan Pelunasan 30%. Setiap termin memiliki batas tanggal jatuh tempo dan nominal masing-masing, sehingga klien dan Anda memiliki acuan pembayaran yang jelas.',
+  },
+  {
+    q: 'Apakah klien saya harus login untuk melihat invoice?',
+    a: 'Klien Anda tidak perlu login atau membuat akun. InvoiceRapi menyediakan tautan publik aman berbasis token unik. Klien cukup membuka tautan tersebut untuk melihat detail invoice, jadwal termin, instruksi pembayaran rekening Anda, serta mengunduh PDF secara instan.',
+  },
+  {
+    q: 'Apakah saya bisa mencatat pembayaran sebagian (parsial)?',
+    a: 'Ya, tentu saja. Anda dapat mencatat pembayaran secara fleksibel, baik itu pembayaran penuh maupun sebagian. Saldo piutang dan status invoice akan otomatis terkalkulasi secara akurat.',
+  },
+  {
+    q: 'Apakah ada masa percobaan gratis?',
+    a: 'Ya! Anda dapat mencoba Paket Pro gratis selama 14 hari tanpa memerlukan kartu kredit. Kami juga menyediakan Paket Gratis permanen (5 invoice/bulan) untuk bisnis yang baru memulai.',
+  },
+];
 </script>
 
 <template>
   <AppLayout
-    title="Synbarra Technologies | Software House & Custom Development"
-    description="SYNBARRA TECHNOLOGIES adalah software house yang berfokus pada pengembangan sistem ERP bisnis, website, dan aplikasi mobile custom sesuai kebutuhan unik bisnis Anda."
-    image="/images/posts/Synbarra_Post_01.png"
+    title="Synbarra InvoiceRapi | Urus Tagihan, Jadi Lebih Rapi."
+    description="Kelola invoice, DP, termin, dan pelunasan klien dalam satu aplikasi yang mudah untuk bisnis jasa seperti WO, Fotografer, EO, dan Kontraktor."
+    image="/images/mockups/design-system-board.png"
   >
-    <!-- ========================================================================= -->
-    <!-- 1. HERO SECTION (Sesuai Postingan 01: Kenalan dengan Synbarra Teknologi)  -->
-    <!-- ========================================================================= -->
-    <section class="relative overflow-hidden bg-gradient-to-b from-[#EBF9F7] via-[#F4FCFA] to-white pt-12 pb-20 lg:pt-20 lg:pb-28">
-      <!-- Ambient Mint Glows -->
-      <div class="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[#00F1DE]/15 rounded-full blur-[140px] pointer-events-none"></div>
-      <div class="absolute bottom-0 left-10 w-[450px] h-[450px] bg-[#00BFA5]/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <!-- 1. HERO SECTION -->
+    <section id="beranda" class="relative pt-8 pb-16 md:pt-16 md:pb-24 overflow-hidden bg-gradient-to-b from-violet-50/50 via-white to-white">
+      <!-- Decorative background blur -->
+      <div class="absolute top-10 left-1/2 -translate-x-1/2 w-[650px] h-[350px] bg-gradient-to-tr from-violet-300/25 to-purple-200/20 rounded-full blur-3xl pointer-events-none -z-10"></div>
 
-      <Container class="relative z-10">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <!-- Left Column: Copy & Highlights -->
-          <div class="lg:col-span-7 flex flex-col items-start text-left">
-            <!-- Overline Badge -->
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-[#A7EADF] text-[#008F7A] text-xs font-semibold uppercase tracking-wider shadow-xs mb-6">
-              <span class="w-2 h-2 rounded-full bg-[#00BFA5] animate-pulse"></span>
-              {{ BRAND.tagline }}
-            </div>
-
-            <!-- Primary Headline -->
-            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[#0D2329] leading-[1.15]">
-              KENALAN DENGAN <br class="hidden sm:block" />
-              <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#0D2329] via-[#0A4D4F] to-[#00BFA5]">
-                SYNBARRA TEKNOLOGI
-              </span>
-            </h1>
-
-            <!-- Accent Teal Divider -->
-            <div class="w-20 h-1.5 bg-gradient-to-r from-[#00BFA5] to-[#00F1DE] rounded-full my-5"></div>
-
-            <!-- Subtitle Description -->
-            <p class="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mb-8">
-              {{ BRAND.subtagline }}
-            </p>
-
-            <!-- 3 Pill Feature Highlights (Sesuai Post 01) -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full mb-8">
-              <div class="flex items-center gap-3 bg-white/90 backdrop-blur-sm px-4 py-3 rounded-2xl border border-[#BCEEE5] shadow-xs">
-                <div class="w-9 h-9 rounded-xl bg-[#E6FAF7] text-[#00BFA5] flex items-center justify-center shrink-0">
-                  <Code2 class="w-5 h-5 stroke-[2.2]" />
-                </div>
-                <span class="text-xs font-bold text-[#0D2329] leading-tight">Pengembangan Sistem Custom</span>
-              </div>
-
-              <div class="flex items-center gap-3 bg-white/90 backdrop-blur-sm px-4 py-3 rounded-2xl border border-[#BCEEE5] shadow-xs">
-                <div class="w-9 h-9 rounded-xl bg-[#E6FAF7] text-[#00BFA5] flex items-center justify-center shrink-0">
-                  <Layers class="w-5 h-5 stroke-[2.2]" />
-                </div>
-                <span class="text-xs font-bold text-[#0D2329] leading-tight">Solusi Digital Bisnis</span>
-              </div>
-
-              <div class="flex items-center gap-3 bg-white/90 backdrop-blur-sm px-4 py-3 rounded-2xl border border-[#BCEEE5] shadow-xs">
-                <div class="w-9 h-9 rounded-xl bg-[#E6FAF7] text-[#00BFA5] flex items-center justify-center shrink-0">
-                  <TrendingUp class="w-5 h-5 stroke-[2.2]" />
-                </div>
-                <span class="text-xs font-bold text-[#0D2329] leading-tight">Dukung Pertumbuhan</span>
-              </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="flex flex-wrap items-center gap-4 w-full sm:w-auto">
-              <a
-                :href="BRAND.contact.whatsappUrl"
-                target="_blank"
-                rel="noopener"
-                class="inline-flex items-center justify-center gap-3 px-7 py-3.5 rounded-full text-sm font-bold text-white bg-gradient-to-r from-[#0D2329] via-[#0A4D4F] to-[#00BFA5] hover:opacity-95 shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5"
-              >
-                <span>Konsultasi Sekarang</span>
-                <span class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
-                  <ArrowRight class="w-3.5 h-3.5" />
-                </span>
-              </a>
-
-              <Link
-                href="/produk"
-                class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full text-sm font-bold text-[#0D2329] bg-[#E6FAF7] border border-[#A7EADF] hover:bg-[#D4F7F0] hover:border-[#00BFA5] transition-all duration-200"
-              >
-                <Sparkles class="w-4 h-4 text-[#00BFA5]" />
-                <span>Katalog Produk Software</span>
-              </Link>
-
-              <a
-                href="#solusi"
-                class="inline-flex items-center justify-center px-6 py-3.5 rounded-full text-sm font-bold text-[#0D2329] bg-white border border-[#BCEEE5] hover:bg-[#F0FDFB] hover:border-[#00BFA5] transition-all duration-200"
-              >
-                Lihat Solusi Kami
-              </a>
-            </div>
+      <Container>
+        <div class="max-w-4xl mx-auto text-center">
+          <!-- Badge Pill -->
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold text-violet-700 bg-violet-100/70 border border-violet-200/60 mb-6 shadow-sm">
+            <Sparkles class="w-3.5 h-3.5 text-violet-600" />
+            <span>SaaS Invoice & Manajemen Piutang Bisnis Jasa</span>
           </div>
 
-          <!-- Right Column: Visual Showcase (Post 01 Graphic) -->
-          <div class="lg:col-span-5 flex justify-center">
-            <div class="relative w-full max-w-md lg:max-w-none">
-              <!-- Background Decorative Layer -->
-              <div class="absolute -inset-4 bg-gradient-to-tr from-[#00F1DE]/20 via-[#00BFA5]/15 to-transparent rounded-3xl blur-2xl pointer-events-none"></div>
+          <!-- Main Headline -->
+          <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.18] mb-6">
+            Kelola Invoice, DP,<br />
+            Termin, dan Pelunasan<br class="hidden sm:inline" />
+            Klien dalam <span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-700 via-purple-600 to-violet-500">Satu Aplikasi</span>
+          </h1>
 
-              <!-- Main Post 01 Showcase Card -->
-              <div class="relative bg-white p-3 rounded-3xl border border-[#C6F2EB] shadow-[0_20px_50px_rgba(0,191,165,0.12)] overflow-hidden">
-                <img
-                  src="/images/posts/Synbarra_Post_01.png"
-                  alt="Kenalan Dengan Synbarra Teknologi"
-                  class="w-full h-auto rounded-2xl object-cover"
-                  loading="eager"
-                />
+          <!-- Subheadline -->
+          <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed mb-8">
+            Solusi praktis untuk bisnis jasa seperti <span class="font-semibold text-slate-800">Wedding Organizer, Fotografer, Event Organizer, Kontraktor</span>, dan lainnya. Semua tagihan, pembayaran, dan status proyek jadi lebih rapi, terpantau, dan tepat waktu.
+          </p>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-14">
+            <Link
+              href="/register"
+              class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-base font-semibold text-white bg-violet-700 hover:bg-violet-800 shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5"
+            >
+              <span>Coba Gratis 14 Hari</span>
+              <ArrowRight class="w-4 h-4" />
+            </Link>
+            <a
+              href="#demo"
+              class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-base font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-sm hover:shadow transition-all duration-200"
+            >
+              <Play class="w-4 h-4 text-violet-600 fill-violet-600" />
+              <span>Lihat Demo</span>
+            </a>
+          </div>
+
+          <!-- Hero Device Mockup Image (Official Cropped Graphic) -->
+          <div class="relative mx-auto max-w-4xl rounded-2xl p-2 bg-gradient-to-b from-violet-200/60 to-purple-100/30 shadow-2xl border border-violet-100">
+            <img
+              src="/images/mockups/mockup-hero.png"
+              alt="Synbarra InvoiceRapi Web & Mobile Preview"
+              class="w-full h-auto rounded-xl shadow-inner object-cover"
+              loading="eager"
+            />
+          </div>
+
+          <!-- 4 Feature Pills Row (Directly from Mockup) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-12 text-left">
+            <div class="flex items-center gap-3.5 p-4 rounded-xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition">
+              <div class="w-11 h-11 rounded-lg bg-violet-50 text-violet-700 flex items-center justify-center flex-shrink-0">
+                <FileText class="w-5 h-5" />
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-slate-900 leading-snug">Buat Invoice Profesional</h4>
+                <p class="text-xs text-slate-500 mt-0.5">Format otomatis & rapi</p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3.5 p-4 rounded-xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition">
+              <div class="w-11 h-11 rounded-lg bg-violet-50 text-violet-700 flex items-center justify-center flex-shrink-0">
+                <Layers class="w-5 h-5" />
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-slate-900 leading-snug">Atur DP & Termin</h4>
+                <p class="text-xs text-slate-500 mt-0.5">Jadwal bayar bertahap</p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3.5 p-4 rounded-xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition">
+              <div class="w-11 h-11 rounded-lg bg-violet-50 text-violet-700 flex items-center justify-center flex-shrink-0">
+                <Bell class="w-5 h-5" />
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-slate-900 leading-snug">Pengingat Jatuh Tempo</h4>
+                <p class="text-xs text-slate-500 mt-0.5">Kirim reminder tanpa sungkan</p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3.5 p-4 rounded-xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition">
+              <div class="w-11 h-11 rounded-lg bg-violet-50 text-violet-700 flex items-center justify-center flex-shrink-0">
+                <BarChart3 class="w-5 h-5" />
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-slate-900 leading-snug">Pantau Piutang</h4>
+                <p class="text-xs text-slate-500 mt-0.5">Lacak saldo & pelunasan</p>
               </div>
             </div>
           </div>
@@ -158,514 +160,277 @@ const getWaLink = (serviceTitle: string) => {
       </Container>
     </section>
 
-    <!-- ========================================================================= -->
-    <!-- 2. MASALAH BISNIS (Sesuai Postingan 04)                                   -->
-    <!-- ========================================================================= -->
-    <section class="py-16 lg:py-24 bg-white relative">
+    <!-- 2. SOLUSI UNTUK INDUSTRI JASA SECTION -->
+    <section id="solusi" class="py-16 md:py-24 bg-slate-50/60 border-t border-slate-100">
       <Container>
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <!-- Left: Post 04 Graphic Card -->
-          <div class="lg:col-span-5 order-2 lg:order-1 flex justify-center">
-            <div class="relative w-full max-w-md rounded-3xl overflow-hidden border border-[#C6F2EB] shadow-lg">
+        <div class="text-center max-w-2xl mx-auto mb-14">
+          <span class="text-xs font-bold uppercase tracking-wider text-violet-700">Didesain Khusus untuk Bisnis Anda</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">
+            Solusi Tepat untuk Bisnis Berbasis Proyek
+          </h2>
+          <p class="text-sm sm:text-base text-slate-600 mt-3">
+            Tinggalkan pencatatan uang muka manual di catatan kertas atau chat WhatsApp yang rawan terlupakan.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div
+            v-for="persona in BRAND.personas"
+            :key="persona.title"
+            class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md transition flex flex-col justify-between"
+          >
+            <div>
+              <div class="inline-block px-3 py-1 rounded-full text-xs font-semibold text-violet-700 bg-violet-50 border border-violet-100 mb-4">
+                {{ persona.badge }}
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 mb-2">{{ persona.title }}</h3>
+              <p class="text-xs font-medium text-violet-600 mb-3">{{ persona.tag }}</p>
+              <p class="text-sm text-slate-600 leading-relaxed">
+                {{ persona.description }}
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-100 flex items-center text-xs font-semibold text-violet-700">
+              <span>Siap digunakan langsung</span>
+              <CheckCircle2 class="w-4 h-4 ml-1.5 text-emerald-500" />
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
+
+    <!-- 3. FITUR UTAMA & PREVIEW DASHBOARD -->
+    <section id="fitur" class="py-16 md:py-24 bg-white">
+      <Container>
+        <div class="text-center max-w-2xl mx-auto mb-14">
+          <span class="text-xs font-bold uppercase tracking-wider text-violet-700">Fitur Lengkap MVP</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">
+            Segala Kebutuhan Tagihan dalam Satu Dashboard
+          </h2>
+          <p class="text-sm sm:text-base text-slate-600 mt-3">
+            Dirancang dengan antarmuka yang bersih, modern, dan sangat mudah digunakan oleh siapa saja.
+          </p>
+        </div>
+
+        <!-- Desktop Dashboard Showcase -->
+        <div class="mb-16">
+          <div class="rounded-2xl border border-violet-100 p-3 bg-violet-50/40 shadow-xl overflow-hidden">
+            <img
+              src="/images/mockups/mockup-dashboard.png"
+              alt="Dashboard Desktop InvoiceRapi"
+              class="w-full h-auto rounded-xl shadow-sm object-cover"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
+        <!-- Mobile Screen Showcase (3 Layar) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mt-12">
+          <div class="lg:col-span-5 space-y-6">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold text-violet-700 bg-violet-50">
+              <Smartphone class="w-4 h-4" />
+              <span>Mobile First & Responsif</span>
+            </div>
+            <h3 class="text-2xl sm:text-3xl font-bold text-slate-900">
+              Kelola Tagihan Kapan Saja Langsung dari Smartphone
+            </h3>
+            <p class="text-slate-600 text-sm leading-relaxed">
+              Sedang di lokasi pemotretan atau meeting dengan pengantin? Buka InvoiceRapi dari ponsel, catat DP yang baru masuk, dan bagikan invoice ke WhatsApp klien dalam hitungan detik.
+            </p>
+            <ul class="space-y-3 text-sm text-slate-700">
+              <li class="flex items-center gap-2.5">
+                <Check class="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                <span>Filter status cepat: Lunas, Sebagian, Belum Bayar</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <Check class="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                <span>Tracking checklist jadwal termin bertahap</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <Check class="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                <span>Daftar proyek klien dengan status aktif/selesai</span>
+              </li>
+            </ul>
+          </div>
+          <div class="lg:col-span-7">
+            <div class="rounded-2xl border border-slate-100 p-2 bg-slate-50 shadow-lg">
               <img
-                src="/images/posts/Synbarra_Post_04.png"
-                alt="Masalah Bisnis Yang Sering Kami Temui"
-                class="w-full h-auto object-cover rounded-3xl"
+                src="/images/mockups/mockup-mobile.png"
+                alt="Mobile Screens Mockup InvoiceRapi"
+                class="w-full h-auto rounded-xl object-contain"
                 loading="lazy"
               />
             </div>
           </div>
-
-          <!-- Right: Problem Points & Solution Insight -->
-          <div class="lg:col-span-7 order-1 lg:order-2 flex flex-col items-start">
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EBF9F7] text-[#008F7A] text-xs font-bold uppercase tracking-wider mb-4 border border-[#BCEEE5]">
-              Tantangan Bisnis Nyata
-            </div>
-            
-            <h2 class="text-2xl sm:text-4xl font-extrabold text-[#0D2329] leading-tight mb-4">
-              MASALAH BISNIS YANG SERING KAMI TEMUI
-            </h2>
-            
-            <div class="w-16 h-1.5 bg-[#00BFA5] rounded-full mb-6"></div>
-
-            <p class="text-slate-600 mb-8 leading-relaxed">
-              Banyak bisnis mengalami penurunan efisiensi dan kebocoran biaya operasional karena masih mengandalkan cara kerja konvensional dan sistem yang tidak terintegrasi.
-            </p>
-
-            <!-- 4 Pain Points List (Sesuai Post 04) -->
-            <div class="space-y-4 w-full">
-              <div 
-                v-for="(point, idx) in BRAND.painPoints" 
-                :key="idx"
-                class="flex items-start gap-4 p-4 rounded-2xl bg-[#F7FCFB] border border-[#D5F5EE] transition-all hover:bg-white hover:shadow-sm"
-              >
-                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#00BFA5] to-[#00F1DE] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
-                  <Check class="w-4 h-4 stroke-[3]" />
-                </div>
-                <div>
-                  <h3 class="text-sm sm:text-base font-bold text-[#0D2329]">
-                    {{ point.title }}
-                  </h3>
-                  <p class="text-xs sm:text-sm text-slate-500 mt-1 leading-normal">
-                    {{ point.description }}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </Container>
     </section>
 
-    <!-- ========================================================================= -->
-    <!-- 3. MENGAPA MEMILIH SYNBARRA (Sesuai Postingan 02)                         -->
-    <!-- ========================================================================= -->
-    <section id="keunggulan" class="py-16 lg:py-24 bg-gradient-to-b from-[#F2FBF9] to-white relative">
+    <!-- 4. PAKET LANGGANAN (PRICING) -->
+    <section id="harga" class="py-16 md:py-24 bg-gradient-to-b from-slate-50/70 to-white border-t border-slate-100">
       <Container>
-        <div class="text-center max-w-3xl mx-auto mb-14">
-          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white text-[#008F7A] text-xs font-bold uppercase tracking-wider mb-4 border border-[#BCEEE5] shadow-xs">
-            Nilai & Keunggulan Kami
-          </div>
-          <h2 class="text-2xl sm:text-4xl font-extrabold text-[#0D2329] leading-tight mb-4">
-            MENGAPA MEMILIH SYNBARRA?
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <span class="text-xs font-bold uppercase tracking-wider text-violet-700">Biaya Transparan & Terjangkau</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">
+            Pilih Paket yang Sesuai dengan Skala Bisnis Anda
           </h2>
-          <div class="w-16 h-1.5 bg-[#00BFA5] rounded-full mx-auto mb-5"></div>
-          <p class="text-slate-600 text-base leading-relaxed">
-            Partner teknologi yang tepat untuk mewujudkan solusi digital bisnis Anda.
+          <p class="text-sm sm:text-base text-slate-600 mt-3">
+            Mulai gratis, upgrade kapan pun bisnis Anda berkembang.
           </p>
+
+          <!-- Billing Period Toggle -->
+          <div class="inline-flex items-center gap-3 p-1.5 rounded-full bg-slate-100 border border-slate-200 mt-6 select-none">
+            <button
+              type="button"
+              @click="isAnnual = false"
+              :class="[
+                'px-5 py-1.5 rounded-full text-xs font-semibold transition',
+                !isAnnual ? 'bg-violet-700 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
+              ]"
+            >
+              Bulanan
+            </button>
+            <button
+              type="button"
+              @click="isAnnual = true"
+              :class="[
+                'px-5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition',
+                isAnnual ? 'bg-violet-700 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
+              ]"
+            >
+              <span>Tahunan</span>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">Hemat 30%</span>
+            </button>
+          </div>
         </div>
 
-        <!-- 4 Pillars Grid (Sesuai Post 02) -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-          <div 
-            v-for="(adv, idx) in BRAND.advantages" 
-            :key="idx"
-            class="flex items-start gap-5 p-6 rounded-3xl bg-white border border-[#D5F5EE] shadow-[0_10px_30px_-5px_rgba(0,191,165,0.06)] hover:border-[#00BFA5] transition-all duration-300"
+        <!-- Pricing Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
+          <div
+            v-for="plan in BRAND.pricing"
+            :key="plan.id"
+            :class="[
+              'rounded-2xl p-7 flex flex-col justify-between transition-all duration-200 relative',
+              plan.popular 
+                ? 'bg-white border-2 border-violet-600 shadow-xl ring-4 ring-violet-100/50 md:-translate-y-2' 
+                : 'bg-white border border-slate-200 shadow-sm hover:shadow-md'
+            ]"
           >
-            <div class="w-13 h-13 rounded-2xl bg-[#E6FAF7] text-[#00BFA5] flex items-center justify-center shrink-0 shadow-xs">
-              <Sparkles v-if="idx === 0" class="w-7 h-7 stroke-[2.2]" />
-              <Users v-else-if="idx === 1" class="w-7 h-7 stroke-[2.2]" />
-              <Layers v-else-if="idx === 2" class="w-7 h-7 stroke-[2.2]" />
-              <Headset v-else class="w-7 h-7 stroke-[2.2]" />
+            <!-- Badge Paling Populer -->
+            <div
+              v-if="plan.popular"
+              class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold text-white bg-violet-700 shadow-sm"
+            >
+              {{ plan.badge }}
             </div>
+
             <div>
-              <h3 class="text-lg font-bold text-[#0D2329] mb-2">
-                {{ adv.title }}
-              </h3>
-              <p class="text-sm text-slate-600 leading-relaxed">
-                {{ adv.description }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </Container>
-    </section>
-
-    <!-- ========================================================================= -->
-    <!-- 4. CUSTOM DEVELOPMENT SHOWCASE (Sesuai Postingan 05)                      -->
-    <!-- ========================================================================= -->
-    <section class="py-16 lg:py-20 bg-white relative">
-      <Container>
-        <div class="bg-gradient-to-br from-[#0D2329] via-[#0A3D42] to-[#01232B] rounded-3xl p-8 sm:p-12 lg:p-16 text-white shadow-xl relative overflow-hidden">
-          <!-- Ambient Glows -->
-          <div class="absolute top-0 right-0 w-96 h-96 bg-[#00F1DE]/15 rounded-full blur-3xl pointer-events-none"></div>
-
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
-            <div class="lg:col-span-7 flex flex-col items-start">
-              <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00F1DE]/15 border border-[#00F1DE]/30 text-[#00F1DE] text-xs font-mono mb-4">
-                Core Competence
-              </span>
-              <h2 class="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight mb-4">
-                CUSTOM DEVELOPMENT
-              </h2>
-              <h3 class="text-lg sm:text-xl font-bold text-[#00F1DE] mb-5">
-                Solusi Digital Sesuai Alur Bisnis Anda.
-              </h3>
-              <p class="text-slate-300 leading-relaxed text-sm sm:text-base mb-8 max-w-xl">
-                Kami merancang dan membangun aplikasi atau sistem yang disesuaikan dengan proses, kebutuhan, dan tujuan bisnis Anda tanpa batasan template kaku.
-              </p>
-              <a
-                :href="BRAND.contact.whatsappUrl"
-                target="_blank"
-                rel="noopener"
-                class="inline-flex items-center gap-3 px-6 py-3 rounded-full text-xs sm:text-sm font-bold text-[#0D2329] bg-gradient-to-r from-[#00F1DE] to-[#00BFA5] hover:opacity-90 shadow-md transition-all"
-              >
-                <span>Konsultasikan Kebutuhan Custom</span>
-                <ArrowRight class="w-4 h-4" />
-              </a>
-            </div>
-
-            <!-- Post 05 Mockup Graphic -->
-            <div class="lg:col-span-5 flex justify-center">
-              <div class="relative w-full max-w-md rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
-                <img
-                  src="/images/posts/Synbarra_Post_05.png"
-                  alt="Custom Development Solusi Digital Sesuai Alur Bisnis"
-                  class="w-full h-auto object-cover rounded-2xl"
-                  loading="lazy"
-                />
+              <h3 class="text-xl font-bold text-slate-900">{{ plan.name }}</h3>
+              <div class="mt-4 flex items-baseline gap-1">
+                <span class="text-3xl sm:text-4xl font-extrabold text-slate-900">
+                  {{ isAnnual && plan.id === 'pro' ? 'Rp 69.000' : (isAnnual && plan.id === 'bisnis' ? 'Rp 139.000' : plan.price) }}
+                </span>
+                <span class="text-xs text-slate-500">{{ plan.period }}</span>
               </div>
+              <p v-if="isAnnual && plan.id !== 'gratis'" class="text-[11px] text-emerald-600 font-medium mt-1">
+                Ditagih tahunan (hemat 30%)
+              </p>
+
+              <!-- Feature List -->
+              <ul class="mt-6 space-y-3 pt-6 border-t border-slate-100 text-sm text-slate-600">
+                <li v-for="feat in plan.features" :key="feat" class="flex items-center gap-2.5">
+                  <Check class="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                  <span>{{ feat }}</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="mt-8 pt-6">
+              <Link
+                :href="plan.ctaHref"
+                :class="[
+                  'w-full block text-center py-3 rounded-full text-sm font-semibold transition',
+                  plan.popular
+                    ? 'bg-violet-700 hover:bg-violet-800 text-white shadow-md'
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-800'
+                ]"
+              >
+                {{ plan.ctaText }}
+              </Link>
             </div>
           </div>
         </div>
       </Container>
     </section>
 
-    <!-- ========================================================================= -->
-    <!-- 4.5. PRODUK DIGITAL & STARTER KIT (Sesuai PRD CRUD Starter Kit)           -->
-    <!-- ========================================================================= -->
-    <section id="produk-digital" class="py-16 lg:py-24 bg-gradient-to-b from-[#F4FCFA] to-white relative overflow-hidden">
-      <!-- Ambient Glows -->
-      <div class="absolute top-10 left-1/4 w-[400px] h-[400px] bg-[#00F1DE]/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <!-- 5. INTERACTIVE DEMO CTA SECTION -->
+    <section id="demo" class="py-16 md:py-24 bg-violet-700 text-white relative overflow-hidden">
+      <!-- Glow effect -->
+      <div class="absolute -top-24 -left-24 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-violet-900/40 rounded-full blur-3xl pointer-events-none"></div>
 
-      <Container class="relative z-10">
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-          <div class="max-w-2xl">
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white text-[#008F7A] text-xs font-bold uppercase tracking-wider mb-4 border border-[#BCEEE5] shadow-xs">
-              <span class="w-2 h-2 rounded-full bg-[#00BFA5] animate-pulse"></span>
-              Produk Software Siap Pakai
-            </div>
-            <h2 class="text-2xl sm:text-4xl font-extrabold text-[#0D2329] leading-tight mb-3">
-              PRODUK SOFTWARE & DEVELOPER STARTER KIT
-            </h2>
-            <div class="w-16 h-1.5 bg-[#00BFA5] rounded-full mb-4"></div>
-            <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
-              Kurangi pekerjaan berulang. Dapatkan fondasi aplikasi bisnis siap pakai yang dibangun dengan <em>Clean Code</em>, <em>Strict Typing</em>, dan dokumentasi lengkap.
-            </p>
-          </div>
+      <Container class="relative z-10 text-center max-w-3xl mx-auto">
+        <span class="inline-block px-3.5 py-1 rounded-full text-xs font-semibold bg-white/10 border border-white/20 mb-4">
+          Demo Interaktif
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
+          Coba Alur Penagihan Rapi Sekarang
+        </h2>
+        <p class="text-violet-100 text-base sm:text-lg mt-4 max-w-xl mx-auto leading-relaxed">
+          Lihat betapa mudahnya membuat invoice pertama, memecah termin pembayaran, hingga mencatat pelunasan dalam waktu kurang dari 2 menit.
+        </p>
 
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
-            href="/produk"
-            class="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs sm:text-sm font-bold text-[#0D2329] bg-white border border-[#BCEEE5] hover:border-[#00BFA5] hover:bg-[#EBF9F7] shadow-xs transition-all shrink-0"
+            href="/register"
+            class="w-full sm:w-auto px-8 py-3.5 rounded-full text-base font-semibold text-violet-800 bg-white hover:bg-violet-50 shadow-lg transition transform hover:-translate-y-0.5"
           >
-            <span>Lihat Semua Produk</span>
-            <ArrowRight class="w-4 h-4 text-[#00BFA5]" />
+            Mulai Uji Coba Gratis
           </Link>
-        </div>
-
-        <!-- Flagship Product Featured Box -->
-        <div class="bg-white rounded-3xl border border-[#C6F2EB] shadow-[0_15px_40px_-10px_rgba(0,191,165,0.08)] overflow-hidden">
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center p-6 sm:p-10 lg:p-12">
-            <!-- Left: Graphic / Screenshot -->
-            <div class="lg:col-span-5 flex justify-center">
-              <div class="relative w-full max-w-md rounded-2xl overflow-hidden border border-[#D5F5EE] shadow-md group">
-                <img
-                  src="/images/posts/Synbarra_Post_08.png"
-                  alt="Synbarra CRUD Starter Kit"
-                  class="w-full h-auto object-cover group-hover:scale-102 transition-transform duration-300"
-                  loading="lazy"
-                />
-                <div class="absolute top-3 left-3 bg-[#0D2329]/90 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-bold text-[#00F1DE] border border-[#00F1DE]/30">
-                  ⚡ Flagship Starter Kit
-                </div>
-              </div>
-            </div>
-
-            <!-- Right: Details & Features -->
-            <div class="lg:col-span-7 flex flex-col items-start">
-              <div class="flex flex-wrap items-center gap-2 mb-3">
-                <span class="px-3 py-1 rounded-full bg-[#E6FAF7] text-[#008F7A] text-xs font-bold">
-                  Next.js + PostgreSQL
-                </span>
-                <span class="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-mono">
-                  v1.0.0 Production-Ready
-                </span>
-                <span class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">
-                  Tersedia Versi Lite (Gratis)
-                </span>
-              </div>
-
-              <h3 class="text-xl sm:text-3xl font-extrabold text-[#0D2329] mb-3 leading-snug">
-                Synbarra CRUD Starter Kit
-              </h3>
-
-              <p class="text-sm sm:text-base text-slate-600 mb-6 leading-relaxed">
-                Fondasi aplikasi web modern untuk developer freelance dan software agency. Sudah dilengkapi autentikasi aman, Server-Side RBAC, komponen Data Table lengkap, dan pengujian otomatis Playwright.
-              </p>
-
-              <!-- Feature Bullets -->
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full mb-6">
-                <div class="flex items-center gap-2 text-xs sm:text-sm text-slate-700">
-                  <CheckCircle2 class="w-4 h-4 text-[#00BFA5] shrink-0" />
-                  <span>Autentikasi & Session Server-Side</span>
-                </div>
-                <div class="flex items-center gap-2 text-xs sm:text-sm text-slate-700">
-                  <CheckCircle2 class="w-4 h-4 text-[#00BFA5] shrink-0" />
-                  <span>Role-Based Access Control (RBAC)</span>
-                </div>
-                <div class="flex items-center gap-2 text-xs sm:text-sm text-slate-700">
-                  <CheckCircle2 class="w-4 h-4 text-[#00BFA5] shrink-0" />
-                  <span>Generic Data Table (Search & Filter)</span>
-                </div>
-                <div class="flex items-center gap-2 text-xs sm:text-sm text-slate-700">
-                  <CheckCircle2 class="w-4 h-4 text-[#00BFA5] shrink-0" />
-                  <span>Automated Playwright E2E Tests</span>
-                </div>
-              </div>
-
-              <!-- Tech Stack Badges -->
-              <div class="flex flex-wrap gap-1.5 mb-8">
-                <span class="text-[11px] font-semibold text-slate-500 py-1 mr-1">Stack:</span>
-                <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-[11px] font-medium">Next.js 14</span>
-                <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-[11px] font-medium">TypeScript</span>
-                <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-[11px] font-medium">Prisma ORM</span>
-                <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-[11px] font-medium">PostgreSQL</span>
-                <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-[11px] font-medium">shadcn/ui</span>
-              </div>
-
-              <!-- Price & CTA Bar -->
-              <div class="flex flex-wrap items-center gap-4 w-full pt-6 border-t border-slate-100">
-                <div>
-                  <div class="text-xs text-slate-500 font-medium">Harga Lisensi:</div>
-                  <div class="text-lg sm:text-xl font-black text-[#0D2329]">
-                    Mulai Rp 0 <span class="text-xs text-slate-500 font-normal">/ Rp 349.000 (Pro)</span>
-                  </div>
-                </div>
-
-                <div class="flex items-center gap-3 ml-auto">
-                  <Link
-                    href="/produk/synbarra-crud-starter-kit"
-                    class="inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-[#0D2329] via-[#0A4D4F] to-[#00BFA5] hover:opacity-95 shadow-md transition-all duration-200"
-                  >
-                    <span>Pelajari & Coba Demo</span>
-                    <ArrowRight class="w-4 h-4" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Container>
-    </section>
-
-    <!-- ========================================================================= -->
-    <!-- 5. SOLUSI KAMI (8 Kategori Solusi Digital - Sesuai Postingan 06 & 03)      -->
-    <!-- ========================================================================= -->
-    <section id="solusi" class="py-16 lg:py-24 bg-gradient-to-b from-white via-[#F4FCFA] to-white relative">
-      <Container>
-        <div class="text-center max-w-3xl mx-auto mb-16">
-          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EBF9F7] text-[#008F7A] text-xs font-bold uppercase tracking-wider mb-4 border border-[#BCEEE5]">
-            Layanan Komprehensif
-          </div>
-          <h2 class="text-2xl sm:text-4xl font-extrabold text-[#0D2329] leading-tight mb-4">
-            SOLUSI KAMI
-          </h2>
-          <div class="w-16 h-1.5 bg-[#00BFA5] rounded-full mx-auto mb-5"></div>
-          <p class="text-slate-600 text-base leading-relaxed">
-            Berbagai solusi digital yang dapat disesuaikan dengan kebutuhan bisnis Anda.
-          </p>
-        </div>
-
-        <!-- 8 Solution Cards Grid (Sesuai Post 06) -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div 
-            v-for="service in BRAND.services" 
-            :key="service.id"
-            class="flex flex-col justify-between p-6 rounded-3xl bg-white border border-[#D5F5EE] shadow-[0_8px_25px_-5px_rgba(0,191,165,0.06)] hover:border-[#00BFA5] hover:shadow-md transition-all duration-300 group"
+          <a
+            :href="'https://wa.me/' + BRAND.contact.whatsapp + '?text=Halo%20Synbarra,%20saya%20ingin%20jadwalkan%20live%20demo%20InvoiceRapi'"
+            target="_blank"
+            class="w-full sm:w-auto px-8 py-3.5 rounded-full text-base font-semibold text-white bg-violet-800/80 hover:bg-violet-800 border border-violet-400/30 transition"
           >
-            <div>
-              <div class="w-14 h-14 rounded-2xl bg-[#E6FAF7] group-hover:bg-[#00BFA5] text-[#00BFA5] group-hover:text-white flex items-center justify-center mb-5 transition-colors duration-200 shadow-xs">
-                <component :is="iconMap[service.icon] || Globe" class="w-7 h-7 stroke-[2.2]" />
-              </div>
-              <span class="text-[11px] font-bold text-[#008F7A] uppercase tracking-wider block mb-1">
-                {{ service.category }}
-              </span>
-              <h3 class="text-lg font-bold text-[#0D2329] mb-2 leading-snug">
-                {{ service.title }}
-              </h3>
-              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">
-                {{ service.description }}
-              </p>
-            </div>
-
-            <a
-              :href="getWaLink(service.title)"
-              target="_blank"
-              rel="noopener"
-              class="inline-flex items-center gap-1.5 text-xs font-bold text-[#00BFA5] hover:text-[#0D2329] transition-colors pt-3 border-t border-slate-100"
-            >
-              <span>Konsultasi Solusi Ini</span>
-              <ArrowRight class="w-3.5 h-3.5" />
-            </a>
-          </div>
+            Jadwalkan Demo via WhatsApp
+          </a>
         </div>
       </Container>
     </section>
 
-    <!-- ========================================================================= -->
-    <!-- 6. BAGAIMANA KAMI BEKERJA (Sesuai Postingan 07)                           -->
-    <!-- ========================================================================= -->
-    <section class="py-16 lg:py-24 bg-gradient-to-b from-[#F2FBF9] to-white relative">
-      <Container>
-        <div class="text-center max-w-3xl mx-auto mb-16">
-          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white text-[#008F7A] text-xs font-bold uppercase tracking-wider mb-4 border border-[#BCEEE5] shadow-xs">
-            Metodologi Kerja
-          </div>
-          <h2 class="text-2xl sm:text-4xl font-extrabold text-[#0D2329] leading-tight mb-4">
-            BAGAIMANA KAMI BEKERJA?
+    <!-- 6. FAQ SECTION -->
+    <section id="faq" class="py-16 md:py-24 bg-white border-t border-slate-100">
+      <Container class="max-w-3xl">
+        <div class="text-center mb-12">
+          <span class="text-xs font-bold uppercase tracking-wider text-violet-700">Tanya Jawab</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">
+            Pertanyaan yang Sering Diajukan
           </h2>
-          <div class="w-16 h-1.5 bg-[#00BFA5] rounded-full mx-auto mb-5"></div>
-          <p class="text-slate-600 text-base leading-relaxed">
-            Proses pengembangan yang terstruktur, kolaboratif, dan transparan.
-          </p>
         </div>
 
-        <!-- 4 Sequential Steps (Sesuai Post 07) -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
-          <div 
-            v-for="(item, idx) in BRAND.workflow" 
-            :key="item.step"
-            class="relative flex flex-col p-6 rounded-3xl bg-white border border-[#D5F5EE] shadow-[0_8px_25px_-5px_rgba(0,191,165,0.06)] hover:border-[#00BFA5] transition-all"
+        <div class="space-y-3.5">
+          <div
+            v-for="(faq, idx) in faqs"
+            :key="idx"
+            class="border border-slate-200 rounded-2xl overflow-hidden transition"
           >
-            <!-- Step Number Badge -->
-            <div class="flex items-center justify-between mb-4">
-              <span class="text-2xl font-black text-[#00BFA5] font-mono">
-                {{ item.step }}
-              </span>
-              <div class="w-10 h-10 rounded-xl bg-[#E6FAF7] text-[#00BFA5] flex items-center justify-center">
-                <Search v-if="idx === 0" class="w-5 h-5 stroke-[2.2]" />
-                <PenTool v-else-if="idx === 1" class="w-5 h-5 stroke-[2.2]" />
-                <Code2 v-else-if="idx === 2" class="w-5 h-5 stroke-[2.2]" />
-                <Rocket v-else class="w-5 h-5 stroke-[2.2]" />
-              </div>
-            </div>
-
-            <h3 class="text-lg font-bold text-[#0D2329] mb-2">
-              {{ item.title }}
-            </h3>
-            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              {{ item.description }}
-            </p>
-          </div>
-        </div>
-      </Container>
-    </section>
-
-    <!-- ========================================================================= -->
-    <!-- 7. KEAHLIAN KAMI (Tech Stack - Sesuai Postingan 08)                        -->
-    <!-- ========================================================================= -->
-    <section class="py-16 lg:py-24 bg-white relative">
-      <Container>
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div class="lg:col-span-5 flex flex-col items-start">
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EBF9F7] text-[#008F7A] text-xs font-bold uppercase tracking-wider mb-4 border border-[#BCEEE5]">
-              Teknologi Modern
-            </div>
-            <h2 class="text-2xl sm:text-4xl font-extrabold text-[#0D2329] leading-tight mb-4">
-              KEAHLIAN KAMI
-            </h2>
-            <div class="w-16 h-1.5 bg-[#00BFA5] rounded-full mb-6"></div>
-            <p class="text-slate-600 leading-relaxed mb-6">
-              Teknologi modern untuk membangun solusi yang andal, aman, dan scalable.
-            </p>
-            <div class="p-5 rounded-2xl bg-[#F0FDFB] border border-[#BCEEE5] text-xs sm:text-sm text-slate-700 leading-relaxed">
-              <span class="font-bold text-[#0D2329]">Standar Kualitas Kode:</span> Kami menerapkan arsitektur bersih (*Clean Architecture*), *strict typing*, keamanan otentikasi ketat, serta pengujian berkala untuk menjamin reliabilitas jangka panjang.
-            </div>
-          </div>
-
-          <!-- 8 Tech Badges Grid (Sesuai Post 08) -->
-          <div class="lg:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <div 
-              v-for="tech in BRAND.techStack" 
-              :key="tech.name"
-              class="group flex flex-col items-center text-center p-5 rounded-2xl bg-white border border-[#D5F5EE] shadow-xs hover:border-[#00BFA5] hover:shadow-md transition-all duration-200"
+            <button
+              type="button"
+              @click="toggleFaq(idx)"
+              class="w-full text-left px-6 py-4.5 flex items-center justify-between text-base font-bold text-slate-900 hover:text-violet-700 focus:outline-none"
             >
-              <div class="w-14 h-14 rounded-2xl bg-[#F8FCFB] border border-[#D5F5EE] p-2.5 flex items-center justify-center mb-3 shadow-2xs group-hover:scale-110 transition-transform duration-200">
-                <img 
-                  :src="tech.logo" 
-                  :alt="tech.name" 
-                  class="w-full h-full object-contain"
-                  loading="lazy"
-                />
-              </div>
-              <h3 class="text-sm font-bold text-[#0D2329] group-hover:text-[#008F7A] transition-colors">
-                {{ tech.name }}
-              </h3>
-              <span class="text-[11px] text-slate-500 mt-1 line-clamp-1">
-                {{ tech.role }}
-              </span>
-            </div>
-          </div>
-        </div>
-      </Container>
-    </section>
-
-    <!-- ========================================================================= -->
-    <!-- 8. CALL TO ACTION (Sesuai Postingan 09)                                    -->
-    <!-- ========================================================================= -->
-    <section class="py-16 lg:py-24 bg-gradient-to-b from-white to-[#EBF9F7] relative">
-      <Container>
-        <div class="bg-gradient-to-br from-[#0D2329] via-[#0A4D4F] to-[#011E26] text-white rounded-3xl p-8 sm:p-14 lg:p-16 shadow-2xl relative overflow-hidden">
-          <!-- Ambient Glows -->
-          <div class="absolute -top-24 -right-24 w-96 h-96 bg-[#00F1DE]/20 rounded-full blur-3xl pointer-events-none"></div>
-          <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-[#00BFA5]/20 rounded-full blur-3xl pointer-events-none"></div>
-
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
-            <div class="lg:col-span-8 flex flex-col items-start">
-              <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#00F1DE]/15 border border-[#00F1DE]/30 text-[#00F1DE] text-xs font-semibold mb-5">
-                <span class="w-2 h-2 rounded-full bg-[#00F1DE] animate-pulse"></span>
-                Partner Teknologi Terpercaya
-              </span>
-
-              <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight mb-5">
-                YUK, DISKUSIKAN KEBUTUHAN ANDA!
-              </h2>
-
-              <p class="text-slate-200 text-sm sm:text-base leading-relaxed max-w-2xl mb-8">
-                Punya ide proyek, kebutuhan sistem, atau tantangan digital di bisnis Anda? Kami siap menjadi partner teknologi untuk mewujudkannya.
-              </p>
-
-              <!-- CTA Button (Sesuai Post 09) -->
-              <div class="flex flex-wrap items-center gap-4 mb-8">
-                <a
-                  :href="BRAND.contact.whatsappUrl"
-                  target="_blank"
-                  rel="noopener"
-                  class="inline-flex items-center gap-3 px-8 py-4 rounded-full text-sm sm:text-base font-bold text-[#0D2329] bg-gradient-to-r from-[#00F1DE] to-[#00BFA5] hover:opacity-95 shadow-lg transition-all duration-200 transform hover:-translate-y-0.5"
-                >
-                  <ArrowRight class="w-5 h-5 text-[#0D2329]" />
-                  <span>Konsultasi Sekarang</span>
-                </a>
-
-                <Link
-                  href="/contact"
-                  class="inline-flex items-center px-6 py-4 rounded-full text-sm font-semibold text-white bg-white/10 hover:bg-white/15 border border-white/20 transition-all"
-                >
-                  Kirim Detail Kebutuhan
-                </Link>
-              </div>
-
-              <!-- Quick Contact Badges (Sesuai Post 09) -->
-              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full pt-6 border-t border-white/10 text-xs text-slate-300">
-                <div class="flex items-center gap-2">
-                  <Globe class="w-4 h-4 text-[#00F1DE]" />
-                  <span>{{ BRAND.domain }}</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <span class="text-[#00F1DE] font-bold">@</span>
-                  <span>{{ BRAND.contact.instagram }}</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <Smartphone class="w-4 h-4 text-[#00F1DE]" />
-                  <span>{{ BRAND.contact.whatsappDisplay }}</span>
-                </div>
-                <div class="flex items-center gap-2 truncate">
-                  <span class="text-[#00F1DE]">✉</span>
-                  <span class="truncate">{{ BRAND.contact.email }}</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Post 09 Mockup Graphic -->
-            <div class="lg:col-span-4 flex justify-center">
-              <div class="relative w-full max-w-sm rounded-3xl overflow-hidden border border-white/15 shadow-2xl">
-                <img
-                  src="/images/posts/Synbarra_Post_09.png"
-                  alt="Yuk, Diskusikan Kebutuhan Anda!"
-                  class="w-full h-auto object-cover rounded-3xl"
-                  loading="lazy"
-                />
-              </div>
+              <span>{{ faq.q }}</span>
+              <ChevronRight
+                :class="[
+                  'w-5 h-5 text-slate-400 transition-transform duration-200 flex-shrink-0 ml-3',
+                  activeFaq === idx ? 'rotate-90 text-violet-700' : ''
+                ]"
+              />
+            </button>
+            <div
+              v-show="activeFaq === idx"
+              class="px-6 pb-5 text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3"
+            >
+              {{ faq.a }}
             </div>
           </div>
         </div>
