@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\OrderManagerController;
 use App\Http\Controllers\Admin\ProductManagerController;
 use App\Http\Controllers\Admin\RoadmapController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\TrialTrackerController;
+use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SynbarraController;
@@ -67,9 +69,17 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // Settings
     Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
     Route::post('/settings', [SettingController::class, 'update'])->name('settings.update');
+
+    // Trial Tracker & WhatsApp Follow-up (CRM Superadmin)
+    Route::get('/trial-tracker', [TrialTrackerController::class, 'index'])->name('trial-tracker.index');
+    Route::post('/trial-tracker/{tenant}/follow-up', [TrialTrackerController::class, 'updateFollowUp'])->name('trial-tracker.follow-up');
 });
 
 Route::middleware(['auth'])->group(function () {
+    // Multi-tenant Business Onboarding (Wajib input WhatsApp & Profil Bisnis)
+    Route::get('/onboarding', [OnboardingController::class, 'index'])->name('onboarding.index');
+    Route::post('/onboarding', [OnboardingController::class, 'store'])->name('onboarding.store');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

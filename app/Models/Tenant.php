@@ -14,17 +14,29 @@ class Tenant extends Model
     protected $fillable = [
         'name',
         'slug',
+        'business_type',
         'custom_domain',
         'phone_whatsapp',
         'email',
         'address',
         'logo_url',
         'is_active',
+        'subscription_plan',
+        'subscription_status',
+        'trial_starts_at',
+        'trial_ends_at',
+        'onboarding_completed',
+        'last_follow_up_at',
+        'follow_up_notes',
         'business_profile',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'onboarding_completed' => 'boolean',
+        'trial_starts_at' => 'datetime',
+        'trial_ends_at' => 'datetime',
+        'last_follow_up_at' => 'datetime',
         'business_profile' => 'array',
     ];
 
