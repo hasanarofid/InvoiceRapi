@@ -20,11 +20,11 @@ class SynbarraController extends Controller
     public function home(): Response
     {
         $meta = [
-            'title' => 'Synbarra Technologies | Software House & Custom Development',
-            'subtitle' => 'Mitra Teknologi Solusi Digital & Pengembangan Sistem Bisnis Kustom',
-            'description' => 'SYNBARRA TECHNOLOGIES adalah software house yang berfokus pada pengembangan sistem ERP bisnis, website, dan aplikasi mobile custom sesuai kebutuhan unik bisnis Anda.',
-            'keywords' => 'Synbarra Technologies, Software House Indonesia, Jasa Pembuatan Website, Jasa Pembuatan Aplikasi Mobile, Custom ERP, HRIS Payroll, Integrasi API, Custom Software Development',
-            'og_image' => 'images/posts/Synbarra_Post_01.png',
+            'title' => 'Synbarra InvoiceRapi | Urus Tagihan, Jadi Lebih Rapi',
+            'subtitle' => 'Kelola Invoice, DP, Termin, dan Pelunasan Klien dalam Satu Aplikasi',
+            'description' => 'Solusi praktis untuk bisnis jasa seperti Wedding Organizer, Fotografer, Event Organizer, Kontraktor, dan lainnya. Semua tagihan, pembayaran, dan status proyek jadi lebih rapi, terpantau, dan tepat waktu.',
+            'keywords' => 'Synbarra InvoiceRapi, InvoiceRapi, Aplikasi Invoice Indonesia, Invoice Wedding Organizer, Invoice Fotografer, Termin Pembayaran, Manajemen Piutang, DP dan Pelunasan',
+            'og_image' => 'images/mockups/design-system-board.png',
             'type' => 'website',
         ];
 
