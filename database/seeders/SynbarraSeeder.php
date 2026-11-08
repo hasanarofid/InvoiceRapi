@@ -22,6 +22,7 @@ class SynbarraSeeder extends Seeder
             [
                 'name' => 'Synbarra Administrator',
                 'password' => Hash::make('SynbarraSecure2026!'),
+                'role' => 'superadmin',
                 'email_verified_at' => now(),
             ]
         );
