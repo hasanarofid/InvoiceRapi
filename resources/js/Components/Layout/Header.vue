@@ -3,7 +3,7 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import { BRAND } from '@/config/brand';
 import Container from '@/Components/UI/Container.vue';
-import { ChevronDown, Menu, X } from 'lucide-vue-next';
+import { ChevronDown, Menu, X, Home, Sparkles, ShoppingBag, LogIn } from 'lucide-vue-next';
 
 const isScrolled = ref(false);
 const mobileMenuOpen = ref(false);
@@ -264,6 +264,55 @@ onUnmounted(() => {
           </div>
         </div>
       </Transition>
+
+      <!-- Mobile App Bottom Navigation Bar (< lg) -->
+      <nav
+        class="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-lg border-t border-violet-100 shadow-[0_-8px_30px_rgba(15,23,42,0.08)] pb-[env(safe-area-inset-bottom)]"
+        aria-label="Navigasi Aplikasi Mobile"
+      >
+        <div class="grid grid-cols-5 h-16 max-w-md mx-auto">
+          <Link
+            href="/"
+            class="flex flex-col items-center justify-center gap-1 text-[10px] font-bold transition"
+            :class="$page.url === '/' ? 'text-violet-700' : 'text-slate-500 hover:text-violet-600'"
+          >
+            <Home class="w-5 h-5" />
+            <span>Beranda</span>
+          </Link>
+          <a
+            href="/#fitur"
+            class="flex flex-col items-center justify-center gap-1 text-[10px] font-bold text-slate-500 hover:text-violet-600 transition"
+          >
+            <Sparkles class="w-5 h-5" />
+            <span>Fitur</span>
+          </a>
+          <Link
+            href="/produk"
+            class="flex flex-col items-center justify-center gap-1 text-[10px] font-bold transition"
+            :class="$page.url.startsWith('/produk') ? 'text-violet-700' : 'text-slate-500 hover:text-violet-600'"
+          >
+            <ShoppingBag class="w-5 h-5" />
+            <span>Produk</span>
+          </Link>
+          <Link
+            href="/login"
+            class="flex flex-col items-center justify-center gap-1 text-[10px] font-bold transition"
+            :class="$page.url.startsWith('/login') ? 'text-violet-700' : 'text-slate-500 hover:text-violet-600'"
+          >
+            <LogIn class="w-5 h-5" />
+            <span>Masuk</span>
+          </Link>
+          <button
+            type="button"
+            @click="toggleMobileMenu"
+            class="flex flex-col items-center justify-center gap-1 text-[10px] font-bold transition"
+            :class="mobileMenuOpen ? 'text-violet-700' : 'text-slate-500 hover:text-violet-600'"
+          >
+            <Menu class="w-5 h-5" />
+            <span>Menu</span>
+          </button>
+        </div>
+      </nav>
     </Teleport>
   </header>
 </template>

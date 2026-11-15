@@ -265,7 +265,7 @@ const logout = () => {
       </header>
 
       <!-- Main Panel Page -->
-      <main class="flex-1 p-4 sm:p-6 md:p-8">
+      <main class="flex-1 p-4 sm:p-6 md:p-8 pb-24 lg:pb-8">
         <!-- Toast Notification Alert -->
         <div v-if="$page.props.flash?.success" class="mb-6 p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl flex items-center justify-between shadow-xs">
           <div class="flex items-center gap-2.5">
@@ -283,5 +283,54 @@ const logout = () => {
         <slot />
       </main>
     </div>
+
+    <!-- Mobile App Bottom Tab Bar (< lg) -->
+    <nav
+      class="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-lg border-t border-violet-100 shadow-[0_-8px_30px_rgba(15,23,42,0.08)] pb-[env(safe-area-inset-bottom)]"
+      aria-label="Navigasi Admin Mobile"
+    >
+      <div class="grid grid-cols-5 h-16 max-w-md mx-auto">
+        <Link
+          :href="route('admin.dashboard')"
+          class="flex flex-col items-center justify-center gap-1 text-[10px] font-bold transition"
+          :class="route().current('admin.dashboard') ? 'text-violet-700' : 'text-slate-500'"
+        >
+          <LayoutDashboard class="w-5 h-5" />
+          <span>Home</span>
+        </Link>
+        <Link
+          :href="route('admin.payments.index')"
+          class="flex flex-col items-center justify-center gap-1 text-[10px] font-bold transition"
+          :class="route().current('admin.payments.*') ? 'text-violet-700' : 'text-slate-500'"
+        >
+          <CreditCard class="w-5 h-5" />
+          <span>Bayar</span>
+        </Link>
+        <Link
+          :href="route('admin.trial-tracker.index')"
+          class="flex flex-col items-center justify-center gap-1 text-[10px] font-bold transition"
+          :class="route().current('admin.trial-tracker.*') ? 'text-violet-700' : 'text-slate-500'"
+        >
+          <Users class="w-5 h-5" />
+          <span>Trial</span>
+        </Link>
+        <Link
+          :href="route('admin.leads.index')"
+          class="flex flex-col items-center justify-center gap-1 text-[10px] font-bold transition"
+          :class="route().current('admin.leads.*') ? 'text-violet-700' : 'text-slate-500'"
+        >
+          <ListTodo class="w-5 h-5" />
+          <span>Leads</span>
+        </Link>
+        <button
+          type="button"
+          @click="isSidebarOpen = true"
+          class="flex flex-col items-center justify-center gap-1 text-[10px] font-bold text-slate-500 hover:text-violet-700 transition"
+        >
+          <Menu class="w-5 h-5" />
+          <span>Menu</span>
+        </button>
+      </div>
+    </nav>
   </div>
 </template>

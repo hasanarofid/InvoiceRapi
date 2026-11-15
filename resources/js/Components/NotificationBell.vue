@@ -145,3 +145,4 @@ const colorFor = (type: string) => {
     </div>
   </div>
 </template>
+

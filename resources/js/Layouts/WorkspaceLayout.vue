@@ -158,87 +158,25 @@ const userInitials = (user?.name || 'User')
       </div>
     </aside>
 
-    <!-- Mobile Header -->
-    <header class="md:hidden bg-white border-b border-violet-100/80 px-4 py-3 flex items-center justify-between sticky top-0 z-40">
-      <Link :href="route('dashboard')" class="inline-flex items-center gap-2">
-        <span class="w-8 h-8 rounded-xl bg-gradient-to-br from-violet-600 to-violet-800 text-white flex items-center justify-center shadow-sm">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-            <polyline points="14 2 14 8 20 8" />
-          </svg>
-        </span>
-        <span class="text-base font-extrabold tracking-tight text-slate-900">InvoiceRapi</span>
-      </Link>
-      <button
-        type="button"
-        @click="isMobileMenuOpen = !isMobileMenuOpen"
-        class="p-2 text-slate-600 hover:text-slate-900 rounded-lg"
-      >
-        <Menu v-if="!isMobileMenuOpen" class="w-6 h-6" />
-        <X v-else class="w-6 h-6" />
-      </button>
-    </header>
-
-    <!-- Mobile Slideover Navigation -->
-    <div
-      v-if="isMobileMenuOpen"
-      class="fixed inset-0 z-50 md:hidden bg-slate-900/40 backdrop-blur-xs flex"
-    >
-      <div class="w-64 bg-white h-full p-5 flex flex-col justify-between shadow-2xl">
-        <div class="space-y-6">
-          <div class="flex items-center justify-between">
-            <span class="text-base font-extrabold tracking-tight text-slate-900">Synbarra <span class="text-violet-700">InvoiceRapi</span></span>
-            <button @click="isMobileMenuOpen = false" class="p-1 text-slate-400">
-              <X class="w-5 h-5" />
-            </button>
-          </div>
-
-          <nav class="space-y-1">
-            <Link
-              v-for="item in navigation"
-              :key="item.name"
-              :href="item.href"
-              @click="isMobileMenuOpen = false"
-              :class="[
-                'flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition',
-                route().current(item.routeName)
-                  ? 'bg-violet-700 text-white font-bold'
-                  : 'text-slate-600 hover:bg-slate-100'
-              ]"
-            >
-              <component :is="item.icon" class="w-4 h-4" />
-              <span>{{ item.name }}</span>
-            </Link>
-          </nav>
-        </div>
-
-        <button
-          type="button"
-          @click="logout"
-          class="flex items-center gap-2 text-xs font-bold text-red-600 p-2 hover:bg-red-50 rounded-lg"
-        >
-          <LogOut class="w-4 h-4" />
-          <span>Keluar Akun</span>
-        </button>
-      </div>
-    </div>
-
     <!-- Main Content Area -->
     <div class="flex-1 flex flex-col min-w-0">
-      <!-- Top Navbar (Workspace Switcher & Profile) -->
-      <nav class="bg-white border-b border-slate-200/80 px-4 sm:px-8 py-3.5 flex items-center justify-between sticky top-0 z-30">
-        <!-- Workspace Switcher -->
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 font-black flex items-center justify-center text-xs border border-emerald-200">
+      <!-- Top Navbar (Unified Mobile App Bar & Desktop Header) -->
+      <nav class="bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-8 py-3 flex items-center justify-between sticky top-0 z-30">
+        <!-- Left: Mobile Brand + Workspace Switcher -->
+        <div class="flex items-center gap-2.5 min-w-0">
+          <Link :href="route('dashboard')" class="md:hidden w-8 h-8 rounded-xl bg-gradient-to-br from-violet-600 to-violet-800 text-white flex items-center justify-center shadow-sm shrink-0">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+            </svg>
+          </Link>
+          <div class="hidden md:flex w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 font-black items-center justify-center text-xs border border-emerald-200 shrink-0">
             🌿
           </div>
-          <button
-            type="button"
-            class="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-slate-900 hover:text-violet-700 transition"
-          >
-            <span>{{ tenant?.name || 'Mulia Event Organizer' }}</span>
-            <ChevronDown class="w-3.5 h-3.5 text-slate-400" />
-          </button>
+          <div class="min-w-0">
+            <p class="text-xs sm:text-sm font-bold text-slate-900 truncate">{{ tenant?.name || 'Workspace' }}</p>
+            <p class="md:hidden text-[10px] font-semibold text-violet-700 truncate">Paket {{ page.props.planUsage?.plan_name || 'Gratis' }}</p>
+          </div>
         </div>
 
         <!-- Right Side: Notification & Profile -->
@@ -289,10 +227,104 @@ const userInitials = (user?.name || 'User')
       </nav>
 
       <!-- Page Slot -->
-      <main class="flex-1 p-4 sm:p-8 max-w-7xl w-full mx-auto">
+      <main class="flex-1 p-4 sm:p-8 pb-24 md:pb-8 max-w-7xl w-full mx-auto">
         <slot />
       </main>
     </div>
+
+    <!-- Mobile App Slideover Drawer -->
+    <div
+      v-if="isMobileMenuOpen"
+      @click.self="isMobileMenuOpen = false"
+      class="fixed inset-0 z-50 md:hidden bg-slate-900/40 backdrop-blur-xs flex"
+    >
+      <div class="w-72 bg-white h-full p-5 flex flex-col justify-between shadow-2xl overflow-y-auto">
+        <div class="space-y-6">
+          <div class="flex items-center justify-between">
+            <span class="text-base font-extrabold tracking-tight text-slate-900">Synbarra <span class="text-violet-700">InvoiceRapi</span></span>
+            <button @click="isMobileMenuOpen = false" class="p-1.5 rounded-lg text-slate-400 hover:bg-slate-100">
+              <X class="w-5 h-5" />
+            </button>
+          </div>
+
+          <nav class="space-y-1">
+            <Link
+              v-for="item in navigation"
+              :key="item.name"
+              :href="item.href"
+              @click="isMobileMenuOpen = false"
+              :class="[
+                'flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition',
+                route().current(item.routeName)
+                  ? 'bg-violet-700 text-white font-bold'
+                  : 'text-slate-600 hover:bg-slate-100'
+              ]"
+            >
+              <component :is="item.icon" class="w-4 h-4" />
+              <span>{{ item.name }}</span>
+            </Link>
+          </nav>
+        </div>
+
+        <button
+          type="button"
+          @click="logout"
+          class="flex items-center gap-2 text-xs font-bold text-red-600 p-2.5 hover:bg-red-50 rounded-xl mt-4"
+        >
+          <LogOut class="w-4 h-4" />
+          <span>Keluar Akun</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile App Bottom Tab Bar (< md) -->
+    <nav
+      class="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-lg border-t border-violet-100 shadow-[0_-8px_30px_rgba(15,23,42,0.08)] pb-[env(safe-area-inset-bottom)]"
+      aria-label="Navigasi Member Mobile"
+    >
+      <div class="grid grid-cols-5 h-16 max-w-md mx-auto">
+        <Link
+          :href="route('dashboard')"
+          class="flex flex-col items-center justify-center gap-1 text-[10px] font-bold transition"
+          :class="route().current('dashboard') ? 'text-violet-700' : 'text-slate-500'"
+        >
+          <LayoutDashboard class="w-5 h-5" />
+          <span>Home</span>
+        </Link>
+        <Link
+          :href="route('clients.index')"
+          class="flex flex-col items-center justify-center gap-1 text-[10px] font-bold transition"
+          :class="route().current('clients.*') ? 'text-violet-700' : 'text-slate-500'"
+        >
+          <Users class="w-5 h-5" />
+          <span>Klien</span>
+        </Link>
+        <Link
+          :href="route('projects.index')"
+          class="flex flex-col items-center justify-center gap-1 text-[10px] font-bold transition"
+          :class="route().current('projects.*') ? 'text-violet-700' : 'text-slate-500'"
+        >
+          <FolderKanban class="w-5 h-5" />
+          <span>Proyek</span>
+        </Link>
+        <Link
+          :href="route('invoices.index')"
+          class="flex flex-col items-center justify-center gap-1 text-[10px] font-bold transition"
+          :class="route().current('invoices.*') ? 'text-violet-700' : 'text-slate-500'"
+        >
+          <FileText class="w-5 h-5" />
+          <span>Invoice</span>
+        </Link>
+        <button
+          type="button"
+          @click="isMobileMenuOpen = true"
+          class="flex flex-col items-center justify-center gap-1 text-[10px] font-bold text-slate-500 hover:text-violet-700 transition"
+        >
+          <Menu class="w-5 h-5" />
+          <span>Menu</span>
+        </button>
+      </div>
+    </nav>
   </div>
 </template>
 

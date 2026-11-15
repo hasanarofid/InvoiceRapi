@@ -43,7 +43,7 @@ const currentUrl = computed(() => {
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col bg-white text-slate-900 antialiased selection:bg-violet-100 selection:text-violet-900">
+  <div class="min-h-screen flex flex-col bg-white text-slate-900 antialiased selection:bg-violet-100 selection:text-violet-900 pb-20 lg:pb-0">
     <Head>
       <title>{{ pageTitle }}</title>
       <meta name="description" :content="pageDescription" />
