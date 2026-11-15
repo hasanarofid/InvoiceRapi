@@ -273,3 +273,4 @@ const deleteClient = (client: Client) => {
     </div>
   </WorkspaceLayout>
 </template>
+
