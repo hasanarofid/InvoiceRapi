@@ -38,9 +38,8 @@ const navigation = [
   { name: 'Klien', href: route('clients.index'), icon: Users, routeName: 'clients.*' },
   { name: 'Proyek', href: route('projects.index'), icon: FolderKanban, routeName: 'projects.*' },
   { name: 'Invoice', href: route('invoices.index'), icon: FileText, routeName: 'invoices.*' },
-  { name: 'Pembayaran', href: '#', icon: CreditCard, routeName: 'payments.*' },
-  { name: 'Laporan', href: '#', icon: BarChart3, routeName: 'reports.*' },
-  { name: 'Pengaturan', href: '#', icon: Settings, routeName: 'settings.*' },
+  { name: 'Langganan & Kuota', href: route('billing.index'), icon: CreditCard, routeName: 'billing.*' },
+  { name: 'Profil Akun', href: route('profile.edit'), icon: Settings, routeName: 'profile.*' },
 ];
 
 const logout = () => {
@@ -103,25 +102,39 @@ const userInitials = (user?.name || 'User')
           <div class="w-6 h-6 rounded-lg bg-violet-600 text-white flex items-center justify-center shrink-0 shadow-sm text-xs">
             <Crown class="w-3.5 h-3.5" />
           </div>
-          <div>
-            <p class="text-xs font-black text-violet-950">Paket {{ planUsage?.plan_name || 'Pro' }}</p>
-            <p class="text-[11px] text-violet-700">
-              {{ planUsage?.subscription_status === 'active' ? 'Langganan Aktif' : (planUsage?.is_trial_expired ? 'Trial Berakhir (Gratis)' : 'Masa Coba 14 Hari') }}
+          <div class="min-w-0">
+            <p class="text-xs font-black text-violet-950 truncate">Paket {{ page.props.planUsage?.plan_name || 'Gratis' }}</p>
+            <p class="text-[11px] text-violet-700 truncate">
+              <template v-if="page.props.planUsage?.subscription_status === 'active'">
+                Aktif s/d {{ page.props.planUsage?.expires_at_formatted }}
+              </template>
+              <template v-else-if="page.props.planUsage?.is_trial && !page.props.planUsage?.is_trial_expired">
+                Trial s/d {{ page.props.planUsage?.expires_at_formatted }} ({{ page.props.planUsage?.days_remaining }} hr)
+              </template>
+              <template v-else>
+                {{ page.props.planUsage?.expires_at_formatted || 'Gratis Selamanya' }}
+              </template>
             </p>
           </div>
         </div>
 
-        <div v-if="planUsage" class="text-[11px] text-slate-600 space-y-1 pt-1">
+        <div v-if="page.props.planUsage" class="text-[11px] text-slate-600 space-y-1 pt-1">
           <div class="flex justify-between">
             <span>Invoice bln ini</span>
-            <span class="font-bold" :class="planUsage.invoice_limit_reached ? 'text-red-600' : 'text-slate-900'">
-              {{ planUsage.invoices_this_month }}/{{ planUsage.max_invoices_per_month ?? '∞' }}
+            <span class="font-bold" :class="page.props.planUsage.invoice_limit_reached ? 'text-red-600' : 'text-slate-900'">
+              {{ page.props.planUsage.invoices_this_month }}/{{ page.props.planUsage.max_invoices_per_month ?? '∞' }}
+              <span v-if="page.props.planUsage.invoices_remaining !== null" class="text-[10px] font-semibold text-violet-700">
+                (Sisa {{ page.props.planUsage.invoices_remaining }})
+              </span>
             </span>
           </div>
-          <div v-if="planUsage.max_clients" class="flex justify-between">
+          <div v-if="page.props.planUsage.max_clients" class="flex justify-between">
             <span>Klien</span>
-            <span class="font-bold" :class="planUsage.client_limit_reached ? 'text-red-600' : 'text-slate-900'">
-              {{ planUsage.clients_count }}/{{ planUsage.max_clients }}
+            <span class="font-bold" :class="page.props.planUsage.client_limit_reached ? 'text-red-600' : 'text-slate-900'">
+              {{ page.props.planUsage.clients_count }}/{{ page.props.planUsage.max_clients }}
+              <span v-if="page.props.planUsage.clients_remaining !== null" class="text-[10px] font-semibold text-violet-700">
+                (Sisa {{ page.props.planUsage.clients_remaining }})
+              </span>
             </span>
           </div>
         </div>
