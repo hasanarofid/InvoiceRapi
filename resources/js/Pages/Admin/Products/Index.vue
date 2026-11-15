@@ -37,7 +37,7 @@ const formatCurrency = (val) => {
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                     <h1 class="text-2xl font-bold tracking-tight text-slate-900 flex items-center gap-2">
-                        <Package class="w-6 h-6 text-blue-600" />
+                        <Package class="w-6 h-6 text-violet-700" />
                         Katalog Produk &amp; Inventaris
                     </h1>
                     <p class="text-xs sm:text-sm text-slate-500 mt-1">
@@ -47,7 +47,7 @@ const formatCurrency = (val) => {
 
                 <Link
                     :href="route('admin.products.create')"
-                    class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold shadow-sm transition"
+                    class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-violet-700 hover:bg-violet-800 text-white text-xs sm:text-sm font-semibold shadow-sm transition"
                 >
                     <Plus class="w-4 h-4" />
                     Tambah Produk Baru
@@ -117,7 +117,7 @@ const formatCurrency = (val) => {
                                 <td class="p-4 text-right space-x-1">
                                     <Link
                                         :href="route('admin.products.edit', product.id)"
-                                        class="p-2 inline-flex text-blue-600 hover:bg-blue-50 rounded-lg transition"
+                                        class="p-2 inline-flex text-violet-700 hover:bg-violet-50 rounded-lg transition"
                                         title="Edit"
                                     >
                                         <Edit2 class="w-4 h-4" />
@@ -152,7 +152,7 @@ const formatCurrency = (val) => {
                             :href="link.url || '#'"
                             :class="[
                                 'px-3 py-1 text-xs rounded-lg transition border',
-                                link.active ? 'bg-blue-600 text-white border-blue-600' : 'text-slate-600 hover:bg-slate-100 border-slate-200',
+                                link.active ? 'bg-violet-700 text-white border-violet-700' : 'text-slate-600 hover:bg-slate-100 border-slate-200',
                                 !link.url && 'opacity-40 pointer-events-none'
                             ]"
                             v-html="link.label"

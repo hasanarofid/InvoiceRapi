@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { BRAND } from '@/config/brand';
-import SynbarraLogo from '@/Components/UI/SynbarraLogo.vue';
 import Container from '@/Components/UI/Container.vue';
 
 const currentYear = new Date().getFullYear();
@@ -16,8 +15,19 @@ const currentYear = new Date().getFullYear();
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12 pb-12 border-b border-slate-800">
         <!-- Brand Column -->
         <div class="lg:col-span-5 flex flex-col space-y-4">
-          <Link href="/" class="inline-block rounded-lg">
-            <SynbarraLogo size="lg" theme="dark" />
+          <Link href="/" class="inline-flex items-center gap-3 rounded-lg w-fit">
+            <span class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-violet-700 text-white flex items-center justify-center shadow-md">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="8" y1="13" x2="16" y2="13" />
+                <line x1="8" y1="17" x2="13" y2="17" />
+              </svg>
+            </span>
+            <span class="flex flex-col leading-none">
+              <span class="text-xs font-bold tracking-wide text-violet-400">Synbarra</span>
+              <span class="text-xl font-extrabold tracking-tight text-white">InvoiceRapi</span>
+            </span>
           </Link>
           <p class="text-slate-300 text-sm leading-relaxed max-w-sm mt-2">
             {{ BRAND.description }}

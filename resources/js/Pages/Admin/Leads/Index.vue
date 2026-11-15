@@ -160,11 +160,11 @@ const getStatusBadge = (status) => {
       <!-- Header Banner -->
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-xs">
         <div>
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#00F1DE]/10 text-[#01232B] border border-[#00F1DE]/30">
-            <span class="w-2 h-2 rounded-full bg-[#00F1DE] animate-pulse"></span>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-violet-50 text-violet-700 border border-violet-200/70">
+            <span class="w-2 h-2 rounded-full bg-violet-600 animate-pulse"></span>
             LEAD MANAGEMENT SYSTEM
           </div>
-          <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#01232B] mt-2">
+          <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 mt-2">
             Inbox Prospek & Pipeline Klien
           </h2>
           <p class="text-xs sm:text-sm text-slate-500 mt-1 max-w-2xl">
@@ -174,9 +174,9 @@ const getStatusBadge = (status) => {
         <div>
           <button
             @click="openCreateModal"
-            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#01232B] hover:bg-[#011E26] text-white font-medium text-sm transition-all duration-200 shadow-sm"
+            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-violet-700 hover:bg-violet-800 text-white font-medium text-sm transition-all duration-200 shadow-sm"
           >
-            <Plus class="w-4 h-4 text-[#00F1DE]" />
+            <Plus class="w-4 h-4 text-violet-200" />
             Tambah Prospek Manual
           </button>
         </div>
@@ -198,7 +198,7 @@ const getStatusBadge = (status) => {
           @click="filterByStatus(tab.id)"
           :class="[
             selectedStatus === tab.id
-              ? 'bg-[#01232B] text-white font-bold shadow-xs'
+              ? 'bg-violet-700 text-white font-bold shadow-xs'
               : 'bg-white text-slate-600 hover:bg-slate-100 font-medium border border-slate-200/80',
             'px-3.5 py-1.5 rounded-xl text-xs transition-colors flex items-center gap-2'
           ]"
@@ -206,7 +206,7 @@ const getStatusBadge = (status) => {
           <span>{{ tab.label }}</span>
           <span 
             :class="[
-              selectedStatus === tab.id ? 'bg-[#00F1DE] text-[#01232B]' : 'bg-slate-100 text-slate-600',
+              selectedStatus === tab.id ? 'bg-violet-100 text-violet-800' : 'bg-slate-100 text-slate-600',
               'px-1.5 py-0.5 rounded-full text-[10px] font-bold'
             ]"
           >
@@ -223,7 +223,7 @@ const getStatusBadge = (status) => {
             v-model="searchQuery"
             @keyup.enter="applyFilters"
             placeholder="Cari nama klien, perusahaan, email, no WA, atau jenis layanan..."
-            class="w-full text-xs pl-9 pr-4 py-2 rounded-xl border-slate-200 focus:border-[#00F1DE] focus:ring-[#00F1DE]"
+            class="w-full text-xs pl-9 pr-4 py-2 rounded-xl border-slate-200 focus:border-violet-600 focus:ring-violet-600/20"
           />
         </div>
         <button
@@ -347,7 +347,7 @@ const getStatusBadge = (status) => {
     <!-- Modal Form (Update / Tambah Lead) -->
     <div v-if="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
       <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl border border-slate-200 max-h-[90vh] overflow-y-auto">
-        <h3 class="text-lg font-bold text-[#01232B]">
+        <h3 class="text-lg font-bold text-slate-900">
           {{ isEditing ? 'Update Prospek Klien' : 'Tambah Prospek Manual' }}
         </h3>
 
@@ -358,14 +358,14 @@ const getStatusBadge = (status) => {
               <input
                 v-model="form.full_name"
                 required
-                class="w-full text-xs rounded-xl border-slate-200 focus:border-[#00F1DE] focus:ring-[#00F1DE]"
+                class="w-full text-xs rounded-xl border-slate-200 focus:border-violet-600 focus:ring-violet-600/20"
               />
             </div>
             <div>
               <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Perusahaan / Usaha</label>
               <input
                 v-model="form.company_name"
-                class="w-full text-xs rounded-xl border-slate-200 focus:border-[#00F1DE] focus:ring-[#00F1DE]"
+                class="w-full text-xs rounded-xl border-slate-200 focus:border-violet-600 focus:ring-violet-600/20"
               />
             </div>
           </div>
@@ -377,7 +377,7 @@ const getStatusBadge = (status) => {
                 v-model="form.whatsapp_number"
                 placeholder="08xxxxxxxx"
                 required
-                class="w-full text-xs rounded-xl border-slate-200 focus:border-[#00F1DE] focus:ring-[#00F1DE]"
+                class="w-full text-xs rounded-xl border-slate-200 focus:border-violet-600 focus:ring-violet-600/20"
               />
             </div>
             <div>
@@ -385,7 +385,7 @@ const getStatusBadge = (status) => {
               <input
                 v-model="form.email"
                 type="email"
-                class="w-full text-xs rounded-xl border-slate-200 focus:border-[#00F1DE] focus:ring-[#00F1DE]"
+                class="w-full text-xs rounded-xl border-slate-200 focus:border-violet-600 focus:ring-violet-600/20"
               />
             </div>
           </div>
@@ -395,7 +395,7 @@ const getStatusBadge = (status) => {
               <label class="block text-xs font-semibold text-slate-700 mb-1">Status Prospek</label>
               <select
                 v-model="form.status"
-                class="w-full text-xs rounded-xl border-slate-200 focus:border-[#00F1DE] focus:ring-[#00F1DE]"
+                class="w-full text-xs rounded-xl border-slate-200 focus:border-violet-600 focus:ring-violet-600/20"
               >
                 <option value="new">Baru Masuk (New)</option>
                 <option value="contacted">Sudah Dihubungi (Contacted)</option>
@@ -410,7 +410,7 @@ const getStatusBadge = (status) => {
               <input
                 v-model="form.follow_up_date"
                 type="date"
-                class="w-full text-xs rounded-xl border-slate-200 focus:border-[#00F1DE] focus:ring-[#00F1DE]"
+                class="w-full text-xs rounded-xl border-slate-200 focus:border-violet-600 focus:ring-violet-600/20"
               />
             </div>
           </div>
@@ -420,7 +420,7 @@ const getStatusBadge = (status) => {
             <input
               v-model="form.service_required"
               required
-              class="w-full text-xs rounded-xl border-slate-200 focus:border-[#00F1DE] focus:ring-[#00F1DE]"
+              class="w-full text-xs rounded-xl border-slate-200 focus:border-violet-600 focus:ring-violet-600/20"
             />
           </div>
 
@@ -429,7 +429,7 @@ const getStatusBadge = (status) => {
             <textarea
               v-model="form.project_description"
               rows="2"
-              class="w-full text-xs rounded-xl border-slate-200 focus:border-[#00F1DE] focus:ring-[#00F1DE]"
+              class="w-full text-xs rounded-xl border-slate-200 focus:border-violet-600 focus:ring-violet-600/20"
             ></textarea>
           </div>
 
@@ -439,7 +439,7 @@ const getStatusBadge = (status) => {
               v-model="form.notes"
               rows="2"
               placeholder="Catatan hasil meeting, budget yang disepakati, kendala..."
-              class="w-full text-xs rounded-xl border-slate-200 focus:border-[#00F1DE] focus:ring-[#00F1DE]"
+              class="w-full text-xs rounded-xl border-slate-200 focus:border-violet-600 focus:ring-violet-600/20"
             ></textarea>
           </div>
 
@@ -454,7 +454,7 @@ const getStatusBadge = (status) => {
             <button
               type="submit"
               :disabled="form.processing"
-              class="px-4 py-2 text-xs font-semibold text-white bg-[#01232B] hover:bg-[#011E26] rounded-xl shadow-xs"
+              class="px-4 py-2 text-xs font-semibold text-white bg-violet-700 hover:bg-violet-800 rounded-xl shadow-xs"
             >
               {{ isEditing ? 'Simpan Perubahan' : 'Tambah Prospek' }}
             </button>

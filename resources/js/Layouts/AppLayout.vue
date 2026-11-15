@@ -68,7 +68,7 @@ const currentUrl = computed(() => {
     <!-- Accessibility Skip Link -->
     <a
       href="#main-content"
-      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-50 px-4 py-2 bg-[#01232B] text-white rounded-md shadow-lg outline-none ring-2 ring-[#00F1DE]"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-50 px-4 py-2 bg-violet-700 text-white rounded-lg shadow-lg outline-none ring-2 ring-violet-400"
     >
       Skip to content
     </a>

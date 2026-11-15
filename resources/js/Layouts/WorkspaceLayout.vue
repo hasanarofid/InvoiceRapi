@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { Link, router, usePage } from '@inertiajs/vue3';
-import SynbarraLogo from '@/Components/UI/SynbarraLogo.vue';
 import {
   LayoutDashboard,
   Users,
@@ -56,14 +55,25 @@ const userInitials = (user?.name || 'User')
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans antialiased flex flex-col md:flex-row">
+  <div class="min-h-screen bg-[#FAF8FF] text-slate-900 font-sans antialiased flex flex-col md:flex-row">
     <!-- Desktop Sidebar -->
-    <aside class="hidden md:flex flex-col w-64 bg-white border-r border-slate-200/80 p-5 shrink-0 justify-between min-h-screen sticky top-0">
+    <aside class="hidden md:flex flex-col w-64 bg-white border-r border-violet-100/80 p-5 shrink-0 justify-between min-h-screen sticky top-0">
       <div class="space-y-6">
         <!-- Logo -->
-        <div class="px-2 pt-1">
-          <Link :href="route('dashboard')" class="inline-block">
-            <SynbarraLogo size="sm" variant="horizontal" />
+        <div class="px-1 pt-1">
+          <Link :href="route('dashboard')" class="inline-flex items-center gap-2.5 group">
+            <span class="w-8 h-8 rounded-xl bg-gradient-to-br from-violet-600 to-violet-800 text-white flex items-center justify-center shadow-invoicerapi-sm shrink-0">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="8" y1="13" x2="16" y2="13" />
+                <line x1="8" y1="17" x2="13" y2="17" />
+              </svg>
+            </span>
+            <span class="flex flex-col leading-none">
+              <span class="text-[10px] font-bold tracking-wide text-violet-700">Synbarra</span>
+              <span class="text-base font-extrabold tracking-tight text-slate-900">InvoiceRapi</span>
+            </span>
           </Link>
         </div>
 
@@ -109,8 +119,16 @@ const userInitials = (user?.name || 'User')
     </aside>
 
     <!-- Mobile Header -->
-    <header class="md:hidden bg-white border-b border-slate-200 px-4 py-3 flex items-center justify-between sticky top-0 z-40">
-      <SynbarraLogo size="sm" variant="horizontal" />
+    <header class="md:hidden bg-white border-b border-violet-100/80 px-4 py-3 flex items-center justify-between sticky top-0 z-40">
+      <Link :href="route('dashboard')" class="inline-flex items-center gap-2">
+        <span class="w-8 h-8 rounded-xl bg-gradient-to-br from-violet-600 to-violet-800 text-white flex items-center justify-center shadow-sm">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
+          </svg>
+        </span>
+        <span class="text-base font-extrabold tracking-tight text-slate-900">InvoiceRapi</span>
+      </Link>
       <button
         type="button"
         @click="isMobileMenuOpen = !isMobileMenuOpen"
@@ -129,7 +147,7 @@ const userInitials = (user?.name || 'User')
       <div class="w-64 bg-white h-full p-5 flex flex-col justify-between shadow-2xl">
         <div class="space-y-6">
           <div class="flex items-center justify-between">
-            <SynbarraLogo size="sm" variant="horizontal" />
+            <span class="text-base font-extrabold tracking-tight text-slate-900">Synbarra <span class="text-violet-700">InvoiceRapi</span></span>
             <button @click="isMobileMenuOpen = false" class="p-1 text-slate-400">
               <X class="w-5 h-5" />
             </button>

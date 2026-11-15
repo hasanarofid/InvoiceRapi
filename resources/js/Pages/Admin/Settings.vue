@@ -65,7 +65,7 @@ const submit = () => {
         <button
           @click="submit"
           :disabled="form.processing"
-          class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold shadow-sm transition disabled:opacity-50 cursor-pointer"
+          class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-violet-700 hover:bg-violet-800 text-white text-xs sm:text-sm font-semibold shadow-sm transition disabled:opacity-50 cursor-pointer"
         >
           <Save class="w-4 h-4" />
           <span>{{ form.processing ? 'Menyimpan...' : 'Simpan Perubahan' }}</span>
@@ -78,7 +78,7 @@ const submit = () => {
           @click="currentTab = 'store'"
           :class="[
             currentTab === 'store' 
-              ? 'border-blue-600 text-blue-600 bg-white shadow-2xs font-bold' 
+              ? 'border-blue-600 text-violet-700 bg-white shadow-2xs font-bold' 
               : 'border-transparent text-slate-500 hover:text-slate-800 font-medium',
             'px-4 py-3 border-b-2 text-xs sm:text-sm flex items-center gap-2 whitespace-nowrap transition cursor-pointer rounded-t-xl'
           ]"
@@ -91,7 +91,7 @@ const submit = () => {
           @click="currentTab = 'whatsapp'"
           :class="[
             currentTab === 'whatsapp' 
-              ? 'border-blue-600 text-blue-600 bg-white shadow-2xs font-bold' 
+              ? 'border-blue-600 text-violet-700 bg-white shadow-2xs font-bold' 
               : 'border-transparent text-slate-500 hover:text-slate-800 font-medium',
             'px-4 py-3 border-b-2 text-xs sm:text-sm flex items-center gap-2 whitespace-nowrap transition cursor-pointer rounded-t-xl'
           ]"
@@ -104,7 +104,7 @@ const submit = () => {
           @click="currentTab = 'ai'"
           :class="[
             currentTab === 'ai' 
-              ? 'border-blue-600 text-blue-600 bg-white shadow-2xs font-bold' 
+              ? 'border-blue-600 text-violet-700 bg-white shadow-2xs font-bold' 
               : 'border-transparent text-slate-500 hover:text-slate-800 font-medium',
             'px-4 py-3 border-b-2 text-xs sm:text-sm flex items-center gap-2 whitespace-nowrap transition cursor-pointer rounded-t-xl'
           ]"
@@ -117,7 +117,7 @@ const submit = () => {
           @click="currentTab = 'geo'"
           :class="[
             currentTab === 'geo' 
-              ? 'border-blue-600 text-blue-600 bg-white shadow-2xs font-bold' 
+              ? 'border-blue-600 text-violet-700 bg-white shadow-2xs font-bold' 
               : 'border-transparent text-slate-500 hover:text-slate-800 font-medium',
             'px-4 py-3 border-b-2 text-xs sm:text-sm flex items-center gap-2 whitespace-nowrap transition cursor-pointer rounded-t-xl'
           ]"
@@ -251,9 +251,9 @@ const submit = () => {
             ></textarea>
             <div class="mt-2 flex flex-wrap gap-2 text-[11px] text-slate-500">
               <span>Tag variabel yang didukung:</span>
-              <span class="px-2 py-0.5 bg-slate-100 rounded font-mono text-blue-600">{store_name}</span>
-              <span class="px-2 py-0.5 bg-slate-100 rounded font-mono text-blue-600">{items}</span>
-              <span class="px-2 py-0.5 bg-slate-100 rounded font-mono text-blue-600">{total}</span>
+              <span class="px-2 py-0.5 bg-slate-100 rounded font-mono text-violet-700">{store_name}</span>
+              <span class="px-2 py-0.5 bg-slate-100 rounded font-mono text-violet-700">{items}</span>
+              <span class="px-2 py-0.5 bg-slate-100 rounded font-mono text-violet-700">{total}</span>
             </div>
           </div>
         </div>
@@ -279,7 +279,7 @@ const submit = () => {
             </div>
             <label class="relative inline-flex items-center cursor-pointer">
               <input type="checkbox" v-model="form.is_ai_sales_enabled" class="sr-only peer" />
-              <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+              <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-violet-700"></div>
             </label>
           </div>
 
@@ -303,7 +303,7 @@ const submit = () => {
             <h3 class="text-base font-bold text-slate-900">Generative Engine Optimization (AI Search &amp; SEO)</h3>
             <p class="text-xs text-slate-500 mt-0.5">Memastikan toko Anda terindeks oleh search engine AI (ChatGPT Search, Perplexity, Google Gemini).</p>
           </div>
-          <span class="p-2 bg-blue-50 text-blue-600 rounded-xl">
+          <span class="p-2 bg-violet-50 text-violet-700 rounded-xl">
             <Globe class="w-5 h-5" />
           </span>
         </div>
@@ -335,25 +335,25 @@ const submit = () => {
               <a 
                 :href="`/shop/${tenant?.slug || 'solkit-store'}/llms.txt`" 
                 target="_blank"
-                class="flex items-center justify-between p-3 rounded-lg bg-white border border-slate-200 hover:border-blue-400 text-xs text-slate-700 transition"
+                class="flex items-center justify-between p-3 rounded-lg bg-white border border-slate-200 hover:border-violet-400 text-xs text-slate-700 transition"
               >
-                <span class="font-mono font-bold text-blue-600">llms.txt</span>
+                <span class="font-mono font-bold text-violet-700">llms.txt</span>
                 <ExternalLink class="w-3.5 h-3.5 text-slate-400" />
               </a>
               <a 
                 :href="`/shop/${tenant?.slug || 'solkit-store'}/sitemap.xml`" 
                 target="_blank"
-                class="flex items-center justify-between p-3 rounded-lg bg-white border border-slate-200 hover:border-blue-400 text-xs text-slate-700 transition"
+                class="flex items-center justify-between p-3 rounded-lg bg-white border border-slate-200 hover:border-violet-400 text-xs text-slate-700 transition"
               >
-                <span class="font-mono font-bold text-blue-600">sitemap.xml</span>
+                <span class="font-mono font-bold text-violet-700">sitemap.xml</span>
                 <ExternalLink class="w-3.5 h-3.5 text-slate-400" />
               </a>
               <a 
                 :href="`/shop/${tenant?.slug || 'solkit-store'}/robots.txt`" 
                 target="_blank"
-                class="flex items-center justify-between p-3 rounded-lg bg-white border border-slate-200 hover:border-blue-400 text-xs text-slate-700 transition"
+                class="flex items-center justify-between p-3 rounded-lg bg-white border border-slate-200 hover:border-violet-400 text-xs text-slate-700 transition"
               >
-                <span class="font-mono font-bold text-blue-600">robots.txt</span>
+                <span class="font-mono font-bold text-violet-700">robots.txt</span>
                 <ExternalLink class="w-3.5 h-3.5 text-slate-400" />
               </a>
             </div>

@@ -19,10 +19,33 @@ export const BRAND = {
   navigation: [
     { name: 'Beranda', href: '#beranda' },
     { name: 'Fitur', href: '#fitur' },
-    { name: 'Solusi', href: '#solusi' },
+    { name: 'Solusi', href: '#solusi', hasDropdown: true },
     { name: 'Harga', href: '#harga' },
     { name: 'Demo', href: '#demo' },
+    { name: 'Testimoni', href: '#testimoni' },
     { name: 'FAQ', href: '#faq' },
+  ],
+
+  // Testimoni Bisnis Jasa
+  testimonials: [
+    {
+      name: 'Nadia Kusuma',
+      role: 'Founder, Mulia Wedding Organizer',
+      quote: 'Dulu sering lupa jadwal tagih termin ke pengantin karena semua masih di spreadsheet. Sejak pakai InvoiceRapi, DP sampai pelunasan hari H terpantau rapi.',
+      metric: '40+ Acara / Tahun',
+    },
+    {
+      name: 'Rizky Pratama',
+      role: 'Lead Photographer, Lensa Studio',
+      quote: 'Klien korporat dan wedding jadi lebih percaya karena link invoice-nya profesional, ada rincian termin booking fee, dan bisa langsung download PDF.',
+      metric: 'Piutang Turun 65%',
+    },
+    {
+      name: 'Hendra Wijaya',
+      role: 'Direktur, Ruang Karya Interior',
+      quote: 'Proyek interior punya 4 tahap termin. Di InvoiceRapi kami bisa pecah jadwal bayar per progres fisik dan pantau mana yang sudah jatuh tempo.',
+      metric: '100% Terpantau',
+    },
   ],
 
   // 4 Pilar Fitur Utama (Feature Pills di Hero Mockup)

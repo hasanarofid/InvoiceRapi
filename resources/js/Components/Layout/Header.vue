@@ -2,23 +2,30 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import { BRAND } from '@/config/brand';
-import SynbarraLogo from '@/Components/UI/SynbarraLogo.vue';
 import Container from '@/Components/UI/Container.vue';
+import { ChevronDown, Menu, X } from 'lucide-vue-next';
 
 const isScrolled = ref(false);
 const mobileMenuOpen = ref(false);
+const solusiOpen = ref(false);
+const mobileSolusiOpen = ref(false);
 
 const handleScroll = () => {
-  isScrolled.value = window.scrollY > 20;
+  isScrolled.value = window.scrollY > 16;
+};
+
+const handleKeydown = (e: KeyboardEvent) => {
+  if (e.key === 'Escape') {
+    solusiOpen.value = false;
+    if (mobileMenuOpen.value) {
+      closeMobileMenu();
+    }
+  }
 };
 
 const toggleMobileMenu = () => {
   mobileMenuOpen.value = !mobileMenuOpen.value;
-  if (mobileMenuOpen.value) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = '';
-  }
+  document.body.style.overflow = mobileMenuOpen.value ? 'hidden' : '';
 };
 
 const closeMobileMenu = () => {
@@ -28,10 +35,12 @@ const closeMobileMenu = () => {
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll, { passive: true });
+  window.addEventListener('keydown', handleKeydown);
 });
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
+  window.removeEventListener('keydown', handleKeydown);
   document.body.style.overflow = '';
 });
 </script>
@@ -40,61 +49,125 @@ onUnmounted(() => {
   <header
     :class="[
       'sticky top-0 z-50 w-full transition-all duration-300',
-      isScrolled 
-        ? 'bg-white/95 backdrop-blur-md border-b border-purple-100 shadow-sm py-3' 
-        : 'bg-white/80 backdrop-blur-sm border-b border-transparent py-4 sm:py-5'
+      isScrolled
+        ? 'bg-white/95 backdrop-blur-md border-b border-violet-100/80 shadow-invoicerapi-sm py-3'
+        : 'bg-[#FAF8FF]/85 backdrop-blur-sm border-b border-transparent py-4'
     ]"
   >
     <Container>
-      <div class="flex items-center justify-between">
-        <!-- Brand Logo -->
-        <Link href="/" class="flex items-center group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded-lg p-1">
-          <SynbarraLogo size="md" variant="horizontal" />
+      <div class="flex items-center justify-between gap-4">
+        <!-- Brand Logo Lockup (SVG + Typography, sharp on all displays) -->
+        <Link
+          href="/"
+          class="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 rounded-xl p-1 shrink-0"
+        >
+          <span class="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-600 to-violet-800 text-white flex items-center justify-center shadow-invoicerapi-sm group-hover:scale-105 transition-transform">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="8" y1="13" x2="16" y2="13" />
+              <line x1="8" y1="17" x2="13" y2="17" />
+            </svg>
+          </span>
+          <span class="flex flex-col leading-none">
+            <span class="text-[11px] font-bold tracking-wide text-violet-700">Synbarra</span>
+            <span class="text-base sm:text-lg font-extrabold tracking-tight text-slate-900">InvoiceRapi</span>
+          </span>
         </Link>
 
         <!-- Desktop Navigation -->
-        <nav class="hidden md:flex items-center space-x-1 lg:space-x-2" aria-label="Main Navigation">
-          <a
-            v-for="item in BRAND.navigation"
-            :key="item.href"
-            :href="item.href"
-            class="px-3.5 py-2 text-sm font-medium text-slate-700 hover:text-violet-700 hover:bg-violet-50/60 rounded-full transition-colors duration-150"
-          >
-            {{ item.name }}
-          </a>
+        <nav class="hidden lg:flex items-center gap-1" aria-label="Navigasi Utama">
+          <template v-for="item in BRAND.navigation" :key="item.href">
+            <!-- Dropdown item for Solusi -->
+            <div
+              v-if="item.hasDropdown"
+              class="relative"
+              @mouseenter="solusiOpen = true"
+              @mouseleave="solusiOpen = false"
+            >
+              <button
+                type="button"
+                @click="solusiOpen = !solusiOpen"
+                :aria-expanded="solusiOpen"
+                aria-controls="solusi-dropdown"
+                class="inline-flex items-center gap-1 px-3.5 py-2 text-sm font-medium text-slate-700 hover:text-violet-700 hover:bg-violet-50/70 rounded-xl transition-colors"
+              >
+                <span>{{ item.name }}</span>
+                <ChevronDown
+                  class="w-3.5 h-3.5 text-slate-400 transition-transform duration-150"
+                  :class="{ 'rotate-180 text-violet-700': solusiOpen }"
+                  aria-hidden="true"
+                />
+              </button>
+
+              <Transition
+                enter-active-class="transition duration-150 ease-out"
+                enter-from-class="opacity-0 translate-y-1"
+                enter-to-class="opacity-100 translate-y-0"
+                leave-active-class="transition duration-100 ease-in"
+                leave-from-class="opacity-100 translate-y-0"
+                leave-to-class="opacity-0 translate-y-1"
+              >
+                <div
+                  v-if="solusiOpen"
+                  id="solusi-dropdown"
+                  class="absolute left-0 top-full pt-2 w-72 z-50"
+                >
+                  <div class="bg-white rounded-2xl border border-violet-100 shadow-invoicerapi-lg p-2 space-y-1">
+                    <a
+                      v-for="persona in BRAND.personas"
+                      :key="persona.title"
+                      href="#solusi"
+                      @click="solusiOpen = false"
+                      class="block px-3.5 py-2.5 rounded-xl hover:bg-violet-50/80 transition-colors group"
+                    >
+                      <p class="text-xs font-bold text-slate-900 group-hover:text-violet-700">{{ persona.title }}</p>
+                      <p class="text-[11px] text-slate-500 mt-0.5 line-clamp-1">{{ persona.tag }}</p>
+                    </a>
+                  </div>
+                </div>
+              </Transition>
+            </div>
+
+            <!-- Standard Nav Link -->
+            <a
+              v-else
+              :href="item.href"
+              class="px-3.5 py-2 text-sm font-medium text-slate-700 hover:text-violet-700 hover:bg-violet-50/70 rounded-xl transition-colors"
+            >
+              {{ item.name }}
+            </a>
+          </template>
         </nav>
 
-        <!-- Action Buttons (Masuk & Coba Gratis sesuai Mockup) -->
-        <div class="hidden md:flex items-center gap-3">
+        <!-- Action Buttons (Masuk & Coba Gratis) -->
+        <div class="hidden lg:flex items-center gap-2.5 shrink-0">
           <Link
             href="/login"
-            class="px-5 py-2 text-sm font-semibold text-slate-700 hover:text-violet-700 hover:bg-slate-50 border border-slate-200 rounded-full transition-all duration-150"
+            class="px-5 py-2 text-sm font-semibold text-violet-700 hover:text-violet-800 bg-white hover:bg-violet-50/70 border border-violet-200 rounded-xl transition-all"
           >
             Masuk
           </Link>
           <Link
             href="/register"
-            class="px-5 py-2 text-sm font-semibold text-white bg-violet-700 hover:bg-violet-800 rounded-full shadow-sm hover:shadow transition-all duration-150 transform hover:-translate-y-0.5"
+            class="px-5 py-2 text-sm font-semibold text-white bg-violet-700 hover:bg-violet-800 rounded-xl shadow-invoicerapi-sm hover:shadow-invoicerapi-md transition-all transform hover:-translate-y-0.5"
           >
             Coba Gratis
           </Link>
         </div>
 
         <!-- Mobile Menu Toggle Button -->
-        <div class="flex items-center md:hidden">
+        <div class="flex items-center lg:hidden">
           <button
             type="button"
             @click="toggleMobileMenu"
-            class="p-2 text-slate-700 hover:text-violet-700 hover:bg-violet-50 rounded-lg focus-visible:outline-none"
+            class="p-2 text-slate-700 hover:text-violet-700 hover:bg-violet-50 rounded-xl focus-visible:outline-none"
             :aria-expanded="mobileMenuOpen"
-            aria-label="Toggle navigation menu"
+            aria-controls="mobile-nav-drawer"
+            aria-label="Toggle menu navigasi"
           >
-            <svg v-if="!mobileMenuOpen" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-            <svg v-else class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
+            <Menu v-if="!mobileMenuOpen" class="w-6 h-6" aria-hidden="true" />
+            <X v-else class="w-6 h-6" aria-hidden="true" />
           </button>
         </div>
       </div>
@@ -112,48 +185,79 @@ onUnmounted(() => {
       >
         <div
           v-if="mobileMenuOpen"
-          class="fixed inset-0 z-[999] bg-white md:hidden flex flex-col justify-between overflow-y-auto"
+          id="mobile-nav-drawer"
+          class="fixed inset-0 z-[999] bg-white lg:hidden flex flex-col justify-between overflow-y-auto"
         >
-          <div class="flex items-center justify-between px-5 py-4 border-b border-slate-200 bg-white sticky top-0 z-10">
-            <Link href="/" @click="closeMobileMenu" class="flex items-center">
-              <SynbarraLogo size="md" variant="horizontal" />
+          <div class="flex items-center justify-between px-5 py-4 border-b border-slate-100 bg-white sticky top-0 z-10">
+            <Link href="/" @click="closeMobileMenu" class="flex items-center gap-2.5">
+              <span class="w-8 h-8 rounded-xl bg-gradient-to-br from-violet-600 to-violet-800 text-white flex items-center justify-center shadow-sm">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                </svg>
+              </span>
+              <span class="flex flex-col leading-none">
+                <span class="text-[10px] font-bold text-violet-700">Synbarra</span>
+                <span class="text-base font-extrabold text-slate-900">InvoiceRapi</span>
+              </span>
             </Link>
             <button
               type="button"
               @click="closeMobileMenu"
-              class="p-2 text-slate-700 hover:text-violet-700 hover:bg-violet-50 rounded-lg focus:outline-none"
+              class="p-2 text-slate-700 hover:text-violet-700 hover:bg-violet-50 rounded-xl"
               aria-label="Tutup menu navigasi"
             >
-              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <X class="w-6 h-6" aria-hidden="true" />
             </button>
           </div>
 
-          <nav class="flex flex-col p-6 space-y-2 flex-grow" aria-label="Mobile Navigation">
-            <a
-              v-for="item in BRAND.navigation"
-              :key="item.href"
-              :href="item.href"
-              @click="closeMobileMenu"
-              class="px-4 py-3 text-base font-medium text-slate-800 hover:text-violet-700 hover:bg-violet-50 rounded-xl transition"
-            >
-              {{ item.name }}
-            </a>
+          <nav class="flex flex-col p-5 space-y-1.5 flex-grow" aria-label="Navigasi Mobile">
+            <template v-for="item in BRAND.navigation" :key="item.href">
+              <div v-if="item.hasDropdown" class="space-y-1">
+                <button
+                  type="button"
+                  @click="mobileSolusiOpen = !mobileSolusiOpen"
+                  :aria-expanded="mobileSolusiOpen"
+                  class="w-full flex items-center justify-between px-4 py-3 text-base font-semibold text-slate-800 hover:text-violet-700 hover:bg-violet-50 rounded-xl transition"
+                >
+                  <span>{{ item.name }}</span>
+                  <ChevronDown class="w-4 h-4 transition-transform" :class="{ 'rotate-180': mobileSolusiOpen }" />
+                </button>
+                <div v-show="mobileSolusiOpen" class="pl-4 space-y-1">
+                  <a
+                    v-for="persona in BRAND.personas"
+                    :key="persona.title"
+                    href="#solusi"
+                    @click="closeMobileMenu"
+                    class="block px-4 py-2 text-sm text-slate-600 hover:text-violet-700 hover:bg-violet-50/60 rounded-lg"
+                  >
+                    {{ persona.title }}
+                  </a>
+                </div>
+              </div>
+              <a
+                v-else
+                :href="item.href"
+                @click="closeMobileMenu"
+                class="px-4 py-3 text-base font-semibold text-slate-800 hover:text-violet-700 hover:bg-violet-50 rounded-xl transition"
+              >
+                {{ item.name }}
+              </a>
+            </template>
           </nav>
 
-          <div class="p-6 border-t border-slate-100 bg-slate-50 space-y-3">
+          <div class="p-5 border-t border-slate-100 bg-[#FAF8FF] space-y-3">
             <Link
               href="/login"
               @click="closeMobileMenu"
-              class="block w-full text-center py-3 text-sm font-semibold text-slate-800 bg-white border border-slate-200 rounded-full shadow-sm"
+              class="block w-full text-center py-3 text-sm font-semibold text-violet-700 bg-white border border-violet-200 rounded-xl shadow-sm"
             >
               Masuk
             </Link>
             <Link
               href="/register"
               @click="closeMobileMenu"
-              class="block w-full text-center py-3 text-sm font-semibold text-white bg-violet-700 hover:bg-violet-800 rounded-full shadow-md"
+              class="block w-full text-center py-3 text-sm font-semibold text-white bg-violet-700 hover:bg-violet-800 rounded-xl shadow-md"
             >
               Coba Gratis 14 Hari
             </Link>

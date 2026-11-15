@@ -73,7 +73,7 @@ const submit = () => {
                                 type="text"
                                 required
                                 placeholder="Contoh: Wireless Fast Charger 15W"
-                                class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition"
+                                class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-600 transition"
                             />
                             <p v-if="form.errors.name" class="text-xs text-rose-600 mt-1">{{ form.errors.name }}</p>
                         </div>
@@ -84,7 +84,7 @@ const submit = () => {
                             </label>
                             <select
                                 v-model="form.category_id"
-                                class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition"
+                                class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-600 transition"
                             >
                                 <option value="">Pilih Kategori</option>
                                 <option v-for="cat in categories" :key="cat.id" :value="cat.id">
@@ -101,7 +101,7 @@ const submit = () => {
                                 v-model="form.sku"
                                 type="text"
                                 placeholder="SLK-001"
-                                class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition"
+                                class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-600 transition"
                             />
                         </div>
 
@@ -116,7 +116,7 @@ const submit = () => {
                                     required
                                     min="0"
                                     placeholder="249000"
-                                    class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition"
+                                    class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-600 transition"
                                 />
                             </div>
                             <div>
@@ -128,7 +128,7 @@ const submit = () => {
                                     type="number"
                                     min="0"
                                     placeholder="299000"
-                                    class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition"
+                                    class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-600 transition"
                                 />
                             </div>
                         </div>
@@ -143,7 +143,7 @@ const submit = () => {
                                     type="number"
                                     required
                                     min="0"
-                                    class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition"
+                                    class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-600 transition"
                                 />
                             </div>
                             <div>
@@ -154,7 +154,7 @@ const submit = () => {
                                     v-model="form.weight_grams"
                                     type="number"
                                     min="0"
-                                    class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition"
+                                    class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-600 transition"
                                 />
                             </div>
                         </div>
@@ -169,7 +169,7 @@ const submit = () => {
                                 v-model="form.thumbnail"
                                 type="text"
                                 placeholder="/images/solkit-clean.png"
-                                class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition"
+                                class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-600 transition"
                             />
                         </div>
 
@@ -181,7 +181,7 @@ const submit = () => {
                                 v-model="form.short_description"
                                 rows="2"
                                 placeholder="Deskripsi 1-2 kalimat untuk preview dan asisten AI..."
-                                class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition"
+                                class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-600 transition"
                             ></textarea>
                         </div>
 
@@ -193,7 +193,7 @@ const submit = () => {
                                 v-model="form.description"
                                 rows="4"
                                 placeholder="Penjelasan lengkap spesifikasi dan manfaat produk..."
-                                class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition"
+                                class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-600 transition"
                             ></textarea>
                         </div>
 
@@ -204,7 +204,7 @@ const submit = () => {
                                 </label>
                                 <select
                                     v-model="form.status"
-                                    class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition"
+                                    class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-600 transition"
                                 >
                                     <option value="published">Published</option>
                                     <option value="draft">Draft</option>
@@ -216,7 +216,7 @@ const submit = () => {
                                     <input
                                         v-model="form.is_featured"
                                         type="checkbox"
-                                        class="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                                        class="w-4 h-4 rounded border-slate-300 text-violet-700 focus:ring-violet-500"
                                     />
                                     <span class="text-xs font-semibold text-slate-700">Produk Unggulan</span>
                                 </label>
@@ -236,7 +236,7 @@ const submit = () => {
                     <button
                         type="submit"
                         :disabled="form.processing"
-                        class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold flex items-center gap-2 shadow-sm transition disabled:opacity-50"
+                        class="px-6 py-2.5 rounded-xl bg-violet-700 hover:bg-violet-800 text-white text-sm font-semibold flex items-center gap-2 shadow-sm transition disabled:opacity-50"
                     >
                         <Save class="w-4 h-4" />
                         <span>{{ form.processing ? 'Menyimpan...' : 'Simpan Produk' }}</span>

@@ -56,7 +56,7 @@ const formatDate = (dateStr) => {
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                     <h1 class="text-2xl font-bold tracking-tight text-slate-900 flex items-center gap-2">
-                        <ShoppingCart class="w-6 h-6 text-blue-600" />
+                        <ShoppingCart class="w-6 h-6 text-violet-700" />
                         Pesanan Masuk (Order Management System)
                     </h1>
                     <p class="text-sm text-slate-500 mt-1">
@@ -72,7 +72,7 @@ const formatDate = (dateStr) => {
                         v-model="search"
                         type="text"
                         placeholder="Cari No. Order, Nama, atau Telepon..."
-                        class="w-full pl-10 pr-4 py-2 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition"
+                        class="w-full pl-10 pr-4 py-2 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-600 transition"
                     />
                     <Search class="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
                 </form>
@@ -81,7 +81,7 @@ const formatDate = (dateStr) => {
                     <select
                         v-model="statusFilter"
                         @change="handleSearch"
-                        class="px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition font-medium"
+                        class="px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-600 transition font-medium"
                     >
                         <option value="all">Semua Status</option>
                         <option value="pending">Pending</option>
@@ -109,7 +109,7 @@ const formatDate = (dateStr) => {
                         </thead>
                         <tbody class="divide-y divide-slate-100">
                             <tr v-for="order in orders.data" :key="order.id" class="hover:bg-slate-50/70 transition">
-                                <td class="p-4 font-mono font-bold text-blue-600">
+                                <td class="p-4 font-mono font-bold text-violet-700">
                                     {{ order.order_number }}
                                 </td>
                                 <td class="p-4">
