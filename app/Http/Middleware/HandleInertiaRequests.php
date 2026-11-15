@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\PlanLimitService;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -29,10 +30,22 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user = $request->user()?->loadMissing('tenant');
+        $planUsage = null;
+
+        if ($user && $user->tenant) {
+            $planUsage = app(PlanLimitService::class)->getUsageSummary($user->tenant);
+        }
+
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => $user,
+            ],
+            'planUsage' => $planUsage,
+            'flash' => [
+                'success' => fn () => $request->session()->get('success'),
+                'error' => fn () => $request->session()->get('error'),
             ],
         ];
     }

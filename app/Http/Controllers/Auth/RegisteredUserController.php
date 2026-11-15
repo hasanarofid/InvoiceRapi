@@ -3,13 +3,17 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\WelcomeUserMail;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules;
+use Throwable;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -45,6 +49,12 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
+
+        try {
+            Mail::to($user->email)->send(new WelcomeUserMail($user));
+        } catch (Throwable $e) {
+            Log::warning('Welcome email skipped: ' . $e->getMessage());
+        }
 
         Auth::login($user);
 

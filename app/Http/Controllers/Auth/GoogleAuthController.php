@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\WelcomeUserMail;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use Throwable;
@@ -54,13 +56,19 @@ class GoogleAuthController extends Controller
                         'role' => 'tenant_admin',
                         'email_verified_at' => now(),
                     ]);
+
+                    try {
+                        Mail::to($user->email)->send(new WelcomeUserMail($user));
+                    } catch (Throwable $mailError) {
+                        Log::warning('Welcome email (Google) skipped: ' . $mailError->getMessage());
+                    }
                 }
             }
 
             Auth::login($user, remember: true);
 
             if ($user->isSuperAdmin()) {
-                return redirect()->route('admin.dashboard');
+                return redirect()->route('admin.verify.show');
             }
 
             // If user has not completed onboarding (or has no tenant yet), redirect to onboarding

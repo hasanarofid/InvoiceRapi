@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AuditLog;
 use App\Models\Client;
+use App\Services\PlanLimitService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -55,6 +56,14 @@ class ClientController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $user = auth()->user();
+        if ($user->tenant) {
+            $check = app(PlanLimitService::class)->canCreateClient($user->tenant);
+            if (! $check['allowed']) {
+                return redirect()->route('billing.index')->with('error', $check['message']);
+            }
+        }
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'company_name' => 'nullable|string|max:255',

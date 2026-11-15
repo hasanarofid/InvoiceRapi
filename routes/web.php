@@ -1,12 +1,15 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminVerificationController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LeadController;
 use App\Http\Controllers\Admin\OrderManagerController;
 use App\Http\Controllers\Admin\ProductManagerController;
 use App\Http\Controllers\Admin\RoadmapController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\SubscriptionPaymentController;
 use App\Http\Controllers\Admin\TrialTrackerController;
+use App\Http\Controllers\BillingController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
@@ -48,8 +51,12 @@ Route::get('/dashboard', function () {
     return redirect()->route('admin.dashboard');
 })->middleware(['auth', 'onboarded'])->name('dashboard');
 
-Route::middleware(['auth', 'onboarded'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'onboarded', 'admin.verified'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Verifikasi Pembayaran Transfer Bank (Upgrade Paket)
+    Route::get('/payments', [SubscriptionPaymentController::class, 'index'])->name('payments.index');
+    Route::post('/payments/{payment}/verify', [SubscriptionPaymentController::class, 'verify'])->name('payments.verify');
 
     // Roadmap Pengembangan & Akuisisi Klien (Sprint Tahap 1 - 5)
     Route::resource('roadmap', RoadmapController::class);
@@ -75,7 +82,20 @@ Route::middleware(['auth', 'onboarded'])->prefix('admin')->name('admin.')->group
     Route::post('/trial-tracker/{tenant}/follow-up', [TrialTrackerController::class, 'updateFollowUp'])->name('trial-tracker.follow-up');
 });
 
+Route::middleware(['auth', 'onboarded'])->group(function () {
+    // Billing & Upload Bukti Pembayaran Paket
+    Route::get('/billing', [BillingController::class, 'index'])->name('billing.index');
+    Route::post('/billing', [BillingController::class, 'store'])->name('billing.store');
+});
+
 Route::middleware(['auth'])->group(function () {
+    // Verifikasi Login Admin (2-Step Email OTP)
+    Route::get('/admin/verify-login', [AdminVerificationController::class, 'show'])->name('admin.verify.show');
+    Route::post('/admin/verify-login', [AdminVerificationController::class, 'verify'])->name('admin.verify.store');
+    Route::post('/admin/verify-login/resend', [AdminVerificationController::class, 'resend'])
+        ->middleware('throttle:5,1')
+        ->name('admin.verify.resend');
+
     // Multi-tenant Business Onboarding (Wajib input WhatsApp & Profil Bisnis)
     Route::get('/onboarding', [OnboardingController::class, 'index'])->name('onboarding.index');
     Route::post('/onboarding', [OnboardingController::class, 'store'])->name('onboarding.store');

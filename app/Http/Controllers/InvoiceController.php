@@ -8,6 +8,7 @@ use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\PaymentInstallment;
 use App\Models\Project;
+use App\Services\PlanLimitService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -69,9 +70,18 @@ class InvoiceController extends Controller
     /**
      * Show the form for creating a new invoice.
      */
-    public function create(): Response
+    public function create(): Response|RedirectResponse
     {
-        $tenantId = auth()->user()->tenant_id;
+        $user = auth()->user();
+        $tenant = $user->tenant;
+        if ($tenant) {
+            $check = app(PlanLimitService::class)->canCreateInvoice($tenant);
+            if (! $check['allowed']) {
+                return redirect()->route('billing.index')->with('error', $check['message']);
+            }
+        }
+
+        $tenantId = $user->tenant_id;
 
         $clients = Client::where('tenant_id', $tenantId)
             ->where('is_archived', false)
@@ -104,7 +114,15 @@ class InvoiceController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $tenantId = auth()->user()->tenant_id;
+        $user = auth()->user();
+        if ($user->tenant) {
+            $check = app(PlanLimitService::class)->canCreateInvoice($user->tenant);
+            if (! $check['allowed']) {
+                return redirect()->route('billing.index')->with('error', $check['message']);
+            }
+        }
+
+        $tenantId = $user->tenant_id;
 
         $validated = $request->validate([
             'client_id' => 'required|exists:clients,id',

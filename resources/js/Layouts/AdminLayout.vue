@@ -14,7 +14,8 @@ import {
   ChevronLeft,
   ChevronRight,
   ListTodo,
-  Users
+  Users,
+  CreditCard
 } from '@lucide/vue';
 
 const page = usePage();
@@ -26,6 +27,7 @@ const isUserMenuOpen = ref(false);
 
 const navigation = [
   { name: 'Dashboard', href: route('admin.dashboard'), icon: LayoutDashboard, current: route().current('admin.dashboard') },
+  { name: 'Verifikasi Pembayaran', href: route('admin.payments.index'), icon: CreditCard, current: route().current('admin.payments.*') },
   { name: 'Trial Tracker (CRM WA)', href: route('admin.trial-tracker.index'), icon: Users, current: route().current('admin.trial-tracker.*') },
   { name: 'Roadmap Sprint 30 Hari', href: route('admin.roadmap.index'), icon: ListTodo, current: route().current('admin.roadmap.*') },
   { name: 'Leads & Prospek', href: route('admin.leads.index'), icon: Users, current: route().current('admin.leads.*') },

@@ -28,6 +28,7 @@ defineProps<Props>();
 const page = usePage();
 const user = page.props.auth?.user;
 const tenant = user?.tenant;
+const planUsage = page.props.planUsage as Record<string, any> | null;
 
 const isMobileMenuOpen = ref(false);
 const isUserDropdownOpen = ref(false);
@@ -100,19 +101,36 @@ const userInitials = (user?.name || 'User')
       <div class="p-4 rounded-2xl bg-gradient-to-br from-violet-50 to-purple-50 border border-violet-100/80 space-y-2.5">
         <div class="flex items-center gap-2">
           <div class="w-6 h-6 rounded-lg bg-violet-600 text-white flex items-center justify-center shrink-0 shadow-sm text-xs">
-            👑
+            <Crown class="w-3.5 h-3.5" />
           </div>
           <div>
-            <p class="text-xs font-black text-violet-950">Paket Pro</p>
-            <p class="text-[11px] text-violet-700">Masa Coba 14 Hari</p>
+            <p class="text-xs font-black text-violet-950">Paket {{ planUsage?.plan_name || 'Pro' }}</p>
+            <p class="text-[11px] text-violet-700">
+              {{ planUsage?.subscription_status === 'active' ? 'Langganan Aktif' : (planUsage?.is_trial_expired ? 'Trial Berakhir (Gratis)' : 'Masa Coba 14 Hari') }}
+            </p>
+          </div>
+        </div>
+
+        <div v-if="planUsage" class="text-[11px] text-slate-600 space-y-1 pt-1">
+          <div class="flex justify-between">
+            <span>Invoice bln ini</span>
+            <span class="font-bold" :class="planUsage.invoice_limit_reached ? 'text-red-600' : 'text-slate-900'">
+              {{ planUsage.invoices_this_month }}/{{ planUsage.max_invoices_per_month ?? '∞' }}
+            </span>
+          </div>
+          <div v-if="planUsage.max_clients" class="flex justify-between">
+            <span>Klien</span>
+            <span class="font-bold" :class="planUsage.client_limit_reached ? 'text-red-600' : 'text-slate-900'">
+              {{ planUsage.clients_count }}/{{ planUsage.max_clients }}
+            </span>
           </div>
         </div>
 
         <Link
-          href="#"
+          :href="route('billing.index')"
           class="flex items-center justify-between text-xs font-bold text-violet-700 hover:text-violet-900 pt-1 group"
         >
-          <span>Kelola Langganan</span>
+          <span>{{ planUsage?.any_limit_reached ? 'Upgrade Sekarang' : 'Kelola Langganan' }}</span>
           <ArrowRight class="w-3.5 h-3.5 transform group-hover:translate-x-0.5 transition" />
         </Link>
       </div>

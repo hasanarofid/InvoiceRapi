@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureAdminVerified;
 use App\Http\Middleware\EnsureOnboardingCompleted;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\ResolveTenant;
@@ -19,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'onboarded' => EnsureOnboardingCompleted::class,
+            'admin.verified' => EnsureAdminVerified::class,
         ]);
 
         $middleware->web(append: [
