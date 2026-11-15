@@ -273,5 +273,19 @@ class InvoiceController extends Controller
 
         return redirect()->route('invoices.index')->with('success', 'Invoice berhasil dihapus.');
     }
+
+    /**
+     * Display a public read-only invoice view via unique token.
+     */
+    public function publicShow(string $token): Response
+    {
+        $invoice = Invoice::where('public_token', $token)
+            ->with(['client', 'project', 'items', 'installments', 'tenant'])
+            ->firstOrFail();
+
+        return Inertia::render('Invoices/Public', [
+            'invoice' => $invoice,
+        ]);
+    }
 }
 
