@@ -10,10 +10,15 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SubscriptionPaymentController;
 use App\Http\Controllers\Admin\TrialTrackerController;
 use App\Http\Controllers\BillingController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\OnboardingController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SynbarraController;
+use App\Http\Controllers\WorkspaceDashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,9 +52,9 @@ Route::get('/admin', function () {
     return auth()->check() ? redirect()->route('admin.dashboard') : redirect()->route('login');
 })->name('admin');
 
-Route::get('/dashboard', function () {
-    return redirect()->route('admin.dashboard');
-})->middleware(['auth', 'onboarded'])->name('dashboard');
+Route::get('/dashboard', [WorkspaceDashboardController::class, 'index'])
+    ->middleware(['auth', 'onboarded'])
+    ->name('dashboard');
 
 Route::middleware(['auth', 'onboarded', 'admin.verified'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -83,6 +88,12 @@ Route::middleware(['auth', 'onboarded', 'admin.verified'])->prefix('admin')->nam
 });
 
 Route::middleware(['auth', 'onboarded'])->group(function () {
+    // Workspace SaaS Routes
+    Route::resource('clients', ClientController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('projects', ProjectController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('invoices', InvoiceController::class)->only(['index', 'create', 'store', 'show']);
+    Route::post('/payments', [PaymentController::class, 'store'])->name('payments.store');
+
     // Billing & Upload Bukti Pembayaran Paket
     Route::get('/billing', [BillingController::class, 'index'])->name('billing.index');
     Route::post('/billing', [BillingController::class, 'store'])->name('billing.store');
