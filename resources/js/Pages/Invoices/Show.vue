@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import WorkspaceLayout from '@/Layouts/WorkspaceLayout.vue';
+import RupiahInput from '@/Components/RupiahInput.vue';
 import { ArrowLeft, Copy, Check, ExternalLink, CreditCard, CheckCircle2 } from 'lucide-vue-next';
 
 const props = defineProps<{
@@ -209,7 +210,7 @@ const submitPayment = () => {
         <form @submit.prevent="submitPayment" class="space-y-4">
           <div>
             <label class="block text-xs font-bold text-slate-700 mb-1">Nominal Pembayaran (Rp) *</label>
-            <input v-model.number="payForm.amount" type="number" min="1" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm" />
+            <RupiahInput v-model="payForm.amount" required />
           </div>
           <div class="grid grid-cols-2 gap-3">
             <div>

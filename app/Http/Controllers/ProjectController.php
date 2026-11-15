@@ -125,5 +125,22 @@ class ProjectController extends Controller
 
         return redirect()->back()->with('success', 'Data proyek berhasil diperbarui.');
     }
+
+    /**
+     * Soft-delete the specified project.
+     */
+    public function destroy(Project $project): RedirectResponse
+    {
+        if ($project->tenant_id !== auth()->user()->tenant_id) {
+            abort(403, 'Akses tidak diizinkan.');
+        }
+
+        $oldValues = $project->toArray();
+        $project->delete();
+
+        AuditLog::log('project_deleted', Project::class, $project->id, $oldValues, null);
+
+        return redirect()->back()->with('success', 'Proyek berhasil dihapus.');
+    }
 }
 

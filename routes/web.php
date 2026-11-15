@@ -91,8 +91,8 @@ Route::middleware(['auth', 'onboarded'])->group(function () {
     // Workspace SaaS Routes
     Route::resource('clients', ClientController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('projects', ProjectController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('invoices', InvoiceController::class)->only(['index', 'create', 'store', 'show']);
-    Route::post('/payments', [PaymentController::class, 'store'])->name('payments.store');
+    Route::resource('invoices', InvoiceController::class)->only(['index', 'create', 'store', 'show', 'destroy']);
+    Route::post('/invoices/{invoice}/payments', [PaymentController::class, 'store'])->name('payments.store');
 
     // Billing & Upload Bukti Pembayaran Paket
     Route::get('/billing', [BillingController::class, 'index'])->name('billing.index');

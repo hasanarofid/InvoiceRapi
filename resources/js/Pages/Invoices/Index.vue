@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import WorkspaceLayout from '@/Layouts/WorkspaceLayout.vue';
-import { FileText, Plus, Search, Eye, Crown, Lock } from 'lucide-vue-next';
+import { FileText, Plus, Search, Eye, Crown, Lock, Trash2 } from 'lucide-vue-next';
 
 interface Invoice {
   id: number;
@@ -203,10 +203,17 @@ const statusBadge = (status: string) => {
                     {{ statusBadge(inv.status).label }}
                   </span>
                 </td>
-                <td class="px-5 py-4 text-right">
+                <td class="px-5 py-4 text-right space-x-2">
                   <Link :href="route('invoices.show', inv.id)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-violet-50 text-violet-700 hover:bg-violet-100 text-xs font-bold transition">
                     <Eye class="w-3.5 h-3.5" /> Detail
                   </Link>
+                  <button
+                    @click="() => { if (confirm(`Hapus invoice ${inv.invoice_number}?`)) router.delete(route('invoices.destroy', inv.id)); }"
+                    class="p-2 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition align-middle"
+                    title="Hapus Invoice"
+                  >
+                    <Trash2 class="w-4 h-4" />
+                  </button>
                 </td>
               </tr>
             </tbody>

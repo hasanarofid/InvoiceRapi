@@ -129,5 +129,22 @@ class ClientController extends Controller
         $statusMsg = $client->is_archived ? 'diarsipkan' : 'diaktifkan kembali';
         return redirect()->back()->with('success', "Klien berhasil {$statusMsg}.");
     }
+
+    /**
+     * Soft-delete the specified client.
+     */
+    public function destroy(Client $client): RedirectResponse
+    {
+        if ($client->tenant_id !== auth()->user()->tenant_id) {
+            abort(403, 'Akses tidak diizinkan.');
+        }
+
+        $oldValues = $client->toArray();
+        $client->delete();
+
+        AuditLog::log('client_deleted', Client::class, $client->id, $oldValues, null);
+
+        return redirect()->back()->with('success', 'Klien berhasil dihapus.');
+    }
 }
 

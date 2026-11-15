@@ -15,7 +15,8 @@ import {
   ChevronRight,
   ListTodo,
   Users,
-  CreditCard
+  CreditCard,
+  UserCheck
 } from '@lucide/vue';
 
 const page = usePage();
@@ -34,6 +35,7 @@ const navigation = [
   { name: 'Katalog Produk', href: route('admin.products.index'), icon: ShoppingBag, current: route().current('admin.products.*') },
   { name: 'Pesanan Masuk (OMS)', href: route('admin.orders.index'), icon: ShoppingCart, current: route().current('admin.orders.*') },
   { name: 'Pengaturan Toko', href: route('admin.settings.index'), icon: SettingsIcon, current: route().current('admin.settings.*') },
+  { name: 'Profil Akun', href: route('profile.edit'), icon: UserCheck, current: route().current('profile.*') },
 ];
 
 const logout = () => {

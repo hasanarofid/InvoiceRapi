@@ -1,6 +1,7 @@
 <script setup>
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
+import RupiahInput from '@/Components/RupiahInput.vue';
 import { ArrowLeft, Save } from '@lucide/vue';
 
 const props = defineProps({
@@ -110,26 +111,13 @@ const submit = () => {
                                 <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">
                                     Harga Jual (Rp) *
                                 </label>
-                                <input
-                                    v-model="form.price"
-                                    type="number"
-                                    required
-                                    min="0"
-                                    placeholder="249000"
-                                    class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-600 transition"
-                                />
+                                <RupiahInput v-model="form.price" required placeholder="249.000" />
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">
                                     Harga Coret (Rp)
                                 </label>
-                                <input
-                                    v-model="form.compare_at_price"
-                                    type="number"
-                                    min="0"
-                                    placeholder="299000"
-                                    class="w-full p-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-600 transition"
-                                />
+                                <RupiahInput v-model="form.compare_at_price" placeholder="299.000" />
                             </div>
                         </div>
 

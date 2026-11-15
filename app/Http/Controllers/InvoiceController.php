@@ -256,5 +256,22 @@ class InvoiceController extends Controller
             'publicUrl' => route('invoices.public', $invoice->public_token),
         ]);
     }
+
+    /**
+     * Soft-delete the specified invoice.
+     */
+    public function destroy(Invoice $invoice): RedirectResponse
+    {
+        if ($invoice->tenant_id !== auth()->user()->tenant_id) {
+            abort(403, 'Akses tidak diizinkan.');
+        }
+
+        $oldValues = $invoice->toArray();
+        $invoice->delete();
+
+        AuditLog::log('invoice_deleted', Invoice::class, $invoice->id, $oldValues, null);
+
+        return redirect()->route('invoices.index')->with('success', 'Invoice berhasil dihapus.');
+    }
 }
 

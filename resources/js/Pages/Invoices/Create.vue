@@ -2,6 +2,7 @@
 import { computed, watch } from 'vue';
 import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 import WorkspaceLayout from '@/Layouts/WorkspaceLayout.vue';
+import RupiahInput from '@/Components/RupiahInput.vue';
 import { Plus, Trash2, ArrowLeft, Lock, Crown } from 'lucide-vue-next';
 
 interface ClientOption {
@@ -186,7 +187,7 @@ const submit = () => {
             </div>
             <div class="sm:col-span-4">
               <label class="block text-[11px] font-bold text-slate-600 mb-1">Harga Satuan (Rp) *</label>
-              <input v-model.number="item.unit_price" type="number" min="0" required class="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm bg-white" />
+              <RupiahInput v-model="item.unit_price" required input-class="py-2 rounded-lg" />
             </div>
             <div class="sm:col-span-1 flex justify-end">
               <button type="button" @click="removeItem(idx)" :disabled="form.items.length === 1" class="p-2 text-slate-400 hover:text-red-600 disabled:opacity-30">
@@ -198,11 +199,11 @@ const submit = () => {
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-3 border-t border-slate-100">
             <div>
               <label class="block text-xs font-bold text-slate-700 mb-1">Diskon Tambahan (Rp)</label>
-              <input v-model.number="form.discount" type="number" min="0" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm" />
+              <RupiahInput v-model="form.discount" input-class="py-2" />
             </div>
             <div>
               <label class="block text-xs font-bold text-slate-700 mb-1">Pajak / PPN (Rp)</label>
-              <input v-model.number="form.tax" type="number" min="0" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-sm" />
+              <RupiahInput v-model="form.tax" input-class="py-2" />
             </div>
             <div class="flex flex-col justify-end text-right">
               <span class="text-xs text-slate-500">Grand Total</span>
@@ -238,7 +239,7 @@ const submit = () => {
             </div>
             <div class="sm:col-span-4">
               <label class="block text-[11px] font-bold text-slate-600 mb-1">Nominal (Rp) *</label>
-              <input v-model.number="inst.amount" type="number" min="0" required class="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm bg-white" />
+              <RupiahInput v-model="inst.amount" required input-class="py-2 rounded-lg" />
             </div>
             <div class="sm:col-span-2">
               <label class="block text-[11px] font-bold text-slate-600 mb-1">Jatuh Tempo *</label>

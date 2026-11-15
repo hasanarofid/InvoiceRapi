@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import WorkspaceLayout from '@/Layouts/WorkspaceLayout.vue';
+import RupiahInput from '@/Components/RupiahInput.vue';
 import { FolderKanban, Plus, Search, Pencil, Trash2, Calendar } from 'lucide-vue-next';
 
 interface ClientOption {
@@ -16,7 +17,7 @@ interface Project {
   name: string;
   description?: string | null;
   status: string;
-  contract_value: number | string;
+  contract_amount: number | string;
   start_date?: string | null;
   end_date?: string | null;
   client?: ClientOption;
@@ -47,7 +48,7 @@ const form = useForm({
   name: '',
   description: '',
   status: 'active',
-  contract_value: 0 as number | string,
+  contract_amount: 0 as number | string,
   start_date: '',
   end_date: '',
 });
@@ -66,8 +67,9 @@ const applyFilter = () => {
 const openCreate = () => {
   editingProject.value = null;
   form.reset();
+  form.clearErrors();
   form.status = 'active';
-  form.contract_value = 0;
+  form.contract_amount = 0;
   if (props.clients.length > 0) {
     form.client_id = props.clients[0].id;
   }
@@ -76,11 +78,12 @@ const openCreate = () => {
 
 const openEdit = (project: Project) => {
   editingProject.value = project;
+  form.clearErrors();
   form.client_id = project.client_id;
   form.name = project.name;
   form.description = project.description || '';
   form.status = project.status;
-  form.contract_value = project.contract_value;
+  form.contract_amount = Number(project.contract_amount || 0);
   form.start_date = project.start_date || '';
   form.end_date = project.end_date || '';
   showModal.value = true;
@@ -149,9 +152,9 @@ const statusBadge = (status: string) => {
         </select>
         <select v-model="statusFilter" @change="applyFilter" class="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm bg-white">
           <option value="">Semua Status</option>
+          <option value="draft">Draft</option>
           <option value="active">Aktif</option>
           <option value="completed">Selesai</option>
-          <option value="on_hold">Ditunda</option>
           <option value="cancelled">Dibatalkan</option>
         </select>
       </div>
@@ -186,7 +189,7 @@ const statusBadge = (status: string) => {
                   </p>
                 </td>
                 <td class="px-5 py-4 text-slate-700 font-medium">{{ project.client?.name || '-' }}</td>
-                <td class="px-5 py-4 font-bold text-slate-900">{{ formatIDR(project.contract_value) }}</td>
+                <td class="px-5 py-4 font-bold text-slate-900">{{ formatIDR(project.contract_amount) }}</td>
                 <td class="px-5 py-4">
                   <span class="inline-flex px-2.5 py-1 rounded-full text-xs font-bold capitalize" :class="statusBadge(project.status)">
                     {{ project.status }}
@@ -221,34 +224,40 @@ const statusBadge = (status: string) => {
             <select v-model="form.client_id" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm bg-white">
               <option v-for="c in clients" :key="c.id" :value="c.id">{{ c.name }}</option>
             </select>
+            <p v-if="form.errors.client_id" class="text-xs text-red-600 mt-1">{{ form.errors.client_id }}</p>
           </div>
           <div>
             <label class="block text-xs font-bold text-slate-700 mb-1">Nama Proyek *</label>
             <input v-model="form.name" type="text" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm" />
+            <p v-if="form.errors.name" class="text-xs text-red-600 mt-1">{{ form.errors.name }}</p>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">Nilai Kontrak (Rp)</label>
-              <input v-model="form.contract_value" type="number" min="0" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm" />
+              <label class="block text-xs font-bold text-slate-700 mb-1">Nilai Kontrak (Rp) *</label>
+              <RupiahInput v-model="form.contract_amount" required />
+              <p v-if="form.errors.contract_amount" class="text-xs text-red-600 mt-1">{{ form.errors.contract_amount }}</p>
             </div>
             <div>
               <label class="block text-xs font-bold text-slate-700 mb-1">Status</label>
               <select v-model="form.status" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm bg-white">
+                <option value="draft">Draft</option>
                 <option value="active">Aktif</option>
                 <option value="completed">Selesai</option>
-                <option value="on_hold">Ditunda</option>
                 <option value="cancelled">Dibatalkan</option>
               </select>
+              <p v-if="form.errors.status" class="text-xs text-red-600 mt-1">{{ form.errors.status }}</p>
             </div>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label class="block text-xs font-bold text-slate-700 mb-1">Tanggal Mulai</label>
               <input v-model="form.start_date" type="date" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm" />
+              <p v-if="form.errors.start_date" class="text-xs text-red-600 mt-1">{{ form.errors.start_date }}</p>
             </div>
             <div>
               <label class="block text-xs font-bold text-slate-700 mb-1">Tanggal Selesai</label>
               <input v-model="form.end_date" type="date" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm" />
+              <p v-if="form.errors.end_date" class="text-xs text-red-600 mt-1">{{ form.errors.end_date }}</p>
             </div>
           </div>
           <div>
