@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import WorkspaceLayout from '@/Layouts/WorkspaceLayout.vue';
 import RupiahInput from '@/Components/RupiahInput.vue';
+import { swalConfirm, swalError } from '@/utils/swal';
 import { FolderKanban, Plus, Search, Pencil, Trash2, Calendar } from 'lucide-vue-next';
 
 interface ClientOption {
@@ -90,19 +91,23 @@ const openEdit = (project: Project) => {
 };
 
 const submit = () => {
+  const onError = () => swalError('Gagal Menyimpan', 'Periksa kembali data proyek yang Anda masukkan.');
   if (editingProject.value) {
     form.put(route('projects.update', editingProject.value.id), {
       onSuccess: () => { showModal.value = false; },
+      onError,
     });
   } else {
     form.post(route('projects.store'), {
       onSuccess: () => { showModal.value = false; form.reset(); },
+      onError,
     });
   }
 };
 
-const deleteProject = (project: Project) => {
-  if (!confirm(`Hapus proyek "${project.name}"?`)) return;
+const deleteProject = async (project: Project) => {
+  const ok = await swalConfirm('Hapus Proyek?', `Proyek "${project.name}" akan diarsipkan (soft delete).`, 'Ya, Hapus');
+  if (!ok) return;
   router.delete(route('projects.destroy', project.id));
 };
 

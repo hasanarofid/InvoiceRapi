@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { Link, router, usePage } from '@inertiajs/vue3';
+import NotificationBell from '@/Components/NotificationBell.vue';
+import { swalSuccess, swalError } from '@/utils/swal';
 import {
   LayoutDashboard,
   Users,
@@ -9,7 +11,6 @@ import {
   CreditCard,
   BarChart3,
   Settings,
-  Bell,
   ChevronDown,
   Menu,
   X,
@@ -28,7 +29,15 @@ defineProps<Props>();
 const page = usePage();
 const user = page.props.auth?.user;
 const tenant = user?.tenant;
-const planUsage = page.props.planUsage as Record<string, any> | null;
+
+watch(
+  () => (page.props as any).flash,
+  (flash) => {
+    if (flash?.success) swalSuccess(flash.success);
+    if (flash?.error) swalError('Terjadi Kesalahan', flash.error);
+  },
+  { immediate: true, deep: true }
+);
 
 const isMobileMenuOpen = ref(false);
 const isUserDropdownOpen = ref(false);
@@ -234,15 +243,7 @@ const userInitials = (user?.name || 'User')
 
         <!-- Right Side: Notification & Profile -->
         <div class="flex items-center gap-3 sm:gap-4">
-          <!-- Notification Bell -->
-          <button
-            type="button"
-            class="relative p-2 rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition"
-            title="Notifikasi jatuh tempo"
-          >
-            <Bell class="w-4 h-4" />
-            <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-red-500 ring-2 ring-white"></span>
-          </button>
+          <NotificationBell />
 
           <!-- User Profile Avatar Pill -->
           <div class="relative">

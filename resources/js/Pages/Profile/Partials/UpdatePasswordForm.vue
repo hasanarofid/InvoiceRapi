@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import { swalSuccess, swalError } from '@/utils/swal';
 
 const passwordInput = ref<HTMLInputElement | null>(null);
 const currentPasswordInput = ref<HTMLInputElement | null>(null);
@@ -14,8 +15,12 @@ const form = useForm({
 const updatePassword = () => {
   form.put(route('password.update'), {
     preserveScroll: true,
-    onSuccess: () => form.reset(),
+    onSuccess: () => {
+      form.reset();
+      swalSuccess('Kata sandi berhasil diperbarui.');
+    },
     onError: () => {
+      swalError('Gagal Mengubah Kata Sandi', 'Pastikan kata sandi saat ini benar dan konfirmasi cocok.');
       if (form.errors.password) {
         form.reset('password', 'password_confirmation');
         passwordInput.value?.focus();

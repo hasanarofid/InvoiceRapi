@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import WorkspaceLayout from '@/Layouts/WorkspaceLayout.vue';
+import { swalConfirm } from '@/utils/swal';
 import { FileText, Plus, Search, Eye, Crown, Lock, Trash2 } from 'lucide-vue-next';
 
 interface Invoice {
@@ -50,6 +51,12 @@ const applyFilter = (newStatus?: string) => {
     search: search.value || undefined,
     status: statusFilter.value || undefined,
   }, { preserveState: true, replace: true });
+};
+
+const deleteInvoice = async (inv: Invoice) => {
+  const ok = await swalConfirm('Hapus Invoice?', `Invoice ${inv.invoice_number} akan diarsipkan (soft delete).`, 'Ya, Hapus');
+  if (!ok) return;
+  router.delete(route('invoices.destroy', inv.id));
 };
 
 const statusBadge = (status: string) => {
@@ -208,7 +215,7 @@ const statusBadge = (status: string) => {
                     <Eye class="w-3.5 h-3.5" /> Detail
                   </Link>
                   <button
-                    @click="() => { if (confirm(`Hapus invoice ${inv.invoice_number}?`)) router.delete(route('invoices.destroy', inv.id)); }"
+                    @click="deleteInvoice(inv)"
                     class="p-2 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition align-middle"
                     title="Hapus Invoice"
                   >

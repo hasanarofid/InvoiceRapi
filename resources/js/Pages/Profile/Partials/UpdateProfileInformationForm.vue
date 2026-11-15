@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Link, useForm, usePage } from '@inertiajs/vue3';
+import { swalSuccess, swalError } from '@/utils/swal';
 
 defineProps<{
   mustVerifyEmail?: boolean;
@@ -23,7 +24,13 @@ const form = useForm({
       </p>
     </header>
 
-    <form @submit.prevent="form.patch(route('profile.update'))" class="mt-6 space-y-5">
+    <form
+      @submit.prevent="form.patch(route('profile.update'), {
+        onSuccess: () => swalSuccess('Profil berhasil diperbarui.'),
+        onError: () => swalError('Gagal Memperbarui Profil', 'Periksa nama atau email Anda.'),
+      })"
+      class="mt-6 space-y-5"
+    >
       <div>
         <label for="name" class="block text-xs font-bold text-slate-700 mb-1.5">Nama Lengkap</label>
         <input

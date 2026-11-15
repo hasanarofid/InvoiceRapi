@@ -3,6 +3,7 @@ import { computed, watch } from 'vue';
 import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 import WorkspaceLayout from '@/Layouts/WorkspaceLayout.vue';
 import RupiahInput from '@/Components/RupiahInput.vue';
+import { swalError } from '@/utils/swal';
 import { Plus, Trash2, ArrowLeft, Lock, Crown } from 'lucide-vue-next';
 
 interface ClientOption {
@@ -105,7 +106,9 @@ const splitDp5050 = () => {
 };
 
 const submit = () => {
-  form.post(route('invoices.store'));
+  form.post(route('invoices.store'), {
+    onError: () => swalError('Gagal Menyimpan Invoice', 'Periksa kembali rincian item, tanggal, atau termin pembayaran.'),
+  });
 };
 </script>
 

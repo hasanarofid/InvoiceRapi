@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import WorkspaceLayout from '@/Layouts/WorkspaceLayout.vue';
 import RupiahInput from '@/Components/RupiahInput.vue';
+import { swalSuccess, swalError } from '@/utils/swal';
 import { ArrowLeft, Copy, Check, ExternalLink, CreditCard, CheckCircle2 } from 'lucide-vue-next';
 
 const props = defineProps<{
@@ -29,9 +30,10 @@ const copyPublicLink = async () => {
   try {
     await navigator.clipboard.writeText(props.publicUrl);
     copied.value = true;
+    swalSuccess('Tautan publik disalin!');
     setTimeout(() => (copied.value = false), 2000);
   } catch {
-    // ignore clipboard fallback
+    swalError('Gagal Menyalin', 'Silakan salin URL secara manual.');
   }
 };
 
@@ -52,6 +54,7 @@ const submitPayment = () => {
       showPayModal.value = false;
       payForm.reset('reference_number', 'notes');
     },
+    onError: () => swalError('Gagal Mencatat Pembayaran', 'Periksa nominal dan metode pembayaran.'),
   });
 };
 </script>

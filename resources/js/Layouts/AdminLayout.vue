@@ -1,6 +1,8 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { Link, router, usePage } from '@inertiajs/vue3';
+import NotificationBell from '@/Components/NotificationBell.vue';
+import { swalSuccess, swalError } from '@/utils/swal';
 import {
   LayoutDashboard,
   Settings as SettingsIcon,
@@ -21,6 +23,15 @@ import {
 
 const page = usePage();
 const user = page.props.auth.user;
+
+watch(
+  () => page.props.flash,
+  (flash) => {
+    if (flash?.success) swalSuccess(flash.success);
+    if (flash?.error) swalError('Terjadi Kesalahan', flash.error);
+  },
+  { immediate: true, deep: true }
+);
 
 const isSidebarOpen = ref(false);
 const isSidebarCollapsed = ref(false);
@@ -200,6 +211,8 @@ const logout = () => {
 
         <!-- Right Header Elements -->
         <div class="flex items-center gap-3 sm:gap-4">
+          <NotificationBell />
+
           <div class="hidden xs:flex items-center gap-1.5 px-3 py-1 bg-emerald-50 border border-emerald-200/80 text-emerald-700 rounded-full text-[10px] font-bold uppercase tracking-wider">
             <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
             System Live

@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import { Head, Link, router, useForm, usePage } from '@inertiajs/vue3';
 import WorkspaceLayout from '@/Layouts/WorkspaceLayout.vue';
+import { swalConfirm, swalError } from '@/utils/swal';
 import { Users, Plus, Search, Pencil, Trash2, Building2, Mail, Phone, Lock, Crown } from 'lucide-vue-next';
 
 interface Client {
@@ -75,19 +76,23 @@ const openEdit = (client: Client) => {
 };
 
 const submit = () => {
+  const onError = () => swalError('Gagal Menyimpan', 'Periksa kembali data klien yang Anda masukkan.');
   if (editingClient.value) {
     form.put(route('clients.update', editingClient.value.id), {
       onSuccess: () => { showModal.value = false; },
+      onError,
     });
   } else {
     form.post(route('clients.store'), {
       onSuccess: () => { showModal.value = false; form.reset(); },
+      onError,
     });
   }
 };
 
-const deleteClient = (client: Client) => {
-  if (!confirm(`Hapus klien "${client.name}"?`)) return;
+const deleteClient = async (client: Client) => {
+  const ok = await swalConfirm('Hapus Klien?', `Data klien "${client.name}" akan diarsipkan (soft delete).`, 'Ya, Hapus');
+  if (!ok) return;
   router.delete(route('clients.destroy', client.id));
 };
 </script>
