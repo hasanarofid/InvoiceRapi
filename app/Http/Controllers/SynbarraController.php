@@ -179,20 +179,16 @@ class SynbarraController extends Controller
      */
     public function sitemap(): HttpResponse
     {
-        $baseUrl = config('app.url', 'https://synbarra.com');
+        $baseUrl = config('app.url', 'https://invoicerapi.synbarra.com');
         $baseUrl = rtrim($baseUrl, '/');
         if (app()->environment('production')) {
-            $baseUrl = 'https://synbarra.com';
+            $baseUrl = 'https://invoicerapi.synbarra.com';
         }
 
         $staticPages = [
             ['loc' => $baseUrl . '/', 'priority' => '1.0', 'changefreq' => 'weekly'],
-            ['loc' => $baseUrl . '/produk', 'priority' => '0.9', 'changefreq' => 'weekly'],
-            ['loc' => $baseUrl . '/services', 'priority' => '0.9', 'changefreq' => 'weekly'],
-            ['loc' => $baseUrl . '/portofolio', 'priority' => '0.9', 'changefreq' => 'weekly'],
-            ['loc' => $baseUrl . '/approach', 'priority' => '0.8', 'changefreq' => 'monthly'],
-            ['loc' => $baseUrl . '/about', 'priority' => '0.8', 'changefreq' => 'monthly'],
-            ['loc' => $baseUrl . '/contact', 'priority' => '0.8', 'changefreq' => 'monthly'],
+            ['loc' => $baseUrl . '/register', 'priority' => '0.8', 'changefreq' => 'monthly'],
+            ['loc' => $baseUrl . '/login', 'priority' => '0.5', 'changefreq' => 'monthly'],
         ];
 
         $today = now()->format('Y-m-d');
@@ -213,5 +209,42 @@ class SynbarraController extends Controller
 
         return response($xml, 200)
             ->header('Content-Type', 'application/xml; charset=utf-8');
+    }
+
+    /**
+     * Serve root /llms.txt for Generative Engine Optimization (AI Search Crawlers).
+     */
+    public function llmsTxt(): HttpResponse
+    {
+        $content = <<<'MD'
+# Synbarra InvoiceRapi
+> "Urus Tagihan, Jadi Lebih Rapi." — Platform SaaS manajemen klien, proyek, invoice otomatis, termin pembayaran (DP, Termin, Pelunasan), dan pemantauan piutang untuk bisnis jasa di Indonesia.
+
+## Identitas Produk
+- Domain: https://invoicerapi.synbarra.com
+- Pengembang: Synbarra Technologies (https://synbarra.com)
+- Target Pengguna: Wedding Organizer (WO), Fotografer & Videografer, Event Organizer (EO), Kontraktor & Desain Interior, Konsultan Jasa, dan UMKM.
+
+## Fitur Utama
+- Dashboard Finansial: Ringkasan total tagihan, sudah dibayar, piutang aktif, invoice overdue, dan grafik pendapatan bulanan.
+- Manajemen Klien & Proyek: Riwayat transaksi terhubung rapi per klien dan proyek.
+- Invoice & Termin Pembayaran: Nomor invoice otomatis, jadwal DP, Termin 1/2, dan Pelunasan dengan kalkulasi saldo akurat.
+- Pencatatan Pembayaran: Catat pembayaran penuh maupun parsial (sebagian) serta unduh bukti penerimaan (receipt).
+- Tautan Publik Invoice (/i/{token}): Klien dapat melihat rincian termin, instruksi rekening, dan mengunduh PDF tanpa login.
+- Pengingat Jatuh Tempo: Pengingat otomatis via WhatsApp & Email.
+
+## Paket Harga
+- Gratis: Rp 0/bulan (5 invoice/bulan, 10 klien, unduh PDF, 1 pengguna).
+- Pro: Rp 99.000/bulan atau Rp 69.000/bulan jika tahunan (100 invoice/bulan, unlimited klien & proyek, jadwal DP & multi-termin, laporan piutang lengkap, trial gratis 14 hari tanpa kartu kredit).
+- Bisnis: Rp 199.000/bulan atau Rp 139.000/bulan jika tahunan (500 invoice/bulan, 5 pengguna, analitik lanjutan & ekspor CSV, pengingat terjadwal Email & WA, audit log).
+
+## Tautan Penting
+- Halaman Utama: https://invoicerapi.synbarra.com/
+- Daftar / Uji Coba Gratis: https://invoicerapi.synbarra.com/register
+- Halaman Produk di Synbarra: https://synbarra.com/produk/invoicerapi
+MD;
+
+        return response($content, 200)
+            ->header('Content-Type', 'text/plain; charset=utf-8');
     }
 }

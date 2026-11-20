@@ -283,9 +283,15 @@ class InvoiceController extends Controller
             ->with(['client', 'project', 'items', 'installments', 'tenant'])
             ->firstOrFail();
 
+        $meta = [
+            'title' => "Invoice {$invoice->invoice_number} | Synbarra InvoiceRapi",
+            'robots' => 'noindex, nofollow',
+        ];
+
         return Inertia::render('Invoices/Public', [
             'invoice' => $invoice,
-        ]);
+            'meta' => $meta,
+        ])->withViewData(['meta' => $meta]);
     }
 }
 

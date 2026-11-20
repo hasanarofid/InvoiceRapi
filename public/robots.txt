@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /i/
 
-Sitemap: https://synbarra.com/sitemap.xml
+Sitemap: https://invoicerapi.synbarra.com/sitemap.xml

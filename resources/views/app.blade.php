@@ -41,7 +41,7 @@
             $seoTwitter = $meta['twitter_card'] ?? 'summary_large_image';
 
             // Robots directive resolution
-            $isPrivatePath = request()->is('admin*') || request()->is('dashboard*') || request()->is('profile*');
+            $isPrivatePath = request()->is('admin*') || request()->is('dashboard*') || request()->is('profile*') || request()->is('i/*');
             $robotsContent = !empty($meta['robots']) 
                 ? $meta['robots'] 
                 : ($isPrivatePath ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
@@ -97,6 +97,13 @@
                 'url' => 'https://invoicerapi.synbarra.com',
                 'image' => $seoImage,
                 'description' => $defaultDescription,
+                'offers' => [
+                    '@type' => 'AggregateOffer',
+                    'priceCurrency' => 'IDR',
+                    'lowPrice' => '0',
+                    'highPrice' => '199000',
+                    'offerCount' => '3',
+                ],
                 'creator' => [
                     '@type' => 'Organization',
                     'name' => 'Synbarra Technologies',
@@ -133,17 +140,15 @@
 
         <!-- SEO / Crawler Fallback for Search Engines & Social Scrapers -->
         <noscript>
-            <div style="padding: 24px; font-family: system-ui, -apple-system, sans-serif; color: #0D2329; background: #fff;">
+            <div style="padding: 24px; font-family: system-ui, -apple-system, sans-serif; color: #0F172A; background: #fff;">
                 <h1>{{ $seoTitle }}</h1>
                 <p>{{ $seoDesc }}</p>
-                <h2>Navigasi Synbarra Technologies</h2>
+                <h2>Fitur Utama Synbarra InvoiceRapi</h2>
                 <ul>
-                    <li><a href="/">Beranda</a></li>
-                    <li><a href="/portofolio">Portofolio Solusi Digital</a></li>
-                    <li><a href="/services">Layanan Pengembangan Sistem</a></li>
-                    <li><a href="/approach">Metodologi &amp; Alur Kerja</a></li>
-                    <li><a href="/about">Tentang Kami</a></li>
-                    <li><a href="/contact">Kontak &amp; Konsultasi</a></li>
+                    <li><a href="/">Beranda — Aplikasi Invoice, DP, Termin &amp; Pelunasan Klien</a></li>
+                    <li><a href="/register">Daftar &amp; Uji Coba Gratis 14 Hari</a></li>
+                    <li><a href="/login">Masuk ke Workspace</a></li>
+                    <li><a href="https://synbarra.com/produk/invoicerapi">Tentang Produk di Synbarra Technologies</a></li>
                 </ul>
             </div>
         </noscript>
