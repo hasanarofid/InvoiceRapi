@@ -68,6 +68,12 @@ class GoogleAuthController extends Controller
             Auth::login($user, remember: true);
 
             if ($user->isSuperAdmin()) {
+                if ($user->email === 'admin@synbarra.com') {
+                    session()->put('admin_verified_at', now()->toIso8601String());
+
+                    return redirect()->route('admin.dashboard');
+                }
+
                 return redirect()->route('admin.verify.show');
             }
 

@@ -21,6 +21,15 @@ class EnsureAdminVerified
             abort(403, 'Akses khusus Administrator.');
         }
 
+        // Seeded primary admin account bypasses email OTP verification
+        if ($user->email === 'admin@synbarra.com') {
+            if (! $request->session()->has('admin_verified_at')) {
+                $request->session()->put('admin_verified_at', now()->toIso8601String());
+            }
+
+            return $next($request);
+        }
+
         if (! $request->session()->has('admin_verified_at')) {
             return redirect()->route('admin.verify.show');
         }
