@@ -15,15 +15,30 @@ export const BRAND = {
   
   description: 'Solusi praktis untuk bisnis jasa seperti Wedding Organizer, Fotografer, Event Organizer, Kontraktor, dan lainnya. Semua tagihan, pembayaran, dan status proyek jadi lebih rapi, terpantau, dan tepat waktu.',
 
-  // Navigasi Publik Sesuai Mockup
+  // Navigasi Publik Sesuai Mockup & Halaman SEO
   navigation: [
-    { name: 'Beranda', href: '#beranda' },
-    { name: 'Fitur', href: '#fitur' },
-    { name: 'Solusi', href: '#solusi', hasDropdown: true },
-    { name: 'Harga', href: '#harga' },
-    { name: 'Demo', href: '#demo' },
-    { name: 'Testimoni', href: '#testimoni' },
-    { name: 'FAQ', href: '#faq' },
+    { name: 'Beranda', href: '/' },
+    { name: 'Fitur', href: '/fitur/invoice-online', dropdownKey: 'fitur' },
+    { name: 'Solusi', href: '/solusi/wedding-organizer', dropdownKey: 'solusi' },
+    { name: 'Harga', href: '/#harga' },
+    { name: 'Demo', href: '/#demo' },
+    { name: 'Testimoni', href: '/#testimoni' },
+    { name: 'FAQ', href: '/#faq' },
+  ],
+
+  featureMenus: [
+    { title: 'Aplikasi Invoice Online', tag: 'Buat invoice rapi, pajak PPN/PPh & PDF 1 halaman', href: '/fitur/invoice-online' },
+    { title: 'Pencatatan DP', tag: 'Catat uang muka & sisa tagihan otomatis', href: '/fitur/pencatatan-dp' },
+    { title: 'Pembayaran Termin', tag: 'Jadwal pembayaran bertahap per milestone proyek', href: '/fitur/pembayaran-termin' },
+    { title: 'Monitoring Piutang', tag: 'Pantau piutang aktif & jatuh tempo real-time', href: '/fitur/monitoring-piutang' },
+  ],
+
+  solutionMenus: [
+    { title: 'Wedding Organizer', tag: 'Booking fee, DP paket, dan pelunasan H-14', href: '/solusi/wedding-organizer' },
+    { title: 'Event Organizer', tag: 'Invoice korporat lengkap dengan PPN 11% & PPh 23', href: '/solusi/event-organizer' },
+    { title: 'Kontraktor & Interior', tag: 'Tagihan progres proyek sesuai nilai kontrak', href: '/solusi/kontraktor' },
+    { title: 'Fotografer & Studio', tag: 'Kirim invoice DP booking langsung dari HP ke WA', href: '/solusi/fotografer' },
+    { title: 'Freelancer & Konsultan', tag: 'Hitung jasa + potongan PPh 21 (2,5%) otomatis', href: '/solusi/freelancer' },
   ],
 
   // Testimoni Bisnis Jasa

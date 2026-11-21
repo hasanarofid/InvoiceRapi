@@ -7,8 +7,14 @@ import { ChevronDown, Menu, X, Home, Sparkles, ShoppingBag, LogIn } from 'lucide
 
 const isScrolled = ref(false);
 const mobileMenuOpen = ref(false);
-const solusiOpen = ref(false);
-const mobileSolusiOpen = ref(false);
+const activeDropdown = ref<string | null>(null);
+const mobileDropdown = ref<string | null>(null);
+
+const getDropdownItems = (key?: string) => {
+  if (key === 'fitur') return BRAND.featureMenus;
+  if (key === 'solusi') return BRAND.solutionMenus;
+  return [];
+};
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 16;
@@ -16,7 +22,7 @@ const handleScroll = () => {
 
 const handleKeydown = (e: KeyboardEvent) => {
   if (e.key === 'Escape') {
-    solusiOpen.value = false;
+    activeDropdown.value = null;
     if (mobileMenuOpen.value) {
       closeMobileMenu();
     }
@@ -77,25 +83,24 @@ onUnmounted(() => {
 
         <!-- Desktop Navigation -->
         <nav class="hidden lg:flex items-center gap-1" aria-label="Navigasi Utama">
-          <template v-for="item in BRAND.navigation" :key="item.href">
-            <!-- Dropdown item for Solusi -->
+          <template v-for="item in BRAND.navigation" :key="item.name">
+            <!-- Dropdown item for Fitur & Solusi -->
             <div
-              v-if="item.hasDropdown"
+              v-if="item.dropdownKey"
               class="relative"
-              @mouseenter="solusiOpen = true"
-              @mouseleave="solusiOpen = false"
+              @mouseenter="activeDropdown = item.dropdownKey"
+              @mouseleave="activeDropdown = null"
             >
               <button
                 type="button"
-                @click="solusiOpen = !solusiOpen"
-                :aria-expanded="solusiOpen"
-                aria-controls="solusi-dropdown"
+                @click="activeDropdown = activeDropdown === item.dropdownKey ? null : item.dropdownKey"
+                :aria-expanded="activeDropdown === item.dropdownKey"
                 class="inline-flex items-center gap-1 px-3.5 py-2 text-sm font-medium text-slate-700 hover:text-violet-700 hover:bg-violet-50/70 rounded-xl transition-colors"
               >
                 <span>{{ item.name }}</span>
                 <ChevronDown
                   class="w-3.5 h-3.5 text-slate-400 transition-transform duration-150"
-                  :class="{ 'rotate-180 text-violet-700': solusiOpen }"
+                  :class="{ 'rotate-180 text-violet-700': activeDropdown === item.dropdownKey }"
                   aria-hidden="true"
                 />
               </button>
@@ -109,27 +114,33 @@ onUnmounted(() => {
                 leave-to-class="opacity-0 translate-y-1"
               >
                 <div
-                  v-if="solusiOpen"
-                  id="solusi-dropdown"
-                  class="absolute left-0 top-full pt-2 w-72 z-50"
+                  v-if="activeDropdown === item.dropdownKey"
+                  class="absolute left-0 top-full pt-2 w-80 z-50"
                 >
                   <div class="bg-white rounded-2xl border border-violet-100 shadow-invoicerapi-lg p-2 space-y-1">
-                    <a
-                      v-for="persona in BRAND.personas"
-                      :key="persona.title"
-                      href="#solusi"
-                      @click="solusiOpen = false"
+                    <Link
+                      v-for="sub in getDropdownItems(item.dropdownKey)"
+                      :key="sub.href"
+                      :href="sub.href"
+                      @click="activeDropdown = null"
                       class="block px-3.5 py-2.5 rounded-xl hover:bg-violet-50/80 transition-colors group"
                     >
-                      <p class="text-xs font-bold text-slate-900 group-hover:text-violet-700">{{ persona.title }}</p>
-                      <p class="text-[11px] text-slate-500 mt-0.5 line-clamp-1">{{ persona.tag }}</p>
-                    </a>
+                      <p class="text-xs font-bold text-slate-900 group-hover:text-violet-700">{{ sub.title }}</p>
+                      <p class="text-[11px] text-slate-500 mt-0.5 line-clamp-1">{{ sub.tag }}</p>
+                    </Link>
                   </div>
                 </div>
               </Transition>
             </div>
 
             <!-- Standard Nav Link -->
+            <Link
+              v-else-if="item.href === '/'"
+              :href="item.href"
+              class="px-3.5 py-2 text-sm font-medium text-slate-700 hover:text-violet-700 hover:bg-violet-50/70 rounded-xl transition-colors"
+            >
+              {{ item.name }}
+            </Link>
             <a
               v-else
               :href="item.href"
@@ -212,27 +223,27 @@ onUnmounted(() => {
           </div>
 
           <nav class="flex flex-col p-5 space-y-1.5 flex-grow" aria-label="Navigasi Mobile">
-            <template v-for="item in BRAND.navigation" :key="item.href">
-              <div v-if="item.hasDropdown" class="space-y-1">
+            <template v-for="item in BRAND.navigation" :key="item.name">
+              <div v-if="item.dropdownKey" class="space-y-1">
                 <button
                   type="button"
-                  @click="mobileSolusiOpen = !mobileSolusiOpen"
-                  :aria-expanded="mobileSolusiOpen"
+                  @click="mobileDropdown = mobileDropdown === item.dropdownKey ? null : item.dropdownKey"
+                  :aria-expanded="mobileDropdown === item.dropdownKey"
                   class="w-full flex items-center justify-between px-4 py-3 text-base font-semibold text-slate-800 hover:text-violet-700 hover:bg-violet-50 rounded-xl transition"
                 >
                   <span>{{ item.name }}</span>
-                  <ChevronDown class="w-4 h-4 transition-transform" :class="{ 'rotate-180': mobileSolusiOpen }" />
+                  <ChevronDown class="w-4 h-4 transition-transform" :class="{ 'rotate-180': mobileDropdown === item.dropdownKey }" />
                 </button>
-                <div v-show="mobileSolusiOpen" class="pl-4 space-y-1">
-                  <a
-                    v-for="persona in BRAND.personas"
-                    :key="persona.title"
-                    href="#solusi"
+                <div v-show="mobileDropdown === item.dropdownKey" class="pl-4 space-y-1">
+                  <Link
+                    v-for="sub in getDropdownItems(item.dropdownKey)"
+                    :key="sub.href"
+                    :href="sub.href"
                     @click="closeMobileMenu"
                     class="block px-4 py-2 text-sm text-slate-600 hover:text-violet-700 hover:bg-violet-50/60 rounded-lg"
                   >
-                    {{ persona.title }}
-                  </a>
+                    {{ sub.title }}
+                  </Link>
                 </div>
               </div>
               <a
