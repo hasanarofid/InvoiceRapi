@@ -27,6 +27,9 @@ const totalPaid = computed(() => Number(props.invoice.total_paid ?? props.invoic
 const balanceDue = computed(() =>
   Number(props.invoice.balance_due ?? Math.max(0, grandTotal.value - totalPaid.value))
 );
+const paymentAccount = computed(
+  () => props.invoice.bank_account ?? props.invoice.tenant?.bank_accounts?.[0] ?? null
+);
 
 const statusMeta = computed(() => {
   const s = props.invoice.status;
@@ -89,8 +92,8 @@ const printPage = () => {
               <p v-if="invoice.tenant?.email" class="text-xs text-slate-600 flex items-center gap-1.5">
                 <Mail class="w-3.5 h-3.5 text-slate-400" /> {{ invoice.tenant.email }}
               </p>
-              <p v-if="invoice.tenant?.phone" class="text-xs text-slate-600 flex items-center gap-1.5">
-                <Phone class="w-3.5 h-3.5 text-slate-400" /> {{ invoice.tenant.phone }}
+              <p v-if="invoice.tenant?.phone_whatsapp || invoice.tenant?.phone" class="text-xs text-slate-600 flex items-center gap-1.5">
+                <Phone class="w-3.5 h-3.5 text-slate-400" /> {{ invoice.tenant.phone_whatsapp || invoice.tenant.phone }}
               </p>
               <p v-if="invoice.tenant?.address" class="text-xs text-slate-500 flex items-center gap-1.5">
                 <MapPin class="w-3.5 h-3.5 text-slate-400" /> {{ invoice.tenant.address }}
@@ -184,12 +187,34 @@ const printPage = () => {
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-start">
             <!-- Payment Instructions Box -->
             <div class="sm:pr-6 sm:border-r sm:border-slate-200">
-              <div class="p-4 sm:p-5 rounded-2xl bg-violet-50/80 border border-violet-100 space-y-2 text-xs text-slate-700">
+              <div class="p-4 sm:p-5 rounded-2xl bg-violet-50/80 border border-violet-100 space-y-2.5 text-xs text-slate-700">
                 <p class="text-xs font-black uppercase tracking-wider text-violet-700">PEMBAYARAN:</p>
-                <p v-if="invoice.payment_instructions" class="whitespace-pre-line leading-relaxed text-slate-800">
+
+                <table v-if="paymentAccount" class="w-full text-xs text-slate-800">
+                  <tbody>
+                    <tr>
+                      <td class="py-1 text-slate-500 w-28">Bank</td>
+                      <td class="py-1 font-bold">: {{ paymentAccount.bank_name }}</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1 text-slate-500">No. Rekening</td>
+                      <td class="py-1 font-bold font-mono">: {{ paymentAccount.account_number }}</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1 text-slate-500">Atas Nama</td>
+                      <td class="py-1 font-bold">: {{ paymentAccount.account_holder }}</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1 text-slate-500">Berita Transfer</td>
+                      <td class="py-1 font-bold">: {{ invoice.invoice_number }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <p v-if="invoice.payment_instructions" class="whitespace-pre-line leading-relaxed text-slate-700" :class="paymentAccount ? 'pt-2 border-t border-violet-200/60' : ''">
                   {{ invoice.payment_instructions }}
                 </p>
-                <p v-else class="leading-relaxed text-slate-700">
+                <p v-else-if="!paymentAccount" class="leading-relaxed text-slate-700">
                   Silakan lakukan transfer sebelum jatuh tempo dengan mencantumkan berita transfer <strong>{{ invoice.invoice_number }}</strong>.
                 </p>
                 <div v-if="invoice.notes" class="pt-2 border-t border-violet-200/60 text-slate-600">

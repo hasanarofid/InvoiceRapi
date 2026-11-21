@@ -19,9 +19,18 @@ interface ProjectOption {
   name: string;
 }
 
+interface BankAccountOption {
+  id: number;
+  bank_name: string;
+  account_number: string;
+  account_holder: string;
+  is_default: boolean;
+}
+
 const props = defineProps<{
   clients: ClientOption[];
   projects: ProjectOption[];
+  bankAccounts?: BankAccountOption[];
   suggestedNumber: string;
 }>();
 
@@ -46,6 +55,7 @@ const quickClientForm = useForm({
 const form = useForm({
   client_id: props.clients[0]?.id ?? ('' as string | number),
   project_id: '' as string | number,
+  bank_account_id: (props.bankAccounts?.find((b) => b.is_default)?.id ?? props.bankAccounts?.[0]?.id ?? '') as string | number,
   invoice_number: props.suggestedNumber,
   invoice_date: today,
   due_date: nextWeek,
@@ -337,6 +347,29 @@ const submit = () => {
                   <Trash2 class="w-4 h-4" />
                 </button>
               </div>
+            </div>
+          </div>
+
+          <!-- Rekening Tujuan Pembayaran -->
+          <div class="pt-2">
+            <div class="flex items-center justify-between mb-1">
+              <label class="block text-xs font-bold text-slate-700">Rekening Tujuan Pembayaran</label>
+              <Link :href="route('profile.edit')" class="text-[11px] font-bold text-violet-700 hover:underline">
+                Kelola Rekening
+              </Link>
+            </div>
+            <select
+              v-if="bankAccounts && bankAccounts.length > 0"
+              v-model="form.bank_account_id"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm bg-white"
+            >
+              <option v-for="acc in bankAccounts" :key="acc.id" :value="acc.id">
+                {{ acc.bank_name }} — {{ acc.account_number }} (a.n. {{ acc.account_holder }}){{ acc.is_default ? ' [Utama]' : '' }}
+              </option>
+            </select>
+            <div v-else class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 flex items-center justify-between gap-2">
+              <span>Belum ada rekening tersimpan. Tambahkan di Profil Akun agar otomatis tampil di invoice.</span>
+              <Link :href="route('profile.edit')" class="font-bold text-violet-700 underline shrink-0">Tambah Rekening</Link>
             </div>
           </div>
 

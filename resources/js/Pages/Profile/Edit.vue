@@ -6,11 +6,13 @@ import WorkspaceLayout from '@/Layouts/WorkspaceLayout.vue';
 import DeleteUserForm from './Partials/DeleteUserForm.vue';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
+import BankAccountsForm, { type BankAccount } from './Partials/BankAccountsForm.vue';
 import { UserCheck, ShieldCheck } from 'lucide-vue-next';
 
 defineProps<{
   mustVerifyEmail?: boolean;
   status?: string;
+  bankAccounts?: BankAccount[];
 }>();
 
 const page = usePage();
@@ -43,6 +45,11 @@ const layoutComponent = computed(() => (isAdmin.value ? AdminLayout : WorkspaceL
           <UserCheck v-else class="w-3.5 h-3.5" />
           {{ isAdmin ? 'Administrator' : 'Member Workspace' }}
         </span>
+      </div>
+
+      <!-- Bank Accounts (Member Workspace Only) -->
+      <div v-if="!isAdmin" class="bg-white rounded-2xl border border-slate-100 p-6 sm:p-8 shadow-sm">
+        <BankAccountsForm :bank-accounts="bankAccounts || []" />
       </div>
 
       <!-- Profile Info -->

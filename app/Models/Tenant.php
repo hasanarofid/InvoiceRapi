@@ -61,6 +61,11 @@ class Tenant extends Model
         return $this->hasMany(Category::class);
     }
 
+    public function bankAccounts(): HasMany
+    {
+        return $this->hasMany(TenantBankAccount::class)->orderByDesc('is_default')->latest();
+    }
+
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);

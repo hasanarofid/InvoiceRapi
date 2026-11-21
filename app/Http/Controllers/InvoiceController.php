@@ -8,6 +8,7 @@ use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\PaymentInstallment;
 use App\Models\Project;
+use App\Models\TenantBankAccount;
 use App\Services\PlanLimitService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
@@ -102,9 +103,15 @@ class InvoiceController extends Controller
             ->count() + 1;
         $suggestedNumber = sprintf("INV/%s/%04d", $yearMonth, $lastNumber);
 
+        $bankAccounts = TenantBankAccount::where('tenant_id', $tenantId)
+            ->orderByDesc('is_default')
+            ->latest()
+            ->get();
+
         return Inertia::render('Invoices/Create', [
             'clients' => $clients,
             'projects' => $projects,
+            'bankAccounts' => $bankAccounts,
             'suggestedNumber' => $suggestedNumber,
         ]);
     }
@@ -127,6 +134,7 @@ class InvoiceController extends Controller
         $validated = $request->validate([
             'client_id' => 'required|exists:clients,id',
             'project_id' => 'nullable|exists:projects,id',
+            'bank_account_id' => 'nullable|exists:tenant_bank_accounts,id',
             'invoice_number' => 'required|string|max:50',
             'invoice_date' => 'required|date',
             'due_date' => 'required|date|after_or_equal:invoice_date',
@@ -152,10 +160,18 @@ class InvoiceController extends Controller
             'installments.*.due_date' => 'required|date',
         ]);
 
-        // Verify client & project belongs to tenant
+        // Verify client, project & bank account belong to tenant
         Client::where('tenant_id', $tenantId)->findOrFail($validated['client_id']);
         if (! empty($validated['project_id'])) {
             Project::where('tenant_id', $tenantId)->findOrFail($validated['project_id']);
+        }
+        $bankAccountId = $validated['bank_account_id'] ?? null;
+        if ($bankAccountId) {
+            TenantBankAccount::where('tenant_id', $tenantId)->findOrFail($bankAccountId);
+        } else {
+            $bankAccountId = TenantBankAccount::where('tenant_id', $tenantId)
+                ->orderByDesc('is_default')
+                ->value('id');
         }
 
         // Prevent duplicate invoice number in same workspace
@@ -180,6 +196,7 @@ class InvoiceController extends Controller
                 'tenant_id' => $tenantId,
                 'client_id' => $validated['client_id'],
                 'project_id' => $validated['project_id'] ?? null,
+                'bank_account_id' => $bankAccountId,
                 'invoice_number' => $validated['invoice_number'],
                 'public_token' => Str::random(40),
                 'invoice_date' => $validated['invoice_date'],
@@ -245,10 +262,11 @@ class InvoiceController extends Controller
         $invoice->load([
             'client',
             'project',
+            'bankAccount',
             'items',
             'installments.payments',
             'payments.creator',
-            'tenant',
+            'tenant.bankAccounts',
         ]);
 
         return Inertia::render('Invoices/Show', [
@@ -281,7 +299,7 @@ class InvoiceController extends Controller
     public function publicShow(string $token): Response
     {
         $invoice = Invoice::where('public_token', $token)
-            ->with(['client', 'project', 'items', 'installments', 'tenant'])
+            ->with(['client', 'project', 'bankAccount', 'items', 'installments', 'tenant.bankAccounts'])
             ->firstOrFail();
 
         $meta = [
@@ -302,7 +320,7 @@ class InvoiceController extends Controller
     public function downloadPdf(Request $request, string $token)
     {
         $invoice = Invoice::where('public_token', $token)
-            ->with(['client', 'project', 'items', 'installments', 'tenant'])
+            ->with(['client', 'project', 'bankAccount', 'items', 'installments', 'tenant.bankAccounts'])
             ->firstOrFail();
 
         $tempDir = storage_path('app/mpdf');

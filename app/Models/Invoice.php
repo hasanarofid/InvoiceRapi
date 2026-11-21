@@ -17,6 +17,7 @@ class Invoice extends Model
         'tenant_id',
         'client_id',
         'project_id',
+        'bank_account_id',
         'invoice_number',
         'public_token',
         'invoice_date',
@@ -74,6 +75,11 @@ class Invoice extends Model
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function bankAccount(): BelongsTo
+    {
+        return $this->belongsTo(TenantBankAccount::class, 'bank_account_id');
     }
 
     public function items(): HasMany

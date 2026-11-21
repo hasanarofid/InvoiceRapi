@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SubscriptionPaymentController;
 use App\Http\Controllers\Admin\TrialTrackerController;
 use App\Http\Controllers\BillingController;
+use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\OnboardingController;
@@ -100,6 +101,12 @@ Route::middleware(['auth', 'onboarded'])->group(function () {
     // Billing & Upload Bukti Pembayaran Paket
     Route::get('/billing', [BillingController::class, 'index'])->name('billing.index');
     Route::post('/billing', [BillingController::class, 'store'])->name('billing.store');
+
+    // Rekening Pembayaran Invoice Member
+    Route::post('/bank-accounts', [BankAccountController::class, 'store'])->name('bank-accounts.store');
+    Route::put('/bank-accounts/{bankAccount}', [BankAccountController::class, 'update'])->name('bank-accounts.update');
+    Route::patch('/bank-accounts/{bankAccount}/default', [BankAccountController::class, 'setDefault'])->name('bank-accounts.default');
+    Route::delete('/bank-accounts/{bankAccount}', [BankAccountController::class, 'destroy'])->name('bank-accounts.destroy');
 });
 
 Route::middleware(['auth'])->group(function () {

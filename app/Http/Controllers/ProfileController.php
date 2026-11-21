@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\TenantBankAccount;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,9 +19,18 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
+        $user = $request->user();
+        $bankAccounts = ($user && $user->tenant_id && ! $user->isSuperAdmin())
+            ? TenantBankAccount::where('tenant_id', $user->tenant_id)
+                ->orderByDesc('is_default')
+                ->latest()
+                ->get()
+            : [];
+
         return Inertia::render('Profile/Edit', [
-            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+            'mustVerifyEmail' => $user instanceof MustVerifyEmail,
             'status' => session('status'),
+            'bankAccounts' => $bankAccounts,
         ]);
     }
 

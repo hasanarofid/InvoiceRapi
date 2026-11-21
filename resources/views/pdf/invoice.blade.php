@@ -241,8 +241,8 @@
                 @if(!empty($invoice->tenant?->email))
                     <div class="brand-meta">{{ $invoice->tenant->email }}</div>
                 @endif
-                @if(!empty($invoice->tenant?->phone))
-                    <div class="brand-meta">{{ $invoice->tenant->phone }}</div>
+                @if(!empty($invoice->tenant?->phone_whatsapp) || !empty($invoice->tenant?->phone))
+                    <div class="brand-meta">{{ $invoice->tenant->phone_whatsapp ?? $invoice->tenant->phone }}</div>
                 @endif
                 @if(!empty($invoice->tenant?->address))
                     <div class="brand-meta">{{ $invoice->tenant->address }}</div>
@@ -343,11 +343,34 @@
     <table class="summary-table">
         <tr>
             <td style="width: 52%; vertical-align: top; padding-right: 16px; border-right: 1px solid #e2e8f0;">
+                @php
+                    $bankAcc = $invoice->bankAccount ?? $invoice->tenant?->bankAccounts?->first();
+                @endphp
                 <div class="pay-box">
                     <div class="pay-title">Pembayaran:</div>
+                    @if($bankAcc)
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 6px;">
+                            <tr>
+                                <td style="padding: 2px 0; color: #64748b; width: 92px;">Bank</td>
+                                <td style="padding: 2px 0; font-weight: bold; color: #0f172a;">: {{ $bankAcc->bank_name }}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 2px 0; color: #64748b;">No. Rekening</td>
+                                <td style="padding: 2px 0; font-weight: bold; color: #0f172a;">: {{ $bankAcc->account_number }}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 2px 0; color: #64748b;">Atas Nama</td>
+                                <td style="padding: 2px 0; font-weight: bold; color: #0f172a;">: {{ $bankAcc->account_holder }}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 2px 0; color: #64748b;">Berita Transfer</td>
+                                <td style="padding: 2px 0; font-weight: bold; color: #0f172a;">: {{ $invoice->invoice_number }}</td>
+                            </tr>
+                        </table>
+                    @endif
                     @if(!empty($invoice->payment_instructions))
-                        <div style="margin-bottom: 6px;">{!! nl2br(e($invoice->payment_instructions)) !!}</div>
-                    @else
+                        <div style="margin-top: 4px; {{ $bankAcc ? 'padding-top: 6px; border-top: 1px solid #ddd6fe;' : '' }}">{!! nl2br(e($invoice->payment_instructions)) !!}</div>
+                    @elseif(!$bankAcc)
                         <div>Silakan lakukan pembayaran sebelum tanggal jatuh tempo dengan mencantumkan berita transfer <strong>{{ $invoice->invoice_number }}</strong>.</div>
                     @endif
                     @if(!empty($invoice->notes))
