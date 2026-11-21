@@ -82,8 +82,14 @@ const printPage = () => {
         <div class="relative z-10 p-6 sm:p-10 space-y-7">
           <!-- Brand Header -->
           <div class="flex items-start gap-4 pb-5 border-b border-violet-300/80">
-            <div class="w-12 h-12 rounded-2xl bg-violet-100 text-violet-700 flex items-center justify-center font-black text-2xl shrink-0">
-              {{ invoice.tenant?.name?.charAt(0)?.toUpperCase() || 'B' }}
+            <div class="w-14 h-14 rounded-2xl bg-violet-100 text-violet-700 flex items-center justify-center font-black text-2xl shrink-0 overflow-hidden border border-violet-200/60">
+              <img
+                v-if="invoice.tenant?.logo_url"
+                :src="invoice.tenant.logo_url"
+                :alt="invoice.tenant?.name || 'Logo Usaha'"
+                class="w-full h-full object-contain bg-white p-1"
+              />
+              <span v-else>{{ invoice.tenant?.name?.charAt(0)?.toUpperCase() || 'B' }}</span>
             </div>
             <div class="space-y-0.5 min-w-0">
               <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">

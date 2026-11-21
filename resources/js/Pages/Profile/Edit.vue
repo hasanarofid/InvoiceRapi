@@ -7,6 +7,7 @@ import DeleteUserForm from './Partials/DeleteUserForm.vue';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
 import BankAccountsForm, { type BankAccount } from './Partials/BankAccountsForm.vue';
+import BusinessProfileForm from './Partials/BusinessProfileForm.vue';
 import { UserCheck, ShieldCheck } from 'lucide-vue-next';
 
 defineProps<{
@@ -45,6 +46,11 @@ const layoutComponent = computed(() => (isAdmin.value ? AdminLayout : WorkspaceL
           <UserCheck v-else class="w-3.5 h-3.5" />
           {{ isAdmin ? 'Administrator' : 'Member Workspace' }}
         </span>
+      </div>
+
+      <!-- Business Profile & Logo (Member Workspace Only) -->
+      <div v-if="!isAdmin" class="bg-white rounded-2xl border border-slate-100 p-6 sm:p-8 shadow-sm">
+        <BusinessProfileForm />
       </div>
 
       <!-- Bank Accounts (Member Workspace Only) -->

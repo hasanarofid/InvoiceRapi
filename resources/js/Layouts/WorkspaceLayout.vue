@@ -164,17 +164,21 @@ const userInitials = (user?.name || 'User')
       <nav class="bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-8 py-3 flex items-center justify-between sticky top-0 z-30">
         <!-- Left: Mobile Brand + Workspace Switcher -->
         <div class="flex items-center gap-2.5 min-w-0">
-          <Link :href="route('dashboard')" class="md:hidden w-8 h-8 rounded-xl bg-gradient-to-br from-violet-600 to-violet-800 text-white flex items-center justify-center shadow-sm shrink-0">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <Link :href="route('dashboard')" class="md:hidden w-8 h-8 rounded-xl bg-gradient-to-br from-violet-600 to-violet-800 text-white flex items-center justify-center shadow-sm shrink-0 overflow-hidden">
+            <img v-if="page.props.auth?.user?.tenant?.logo_url" :src="page.props.auth.user.tenant.logo_url" alt="Logo" class="w-full h-full object-cover bg-white" />
+            <svg v-else class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
               <polyline points="14 2 14 8 20 8" />
             </svg>
           </Link>
-          <div class="hidden md:flex w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 font-black items-center justify-center text-xs border border-emerald-200 shrink-0">
+          <div v-if="page.props.auth?.user?.tenant?.logo_url" class="hidden md:flex w-8 h-8 rounded-lg overflow-hidden border border-slate-200 bg-white shrink-0">
+            <img :src="page.props.auth.user.tenant.logo_url" alt="Logo Usaha" class="w-full h-full object-contain p-0.5" />
+          </div>
+          <div v-else class="hidden md:flex w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 font-black items-center justify-center text-xs border border-emerald-200 shrink-0">
             🌿
           </div>
           <div class="min-w-0">
-            <p class="text-xs sm:text-sm font-bold text-slate-900 truncate">{{ tenant?.name || 'Workspace' }}</p>
+            <p class="text-xs sm:text-sm font-bold text-slate-900 truncate">{{ page.props.auth?.user?.tenant?.name || 'Workspace' }}</p>
             <p class="md:hidden text-[10px] font-semibold text-violet-700 truncate">Paket {{ page.props.planUsage?.plan_name || 'Gratis' }}</p>
           </div>
         </div>

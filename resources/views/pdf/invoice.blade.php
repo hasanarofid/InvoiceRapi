@@ -228,13 +228,24 @@
         ];
         $statusInfo = $statusMap[$invoice->status] ?? null;
         $initial = strtoupper(mb_substr($invoice->tenant->name ?? 'B', 0, 1));
+        $logoPath = null;
+        if (!empty($invoice->tenant?->logo_url)) {
+            $candidate = public_path(ltrim($invoice->tenant->logo_url, '/'));
+            if (is_file($candidate)) {
+                $logoPath = $candidate;
+            }
+        }
     @endphp
 
     <!-- Brand Header -->
     <table class="brand-table">
         <tr>
-            <td style="width: 56px; vertical-align: middle;">
-                <div class="monogram">{{ $initial }}</div>
+            <td style="width: 60px; vertical-align: middle;">
+                @if($logoPath)
+                    <img src="{{ $logoPath }}" style="width: 48px; height: 48px; object-fit: contain; border-radius: 8px; border: 1px solid #e2e8f0; background: #ffffff; padding: 2px;" alt="Logo" />
+                @else
+                    <div class="monogram">{{ $initial }}</div>
+                @endif
             </td>
             <td style="vertical-align: middle;">
                 <div class="brand-name">{{ $invoice->tenant->name ?? 'Bisnis' }}</div>

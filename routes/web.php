@@ -107,6 +107,9 @@ Route::middleware(['auth', 'onboarded'])->group(function () {
     Route::put('/bank-accounts/{bankAccount}', [BankAccountController::class, 'update'])->name('bank-accounts.update');
     Route::patch('/bank-accounts/{bankAccount}/default', [BankAccountController::class, 'setDefault'])->name('bank-accounts.default');
     Route::delete('/bank-accounts/{bankAccount}', [BankAccountController::class, 'destroy'])->name('bank-accounts.destroy');
+
+    // Profil & Logo Usaha Member
+    Route::post('/profile/business', [ProfileController::class, 'updateBusiness'])->name('profile.business.update');
 });
 
 Route::middleware(['auth'])->group(function () {
