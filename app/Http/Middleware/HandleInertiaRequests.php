@@ -127,7 +127,7 @@ class HandleInertiaRequests extends Middleware
                     'id' => "inv-overdue-{$inv->id}",
                     'type' => 'overdue',
                     'title' => "Invoice Terlambat: {$inv->invoice_number}",
-                    'message' => ($inv->client?->name ?? 'Klien') . " jatuh tempo {$inv->due_date}.",
+                    'message' => ($inv->client?->name ?? 'Klien') . ' jatuh tempo ' . ($inv->due_date?->format('d M Y') ?? '-') . '.',
                     'href' => route('invoices.show', $inv->id),
                     'time' => 'Terlambat',
                 ];
@@ -146,7 +146,7 @@ class HandleInertiaRequests extends Middleware
                     'id' => "inv-soon-{$inv->id}",
                     'type' => 'due_soon',
                     'title' => "Segera Jatuh Tempo: {$inv->invoice_number}",
-                    'message' => ($inv->client?->name ?? 'Klien') . " tempo pada {$inv->due_date}.",
+                    'message' => ($inv->client?->name ?? 'Klien') . ' tempo pada ' . ($inv->due_date?->format('d M Y') ?? '-') . '.',
                     'href' => route('invoices.show', $inv->id),
                     'time' => 'Segera',
                 ];

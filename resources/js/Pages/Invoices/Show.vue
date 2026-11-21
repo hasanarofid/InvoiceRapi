@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import WorkspaceLayout from '@/Layouts/WorkspaceLayout.vue';
 import RupiahInput from '@/Components/RupiahInput.vue';
 import { swalSuccess, swalError } from '@/utils/swal';
-import { ArrowLeft, Copy, Check, ExternalLink, CreditCard, CheckCircle2 } from 'lucide-vue-next';
+import { formatIDR, formatDateID, formatQty } from '@/utils/format';
+import { ArrowLeft, Copy, Check, ExternalLink, CreditCard, CheckCircle2, MessageCircle } from 'lucide-vue-next';
 
 const props = defineProps<{
   invoice: any;
@@ -14,23 +15,35 @@ const props = defineProps<{
 const copied = ref(false);
 const showPayModal = ref(false);
 
+const grandTotal = computed(() => Number(props.invoice.total ?? 0));
+const totalPaid = computed(() => Number(props.invoice.total_paid ?? 0));
+const balanceDue = computed(() => Number(props.invoice.balance_due ?? Math.max(0, grandTotal.value - totalPaid.value)));
+
 const payForm = useForm({
   payment_installment_id: '' as string | number,
-  amount: Math.max(0, Number(props.invoice.grand_total) - Number(props.invoice.paid_amount)),
+  amount: Math.max(0, balanceDue.value),
   payment_date: new Date().toISOString().slice(0, 10),
   payment_method: 'bank_transfer',
   reference_number: '',
   notes: '',
 });
 
-const formatIDR = (val: number | string) =>
-  new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(Number(val || 0));
+const whatsappUrl = computed(() => {
+  const clientName = props.invoice.client?.name || 'Bapak/Ibu';
+  const tenantName = props.invoice.tenant?.name || 'Kami';
+  const text = `Halo ${clientName},\n\nBerikut rincian tagihan resmi dari *${tenantName}*:\n• No. Invoice: *${props.invoice.invoice_number}*\n• Total Tagihan: *${formatIDR(grandTotal.value)}*\n• Sisa Tagihan: *${formatIDR(balanceDue.value)}*\n• Jatuh Tempo: *${formatDateID(props.invoice.due_date)}*\n\nLihat & unduh PDF resmi di tautan berikut:\n${props.publicUrl}\n\nTerima kasih.`;
+  const rawPhone = String(props.invoice.client?.phone || '').replace(/[^\d]/g, '');
+  const phone = rawPhone.startsWith('0') ? '62' + rawPhone.slice(1) : rawPhone;
+  return phone
+    ? `https://wa.me/${phone}?text=${encodeURIComponent(text)}`
+    : `https://wa.me/?text=${encodeURIComponent(text)}`;
+});
 
 const copyPublicLink = async () => {
   try {
     await navigator.clipboard.writeText(props.publicUrl);
     copied.value = true;
-    swalSuccess('Tautan publik disalin!');
+    swalSuccess('Tautan invoice disalin!');
     setTimeout(() => (copied.value = false), 2000);
   } catch {
     swalError('Gagal Menyalin', 'Silakan salin URL secara manual.');
@@ -43,7 +56,7 @@ const openPayModal = (installment?: any) => {
     payForm.amount = Math.max(0, Number(installment.amount) - Number(installment.paid_amount || 0));
   } else {
     payForm.payment_installment_id = '';
-    payForm.amount = Math.max(0, Number(props.invoice.grand_total) - Number(props.invoice.paid_amount));
+    payForm.amount = Math.max(0, balanceDue.value);
   }
   showPayModal.value = true;
 };
@@ -71,33 +84,40 @@ const submitPayment = () => {
             <ArrowLeft class="w-4 h-4" />
           </Link>
           <div>
-            <h1 class="text-2xl font-black text-slate-900">{{ invoice.invoice_number }}</h1>
+            <h1 class="text-xl sm:text-2xl font-black text-slate-900">{{ invoice.invoice_number }}</h1>
             <p class="text-sm text-slate-500">Klien: <strong class="text-slate-800">{{ invoice.client?.name }}</strong></p>
           </div>
         </div>
 
         <div class="flex flex-wrap items-center gap-2">
+          <a
+            :href="whatsappUrl"
+            target="_blank"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition"
+          >
+            <MessageCircle class="w-4 h-4" /> Kirim ke WA
+          </a>
           <button
             @click="copyPublicLink"
             class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50"
           >
             <Check v-if="copied" class="w-4 h-4 text-emerald-600" />
             <Copy v-else class="w-4 h-4" />
-            {{ copied ? 'Tersalin!' : 'Salin Link Publik' }}
+            {{ copied ? 'Tersalin!' : 'Salin Link' }}
           </button>
           <a
             :href="publicUrl"
             target="_blank"
             class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50"
           >
-            <ExternalLink class="w-4 h-4" /> Preview Publik
+            <ExternalLink class="w-4 h-4" /> Preview / PDF
           </a>
           <button
             v-if="invoice.status !== 'paid'"
             @click="openPayModal()"
             class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-700 text-white text-xs font-bold shadow-sm"
           >
-            <CreditCard class="w-4 h-4" /> Catat Pembayaran
+            <CreditCard class="w-4 h-4" /> Catat Bayar
           </button>
         </div>
       </div>
@@ -106,21 +126,19 @@ const submitPayment = () => {
       <div class="bg-white rounded-2xl border border-slate-100 p-6 grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div>
           <p class="text-xs text-slate-500">Total Tagihan</p>
-          <p class="text-lg font-black text-slate-900 mt-0.5">{{ formatIDR(invoice.grand_total) }}</p>
+          <p class="text-lg font-black text-slate-900 mt-0.5">{{ formatIDR(grandTotal) }}</p>
         </div>
         <div>
           <p class="text-xs text-slate-500">Sudah Dibayar</p>
-          <p class="text-lg font-black text-emerald-600 mt-0.5">{{ formatIDR(invoice.paid_amount) }}</p>
+          <p class="text-lg font-black text-emerald-600 mt-0.5">{{ formatIDR(totalPaid) }}</p>
         </div>
         <div>
           <p class="text-xs text-slate-500">Sisa Piutang</p>
-          <p class="text-lg font-black text-amber-600 mt-0.5">
-            {{ formatIDR(Math.max(0, Number(invoice.grand_total) - Number(invoice.paid_amount))) }}
-          </p>
+          <p class="text-lg font-black text-amber-600 mt-0.5">{{ formatIDR(balanceDue) }}</p>
         </div>
         <div>
           <p class="text-xs text-slate-500">Jatuh Tempo</p>
-          <p class="text-sm font-bold text-slate-900 mt-1">{{ invoice.due_date }}</p>
+          <p class="text-sm font-bold text-slate-900 mt-1">{{ formatDateID(invoice.due_date) }}</p>
         </div>
       </div>
 
@@ -140,10 +158,10 @@ const submitPayment = () => {
             <tbody class="divide-y divide-slate-100">
               <tr v-for="item in invoice.items" :key="item.id">
                 <td class="py-3 font-semibold text-slate-900">{{ item.name }}</td>
-                <td class="py-3 text-slate-600">{{ item.quantity }}</td>
+                <td class="py-3 text-slate-600">{{ formatQty(item.quantity) }}</td>
                 <td class="py-3 text-slate-600">{{ formatIDR(item.unit_price) }}</td>
                 <td class="py-3 text-right font-bold text-slate-900">
-                  {{ formatIDR(Number(item.quantity) * Number(item.unit_price) - Number(item.discount || 0)) }}
+                  {{ formatIDR(item.total_price ?? (Number(item.quantity) * Number(item.unit_price) - Number(item.discount || 0))) }}
                 </td>
               </tr>
             </tbody>
@@ -153,7 +171,7 @@ const submitPayment = () => {
 
       <!-- Installments -->
       <div class="bg-white rounded-2xl border border-slate-100 p-6 space-y-3">
-        <h2 class="text-sm font-black uppercase tracking-wider text-slate-500">Jadwal Termin Pembayaran</h2>
+        <h2 class="text-sm font-black uppercase tracking-wider text-slate-500">Jadwal Pembayaran</h2>
         <div class="space-y-2.5">
           <div
             v-for="inst in invoice.installments"
@@ -162,7 +180,7 @@ const submitPayment = () => {
           >
             <div>
               <p class="font-bold text-slate-900 text-sm">{{ inst.name }}</p>
-              <p class="text-xs text-slate-500">Jatuh tempo: {{ inst.due_date }}</p>
+              <p class="text-xs text-slate-500">Jatuh tempo: {{ formatDateID(inst.due_date) }}</p>
             </div>
             <div class="flex items-center gap-4">
               <div class="text-right">
@@ -194,7 +212,7 @@ const submitPayment = () => {
           <div v-for="p in invoice.payments" :key="p.id" class="py-3 flex items-center justify-between">
             <div>
               <p class="font-bold text-slate-900">{{ formatIDR(p.amount) }}</p>
-              <p class="text-xs text-slate-500">{{ p.payment_date }} • {{ p.payment_method }} {{ p.reference_number ? `(${p.reference_number})` : '' }}</p>
+              <p class="text-xs text-slate-500">{{ formatDateID(p.payment_date) }} • {{ p.payment_method }} {{ p.reference_number ? `(${p.reference_number})` : '' }}</p>
             </div>
             <span class="text-xs text-slate-400">Dicatat oleh {{ p.creator?.name || 'Sistem' }}</span>
           </div>
@@ -245,4 +263,3 @@ const submitPayment = () => {
     </div>
   </WorkspaceLayout>
 </template>
-

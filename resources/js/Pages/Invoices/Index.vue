@@ -3,6 +3,7 @@ import { ref, computed } from 'vue';
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import WorkspaceLayout from '@/Layouts/WorkspaceLayout.vue';
 import { swalConfirm } from '@/utils/swal';
+import { formatIDR, formatDateID } from '@/utils/format';
 import { FileText, Plus, Search, Eye, Crown, Lock, Trash2 } from 'lucide-vue-next';
 
 interface Invoice {
@@ -10,8 +11,9 @@ interface Invoice {
   invoice_number: string;
   invoice_date: string;
   due_date: string;
-  grand_total: number | string;
-  paid_amount: number | string;
+  total: number | string;
+  total_paid: number | string;
+  balance_due: number | string;
   status: string;
   client?: { name: string; company_name?: string | null };
   project?: { name: string } | null;
@@ -27,9 +29,10 @@ const props = defineProps<{
     status?: string;
   };
   metrics: {
-    total_count: number;
-    unpaid_amount: number | string;
-    overdue_count: number;
+    total_invoiced: number | string;
+    total_paid: number | string;
+    total_outstanding: number | string;
+    total_overdue: number | string;
   };
 }>();
 
@@ -38,10 +41,7 @@ const planUsage = computed(() => (page.props.planUsage as Record<string, any> | 
 const invoiceLimitReached = computed(() => Boolean(planUsage.value?.invoice_limit_reached));
 
 const search = ref(props.filters.search || '');
-const statusFilter = ref(props.filters.status || '');
-
-const formatIDR = (val: number | string) =>
-  new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(Number(val || 0));
+const statusFilter = ref(props.filters.status || 'all');
 
 const applyFilter = (newStatus?: string) => {
   if (typeof newStatus === 'string') {
@@ -49,7 +49,7 @@ const applyFilter = (newStatus?: string) => {
   }
   router.get(route('invoices.index'), {
     search: search.value || undefined,
-    status: statusFilter.value || undefined,
+    status: statusFilter.value || 'all',
   }, { preserveState: true, replace: true });
 };
 
@@ -64,7 +64,7 @@ const statusBadge = (status: string) => {
     paid: { label: 'Lunas', cls: 'bg-emerald-50 text-emerald-700' },
     partial: { label: 'Sebagian', cls: 'bg-amber-50 text-amber-700' },
     overdue: { label: 'Terlambat', cls: 'bg-red-50 text-red-700' },
-    sent: { label: 'Terkirim', cls: 'bg-blue-50 text-blue-700' },
+    issued: { label: 'Terkirim', cls: 'bg-blue-50 text-blue-700' },
     draft: { label: 'Draft', cls: 'bg-slate-100 text-slate-600' },
     cancelled: { label: 'Dibatalkan', cls: 'bg-slate-100 text-slate-500' },
   };
@@ -92,7 +92,7 @@ const statusBadge = (status: string) => {
         <Link
           v-if="!invoiceLimitReached"
           :href="route('invoices.create')"
-          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-700 text-white text-sm font-bold shadow-sm transition"
+          class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-700 text-white text-sm font-bold shadow-sm transition"
         >
           <Plus class="w-4 h-4" />
           Buat Invoice
@@ -100,10 +100,10 @@ const statusBadge = (status: string) => {
         <Link
           v-else
           :href="route('billing.index')"
-          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-sm font-bold shadow-sm transition"
+          class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-sm font-bold shadow-sm transition"
         >
           <Crown class="w-4 h-4" />
-          Kuota Invoice Habis — Upgrade Paket
+          Kuota Invoice Habis — Upgrade
         </Link>
       </div>
 
@@ -121,16 +121,16 @@ const statusBadge = (status: string) => {
       <!-- Metrics -->
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div class="bg-white rounded-2xl border border-slate-100 p-4">
-          <p class="text-xs font-semibold text-slate-500">Total Invoice</p>
-          <p class="text-2xl font-black text-slate-900 mt-1">{{ metrics.total_count }}</p>
+          <p class="text-xs font-semibold text-slate-500">Total Tagihan Terbit</p>
+          <p class="text-xl sm:text-2xl font-black text-slate-900 mt-1">{{ formatIDR(metrics.total_invoiced) }}</p>
         </div>
         <div class="bg-white rounded-2xl border border-slate-100 p-4">
           <p class="text-xs font-semibold text-slate-500">Total Piutang Aktif</p>
-          <p class="text-2xl font-black text-amber-600 mt-1">{{ formatIDR(metrics.unpaid_amount) }}</p>
+          <p class="text-xl sm:text-2xl font-black text-amber-600 mt-1">{{ formatIDR(metrics.total_outstanding) }}</p>
         </div>
         <div class="bg-white rounded-2xl border border-slate-100 p-4">
-          <p class="text-xs font-semibold text-slate-500">Invoice Terlambat</p>
-          <p class="text-2xl font-black text-red-600 mt-1">{{ metrics.overdue_count }}</p>
+          <p class="text-xs font-semibold text-slate-500">Piutang Terlambat</p>
+          <p class="text-xl sm:text-2xl font-black text-red-600 mt-1">{{ formatIDR(metrics.total_overdue) }}</p>
         </div>
       </div>
 
@@ -139,8 +139,8 @@ const statusBadge = (status: string) => {
         <div class="flex flex-wrap gap-2">
           <button
             v-for="tab in [
-              { val: '', label: 'Semua' },
-              { val: 'sent', label: 'Terkirim' },
+              { val: 'all', label: 'Semua' },
+              { val: 'issued', label: 'Terkirim' },
               { val: 'partial', label: 'Sebagian' },
               { val: 'overdue', label: 'Terlambat' },
               { val: 'paid', label: 'Lunas' },
@@ -200,10 +200,10 @@ const statusBadge = (status: string) => {
                   <p class="font-bold text-slate-900">{{ inv.client?.name || '-' }}</p>
                   <p v-if="inv.project" class="text-xs text-slate-500">{{ inv.project.name }}</p>
                 </td>
-                <td class="px-5 py-4 text-xs text-slate-600">{{ inv.due_date }}</td>
+                <td class="px-5 py-4 text-xs font-medium text-slate-600">{{ formatDateID(inv.due_date) }}</td>
                 <td class="px-5 py-4">
-                  <p class="font-bold text-slate-900">{{ formatIDR(inv.grand_total) }}</p>
-                  <p class="text-xs text-emerald-600">Dibayar: {{ formatIDR(inv.paid_amount) }}</p>
+                  <p class="font-bold text-slate-900">{{ formatIDR(inv.total) }}</p>
+                  <p class="text-xs text-emerald-600">Dibayar: {{ formatIDR(inv.total_paid) }}</p>
                 </td>
                 <td class="px-5 py-4">
                   <span class="inline-flex px-2.5 py-1 rounded-full text-xs font-bold" :class="statusBadge(inv.status).cls">
@@ -230,4 +230,3 @@ const statusBadge = (status: string) => {
     </div>
   </WorkspaceLayout>
 </template>
-
