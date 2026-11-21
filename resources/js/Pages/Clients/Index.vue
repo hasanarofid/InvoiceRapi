@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import { Head, Link, router, useForm, usePage } from '@inertiajs/vue3';
 import WorkspaceLayout from '@/Layouts/WorkspaceLayout.vue';
+import StatusBadge from '@/Components/UI/StatusBadge.vue';
 import { swalConfirm, swalError } from '@/utils/swal';
 import { Users, Plus, Search, Pencil, Trash2, Building2, Mail, Phone, Lock, Crown } from 'lucide-vue-next';
 
@@ -205,12 +206,7 @@ const deleteClient = async (client: Client) => {
                   {{ client.invoices_count ?? 0 }} invoice
                 </td>
                 <td class="px-5 py-4">
-                  <span
-                    class="inline-flex px-2.5 py-1 rounded-full text-xs font-bold"
-                    :class="!client.is_archived ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-600'"
-                  >
-                    {{ !client.is_archived ? 'Aktif' : 'Nonaktif' }}
-                  </span>
+                  <StatusBadge :status="!client.is_archived ? 'active' : 'inactive'" />
                 </td>
                 <td class="px-5 py-4 text-right space-x-2">
                   <button @click="openEdit(client)" class="p-2 rounded-lg text-slate-500 hover:text-violet-600 hover:bg-violet-50 transition" title="Edit">

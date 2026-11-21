@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import WorkspaceLayout from '@/Layouts/WorkspaceLayout.vue';
+import StatusBadge from '@/Components/UI/StatusBadge.vue';
 import RupiahInput from '@/Components/RupiahInput.vue';
 import { swalConfirm, swalError } from '@/utils/swal';
 import { formatDateID } from '@/utils/format';
@@ -40,7 +41,7 @@ const props = defineProps<{
 }>();
 
 const search = ref(props.filters.search || '');
-const statusFilter = ref(props.filters.status || '');
+const statusFilter = ref(props.filters.status || 'all');
 const clientFilter = ref(props.filters.client_id || '');
 const showModal = ref(false);
 const editingProject = ref<Project | null>(null);
@@ -111,13 +112,6 @@ const deleteProject = async (project: Project) => {
   if (!ok) return;
   router.delete(route('projects.destroy', project.id));
 };
-
-const statusBadge = (status: string) => {
-  if (status === 'completed') return 'bg-emerald-50 text-emerald-700';
-  if (status === 'on_hold') return 'bg-amber-50 text-amber-700';
-  if (status === 'cancelled') return 'bg-red-50 text-red-700';
-  return 'bg-violet-50 text-violet-700';
-};
 </script>
 
 <template>
@@ -157,9 +151,10 @@ const statusBadge = (status: string) => {
           <option v-for="c in clients" :key="c.id" :value="c.id">{{ c.name }}</option>
         </select>
         <select v-model="statusFilter" @change="applyFilter" class="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm bg-white">
-          <option value="">Semua Status</option>
+          <option value="all">Semua Status</option>
           <option value="draft">Draft</option>
           <option value="active">Aktif</option>
+          <option value="on_hold">Ditunda</option>
           <option value="completed">Selesai</option>
           <option value="cancelled">Dibatalkan</option>
         </select>
@@ -197,9 +192,7 @@ const statusBadge = (status: string) => {
                 <td class="px-5 py-4 text-slate-700 font-medium">{{ project.client?.name || '-' }}</td>
                 <td class="px-5 py-4 font-bold text-slate-900">{{ formatIDR(project.contract_amount) }}</td>
                 <td class="px-5 py-4">
-                  <span class="inline-flex px-2.5 py-1 rounded-full text-xs font-bold capitalize" :class="statusBadge(project.status)">
-                    {{ project.status }}
-                  </span>
+                  <StatusBadge :status="project.status" />
                 </td>
                 <td class="px-5 py-4 text-right space-x-2">
                   <button @click="openEdit(project)" class="p-2 rounded-lg text-slate-500 hover:text-violet-600 hover:bg-violet-50 transition">

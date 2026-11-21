@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import WorkspaceLayout from '@/Layouts/WorkspaceLayout.vue';
+import StatusBadge from '@/Components/UI/StatusBadge.vue';
 import { swalConfirm } from '@/utils/swal';
 import { formatIDR, formatDateID } from '@/utils/format';
 import { FileText, Plus, Search, Eye, Crown, Lock, Trash2 } from 'lucide-vue-next';
@@ -57,18 +58,6 @@ const deleteInvoice = async (inv: Invoice) => {
   const ok = await swalConfirm('Hapus Invoice?', `Invoice ${inv.invoice_number} akan diarsipkan (soft delete).`, 'Ya, Hapus');
   if (!ok) return;
   router.delete(route('invoices.destroy', inv.id));
-};
-
-const statusBadge = (status: string) => {
-  const map: Record<string, { label: string; cls: string }> = {
-    paid: { label: 'Lunas', cls: 'bg-emerald-50 text-emerald-700' },
-    partial: { label: 'Sebagian', cls: 'bg-amber-50 text-amber-700' },
-    overdue: { label: 'Terlambat', cls: 'bg-red-50 text-red-700' },
-    issued: { label: 'Terkirim', cls: 'bg-blue-50 text-blue-700' },
-    draft: { label: 'Draft', cls: 'bg-slate-100 text-slate-600' },
-    cancelled: { label: 'Dibatalkan', cls: 'bg-slate-100 text-slate-500' },
-  };
-  return map[status] || { label: status, cls: 'bg-slate-100 text-slate-600' };
 };
 </script>
 
@@ -207,9 +196,7 @@ const statusBadge = (status: string) => {
                   <p class="text-xs text-emerald-600">Dibayar: {{ formatIDR(inv.total_paid) }}</p>
                 </td>
                 <td class="px-5 py-4">
-                  <span class="inline-flex px-2.5 py-1 rounded-full text-xs font-bold" :class="statusBadge(inv.status).cls">
-                    {{ statusBadge(inv.status).label }}
-                  </span>
+                  <StatusBadge :status="inv.status" />
                 </td>
                 <td class="px-5 py-4 text-right space-x-2">
                   <Link :href="route('invoices.show', inv.id)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-violet-50 text-violet-700 hover:bg-violet-100 text-xs font-bold transition">
