@@ -181,7 +181,7 @@ class InvoiceController extends Controller
             return redirect()->back()->withErrors(['invoice_number' => 'Nomor invoice ini sudah digunakan.'])->withInput();
         }
 
-        DB::transaction(function () use ($tenantId, $validated, &$invoice) {
+        DB::transaction(function () use ($tenantId, $validated, $bankAccountId, &$invoice) {
             // 1. Calculate items subtotal
             $subtotal = 0.00;
             foreach ($validated['items'] as $item) {
