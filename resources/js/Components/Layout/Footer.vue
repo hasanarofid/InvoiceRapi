@@ -40,20 +40,17 @@ const currentYear = new Date().getFullYear();
           </div>
         </div>
 
-        <!-- Quick Links -->
+        <!-- Quick Links: Fitur Utama -->
         <div class="lg:col-span-3 sm:col-span-1">
           <h3 class="text-xs font-semibold uppercase tracking-wider text-violet-400 mb-4">
-            Menu Navigasi
+            Fitur InvoiceRapi
           </h3>
           <ul class="space-y-2.5">
-            <li v-for="item in BRAND.navigation" :key="item.href">
-              <a 
-                :href="item.href"
-                class="text-sm text-slate-300 hover:text-white transition-colors"
-              >
-                {{ item.name }}
-              </a>
-            </li>
+            <li><Link href="/fitur/invoice-online" class="text-sm text-slate-300 hover:text-white transition-colors">Aplikasi Invoice Online</Link></li>
+            <li><Link href="/fitur/pencatatan-dp" class="text-sm text-slate-300 hover:text-white transition-colors">Fitur Pencatatan DP</Link></li>
+            <li><Link href="/fitur/pembayaran-termin" class="text-sm text-slate-300 hover:text-white transition-colors">Aplikasi Pembayaran Termin</Link></li>
+            <li><Link href="/fitur/monitoring-piutang" class="text-sm text-slate-300 hover:text-white transition-colors">Monitoring Piutang Pelanggan</Link></li>
+            <li><a href="/#harga" class="text-sm text-slate-300 hover:text-white transition-colors">Harga Paket Promo</a></li>
           </ul>
         </div>
 
@@ -63,11 +60,11 @@ const currentYear = new Date().getFullYear();
             Solusi Bisnis Jasa
           </h3>
           <ul class="space-y-2.5">
-            <li v-for="persona in BRAND.personas" :key="persona.title">
-              <span class="text-sm text-slate-300 block">
-                {{ persona.title }}
-              </span>
-            </li>
+            <li><Link href="/solusi/wedding-organizer" class="text-sm text-slate-300 hover:text-white transition-colors">Invoice Wedding Organizer</Link></li>
+            <li><Link href="/solusi/event-organizer" class="text-sm text-slate-300 hover:text-white transition-colors">Invoice Event Organizer</Link></li>
+            <li><Link href="/solusi/kontraktor" class="text-sm text-slate-300 hover:text-white transition-colors">Aplikasi Invoice Kontraktor</Link></li>
+            <li><Link href="/solusi/fotografer" class="text-sm text-slate-300 hover:text-white transition-colors">Invoice Fotografer &amp; Studio</Link></li>
+            <li><Link href="/solusi/freelancer" class="text-sm text-slate-300 hover:text-white transition-colors">Invoice Freelancer &amp; Konsultan</Link></li>
           </ul>
           <div class="mt-6 pt-4 border-t border-slate-800">
             <p class="text-xs text-slate-400">

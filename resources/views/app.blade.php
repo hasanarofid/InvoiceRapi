@@ -14,6 +14,20 @@
         <meta name="google-site-verification" content="google587f0f47640fdb34">
 
         @php
+            $gaMeasurementId = \App\Models\Setting::getValue('ga_measurement_id', env('GA4_MEASUREMENT_ID', ''));
+        @endphp
+        @if(!empty($gaMeasurementId) && !request()->is('admin*'))
+        <!-- Google Analytics 4 (Privacy-Safe, No PII) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ $gaMeasurementId }}"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '{{ $gaMeasurementId }}', { anonymize_ip: true });
+        </script>
+        @endif
+
+        @php
             $defaultSiteName = 'Synbarra InvoiceRapi';
             $defaultTitle = 'Synbarra InvoiceRapi | Urus Tagihan, Jadi Lebih Rapi';
             $defaultDescription = 'Aplikasi SaaS manajemen invoice, DP, termin, dan pelunasan klien dalam satu aplikasi yang mudah untuk bisnis jasa di Indonesia.';
@@ -40,8 +54,12 @@
             $seoType = $meta['type'] ?? 'website';
             $seoTwitter = $meta['twitter_card'] ?? 'summary_large_image';
 
-            // Robots directive resolution
-            $isPrivatePath = request()->is('admin*') || request()->is('dashboard*') || request()->is('profile*') || request()->is('i/*');
+            // Robots directive resolution (strictly noindex all private, auth, and client-token paths)
+            $isPrivatePath = request()->is(
+                'admin*', 'dashboard*', 'profile*', 'invoices*', 'clients*',
+                'projects*', 'billing*', 'onboarding*', 'login', 'register',
+                'forgot-password', 'reset-password*', 'verify-email*', 'i/*'
+            );
             $robotsContent = !empty($meta['robots']) 
                 ? $meta['robots'] 
                 : ($isPrivatePath ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
@@ -111,46 +129,101 @@
                 ],
             ];
 
-            $faqJsonLd = [
+            $orgJsonLd = [
                 '@context' => 'https://schema.org',
-                '@type' => 'FAQPage',
-                'mainEntity' => [
-                    [
-                        '@type' => 'Question',
-                        'name' => 'Bagaimana cara buat invoice online yang rapi dan resmi?',
-                        'acceptedAnswer' => [
-                            '@type' => 'Answer',
-                            'text' => 'Daftar gratis di InvoiceRapi, tambahkan logo usaha dan rekening bank di Profil, lalu buat invoice dalam 1 menit dan unduh PDF A4 1 halaman atau bagikan langsung ke WhatsApp klien.',
-                        ],
-                    ],
-                    [
-                        '@type' => 'Question',
-                        'name' => 'Apakah bisa buat invoice gratis di InvoiceRapi?',
-                        'acceptedAnswer' => [
-                            '@type' => 'Answer',
-                            'text' => 'Ya, InvoiceRapi menyediakan paket Gratis selamanya (5 invoice/bulan dan 10 klien) serta uji coba gratis paket Pro selama 14 hari tanpa kartu kredit.',
-                        ],
-                    ],
-                    [
-                        '@type' => 'Question',
-                        'name' => 'Apakah InvoiceRapi mendukung perhitungan PPN 11% dan PPh 21/23 serta termin DP?',
-                        'acceptedAnswer' => [
-                            '@type' => 'Answer',
-                            'text' => 'Ya, pada form buat invoice tersedia opsi centang PPN 11% (+11%), PPh 21 (2,5%), atau PPh 23 (2%) serta pengaturan jadwal DP dan cicilan termin pembayaran.',
-                        ],
-                    ],
-                ],
+                '@type' => 'Organization',
+                'name' => 'Synbarra',
+                'url' => 'https://synbarra.com/',
+                'sameAs' => ['https://invoicerapi.synbarra.com/'],
             ];
+
+            $websiteJsonLd = [
+                '@context' => 'https://schema.org',
+                '@type' => 'WebSite',
+                'name' => 'InvoiceRapi',
+                'url' => 'https://invoicerapi.synbarra.com/',
+            ];
+
+            $breadcrumbItems = $meta['breadcrumbs'] ?? null;
+            $breadcrumbJsonLd = $breadcrumbItems ? [
+                '@context' => 'https://schema.org',
+                '@type' => 'BreadcrumbList',
+                'itemListElement' => collect($breadcrumbItems)->values()->map(fn ($item, $idx) => [
+                    '@type' => 'ListItem',
+                    'position' => $idx + 1,
+                    'name' => $item['name'],
+                    'item' => $item['url'],
+                ])->all(),
+            ] : null;
+
+            $dynamicFaqs = $meta['faqs'] ?? null;
+            if (is_array($dynamicFaqs) && count($dynamicFaqs) > 0) {
+                $faqJsonLd = [
+                    '@context' => 'https://schema.org',
+                    '@type' => 'FAQPage',
+                    'mainEntity' => collect($dynamicFaqs)->map(fn ($f) => [
+                        '@type' => 'Question',
+                        'name' => $f['q'],
+                        'acceptedAnswer' => ['@type' => 'Answer', 'text' => $f['a']],
+                    ])->all(),
+                ];
+            } elseif (request()->is('/')) {
+                $faqJsonLd = [
+                    '@context' => 'https://schema.org',
+                    '@type' => 'FAQPage',
+                    'mainEntity' => [
+                        [
+                            '@type' => 'Question',
+                            'name' => 'Bagaimana cara buat invoice online yang rapi dan resmi?',
+                            'acceptedAnswer' => [
+                                '@type' => 'Answer',
+                                'text' => 'Daftar gratis di InvoiceRapi, tambahkan logo usaha dan rekening bank di Profil, lalu buat invoice dalam 1 menit dan unduh PDF A4 1 halaman atau bagikan langsung ke WhatsApp klien.',
+                            ],
+                        ],
+                        [
+                            '@type' => 'Question',
+                            'name' => 'Apakah bisa buat invoice gratis di InvoiceRapi?',
+                            'acceptedAnswer' => [
+                                '@type' => 'Answer',
+                                'text' => 'Ya, InvoiceRapi menyediakan paket Gratis selamanya (5 invoice/bulan dan 10 klien) serta uji coba gratis paket Pro selama 14 hari tanpa kartu kredit.',
+                            ],
+                        ],
+                        [
+                            '@type' => 'Question',
+                            'name' => 'Apakah InvoiceRapi mendukung perhitungan PPN 11% dan PPh 21/23 serta termin DP?',
+                            'acceptedAnswer' => [
+                                '@type' => 'Answer',
+                                'text' => 'Ya, pada form buat invoice tersedia opsi centang PPN 11% (+11%), PPh 21 (2,5%), atau PPh 23 (2%) serta pengaturan jadwal DP dan cicilan termin pembayaran.',
+                            ],
+                        ],
+                    ],
+                ];
+            } else {
+                $faqJsonLd = null;
+            }
         @endphp
 
         <!-- Schema.org JSON-LD (Search Console & GEO Structured Data) -->
+        @if(!$isPrivatePath)
         <script type="application/ld+json">
         {!! json_encode($jsonLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
         </script>
-        @if(request()->is('/'))
+        <script type="application/ld+json">
+        {!! json_encode($orgJsonLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+        </script>
+        <script type="application/ld+json">
+        {!! json_encode($websiteJsonLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+        </script>
+        @if($breadcrumbJsonLd)
+        <script type="application/ld+json">
+        {!! json_encode($breadcrumbJsonLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+        </script>
+        @endif
+        @if($faqJsonLd)
         <script type="application/ld+json">
         {!! json_encode($faqJsonLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
         </script>
+        @endif
         @endif
 
         <!-- Favicons -->
@@ -181,9 +254,16 @@
                 <p>{{ $seoDesc }}</p>
                 <h2>Fitur Utama Synbarra InvoiceRapi</h2>
                 <ul>
-                    <li><a href="/">Beranda — Aplikasi Invoice, DP, Termin &amp; Pelunasan Klien</a></li>
-                    <li><a href="/register">Daftar &amp; Uji Coba Gratis 14 Hari</a></li>
-                    <li><a href="/login">Masuk ke Workspace</a></li>
+                    <li><a href="/">Beranda — Aplikasi Invoice Online, DP, Termin &amp; Pelunasan Klien</a></li>
+                    <li><a href="/fitur/invoice-online">Aplikasi Invoice Online</a></li>
+                    <li><a href="/fitur/pencatatan-dp">Fitur Pencatatan DP</a></li>
+                    <li><a href="/fitur/pembayaran-termin">Aplikasi Pembayaran Termin</a></li>
+                    <li><a href="/fitur/monitoring-piutang">Monitoring Piutang Pelanggan</a></li>
+                    <li><a href="/solusi/wedding-organizer">Invoice Wedding Organizer</a></li>
+                    <li><a href="/solusi/event-organizer">Invoice Event Organizer</a></li>
+                    <li><a href="/solusi/kontraktor">Aplikasi Invoice Kontraktor</a></li>
+                    <li><a href="/solusi/fotografer">Invoice Fotografer</a></li>
+                    <li><a href="/solusi/freelancer">Invoice Freelancer</a></li>
                     <li><a href="https://synbarra.com/produk/invoicerapi">Tentang Produk di Synbarra Technologies</a></li>
                 </ul>
             </div>

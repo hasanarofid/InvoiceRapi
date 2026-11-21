@@ -185,11 +185,12 @@ class SynbarraController extends Controller
             $baseUrl = 'https://invoicerapi.synbarra.com';
         }
 
-        $staticPages = [
-            ['loc' => $baseUrl . '/', 'priority' => '1.0', 'changefreq' => 'weekly'],
-            ['loc' => $baseUrl . '/register', 'priority' => '0.8', 'changefreq' => 'monthly'],
-            ['loc' => $baseUrl . '/login', 'priority' => '0.5', 'changefreq' => 'monthly'],
-        ];
+        $staticPages = array_merge(
+            [
+                ['loc' => $baseUrl . '/', 'priority' => '1.0', 'changefreq' => 'weekly'],
+            ],
+            SeoLandingController::sitemapUrls($baseUrl)
+        );
 
         $today = now()->format('Y-m-d');
 

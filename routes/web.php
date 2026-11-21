@@ -20,6 +20,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\SeoLandingController;
 use App\Http\Controllers\SynbarraController;
 use App\Http\Controllers\WorkspaceDashboardController;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +33,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [SynbarraController::class, 'home'])->name('home');
+Route::get('/fitur/{slug}', [SeoLandingController::class, 'feature'])->name('seo.feature');
+Route::get('/solusi/{slug}', [SeoLandingController::class, 'solution'])->name('seo.solution');
 Route::get('/i/{token}', [InvoiceController::class, 'publicShow'])->name('invoices.public');
 Route::get('/i/{token}/pdf', [InvoiceController::class, 'downloadPdf'])->name('invoices.public.pdf');
 Route::get('/about', [SynbarraController::class, 'about'])->name('about');
