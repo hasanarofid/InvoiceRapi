@@ -27,7 +27,7 @@ class ClientController extends Controller
 
         if ($status === 'active') {
             $query->where('is_archived', false);
-        } elseif ($status === 'archived') {
+        } elseif (in_array($status, ['archived', 'inactive'], true)) {
             $query->where('is_archived', true);
         }
 
@@ -103,7 +103,13 @@ class ClientController extends Controller
             'address' => 'nullable|string',
             'internal_notes' => 'nullable|string',
             'is_archived' => 'nullable|boolean',
+            'status' => 'nullable|in:active,inactive,archived',
         ]);
+
+        if (! array_key_exists('is_archived', $validated) && isset($validated['status'])) {
+            $validated['is_archived'] = in_array($validated['status'], ['inactive', 'archived'], true);
+        }
+        unset($validated['status']);
 
         $oldValues = $client->toArray();
         $client->update($validated);

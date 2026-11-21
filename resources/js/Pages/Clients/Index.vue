@@ -13,7 +13,7 @@ interface Client {
   phone?: string | null;
   address?: string | null;
   notes?: string | null;
-  status: string;
+  is_archived: boolean;
   invoices_count?: number;
 }
 
@@ -34,7 +34,7 @@ const planUsage = computed(() => (page.props.planUsage as Record<string, any> | 
 const clientLimitReached = computed(() => Boolean(planUsage.value?.client_limit_reached));
 
 const search = ref(props.filters.search || '');
-const statusFilter = ref(props.filters.status || '');
+const statusFilter = ref(props.filters.status ?? 'active');
 const showModal = ref(false);
 const editingClient = ref<Client | null>(null);
 
@@ -51,7 +51,7 @@ const form = useForm({
 const applyFilter = () => {
   router.get(route('clients.index'), {
     search: search.value || undefined,
-    status: statusFilter.value || undefined,
+    status: statusFilter.value || 'all',
   }, { preserveState: true, replace: true });
 };
 
@@ -71,7 +71,7 @@ const openEdit = (client: Client) => {
   form.phone = client.phone || '';
   form.address = client.address || '';
   form.notes = client.notes || '';
-  form.status = client.status || 'active';
+  form.status = client.is_archived ? 'inactive' : 'active';
   showModal.value = true;
 };
 
@@ -160,7 +160,7 @@ const deleteClient = async (client: Client) => {
           @change="applyFilter"
           class="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-violet-500"
         >
-          <option value="">Semua Status</option>
+          <option value="all">Semua Status</option>
           <option value="active">Aktif</option>
           <option value="inactive">Nonaktif</option>
         </select>
@@ -207,9 +207,9 @@ const deleteClient = async (client: Client) => {
                 <td class="px-5 py-4">
                   <span
                     class="inline-flex px-2.5 py-1 rounded-full text-xs font-bold"
-                    :class="client.status === 'active' ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-600'"
+                    :class="!client.is_archived ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-600'"
                   >
-                    {{ client.status === 'active' ? 'Aktif' : 'Nonaktif' }}
+                    {{ !client.is_archived ? 'Aktif' : 'Nonaktif' }}
                   </span>
                 </td>
                 <td class="px-5 py-4 text-right space-x-2">
