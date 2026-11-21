@@ -5,11 +5,12 @@ import WorkspaceLayout from '@/Layouts/WorkspaceLayout.vue';
 import RupiahInput from '@/Components/RupiahInput.vue';
 import { swalSuccess, swalError } from '@/utils/swal';
 import { formatIDR, formatDateID, formatQty } from '@/utils/format';
-import { ArrowLeft, Copy, Check, ExternalLink, CreditCard, CheckCircle2, MessageCircle } from 'lucide-vue-next';
+import { ArrowLeft, Copy, Check, ExternalLink, Download, CreditCard, CheckCircle2, MessageCircle } from 'lucide-vue-next';
 
 const props = defineProps<{
   invoice: any;
   publicUrl: string;
+  pdfUrl?: string;
 }>();
 
 const copied = ref(false);
@@ -110,7 +111,13 @@ const submitPayment = () => {
             target="_blank"
             class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50"
           >
-            <ExternalLink class="w-4 h-4" /> Preview / PDF
+            <ExternalLink class="w-4 h-4" /> Preview
+          </a>
+          <a
+            :href="pdfUrl || `/i/${invoice.public_token}/pdf`"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-xs font-bold text-violet-700 hover:bg-violet-50"
+          >
+            <Download class="w-4 h-4" /> Unduh PDF
           </a>
           <button
             v-if="invoice.status !== 'paid'"

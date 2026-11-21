@@ -254,6 +254,7 @@ class InvoiceController extends Controller
         return Inertia::render('Invoices/Show', [
             'invoice' => $invoice,
             'publicUrl' => route('invoices.public', $invoice->public_token),
+            'pdfUrl' => route('invoices.public.pdf', $invoice->public_token),
         ]);
     }
 
@@ -290,8 +291,52 @@ class InvoiceController extends Controller
 
         return Inertia::render('Invoices/Public', [
             'invoice' => $invoice,
+            'pdfUrl' => route('invoices.public.pdf', $invoice->public_token),
             'meta' => $meta,
         ])->withViewData(['meta' => $meta]);
+    }
+
+    /**
+     * Generate and stream/download a crisp 1-page A4 PDF invoice via mPDF.
+     */
+    public function downloadPdf(Request $request, string $token)
+    {
+        $invoice = Invoice::where('public_token', $token)
+            ->with(['client', 'project', 'items', 'installments', 'tenant'])
+            ->firstOrFail();
+
+        $tempDir = storage_path('app/mpdf');
+        if (! is_dir($tempDir)) {
+            mkdir($tempDir, 0755, true);
+        }
+
+        $html = view('pdf.invoice', [
+            'invoice' => $invoice,
+        ])->render();
+
+        $mpdf = new \Mpdf\Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'A4',
+            'tempDir' => $tempDir,
+            'margin_left' => 14,
+            'margin_right' => 14,
+            'margin_top' => 12,
+            'margin_bottom' => 14,
+        ]);
+
+        $tenantSlug = Str::slug($invoice->tenant?->name ?: 'InvoiceRapi');
+        $invSlug = Str::slug($invoice->invoice_number);
+        $filename = "Invoice-{$invSlug}-{$tenantSlug}.pdf";
+
+        $mpdf->SetTitle("Invoice {$invoice->invoice_number} — " . ($invoice->tenant?->name ?: 'InvoiceRapi'));
+        $mpdf->WriteHTML($html);
+
+        $disposition = $request->boolean('preview') ? 'inline' : 'attachment';
+
+        return response($mpdf->Output($filename, \Mpdf\Output\Destination::STRING_RETURN), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => "{$disposition}; filename=\"{$filename}\"",
+        ]);
     }
 }
 

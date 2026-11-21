@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [SynbarraController::class, 'home'])->name('home');
 Route::get('/i/{token}', [InvoiceController::class, 'publicShow'])->name('invoices.public');
+Route::get('/i/{token}/pdf', [InvoiceController::class, 'downloadPdf'])->name('invoices.public.pdf');
 Route::get('/about', [SynbarraController::class, 'about'])->name('about');
 Route::get('/services', [SynbarraController::class, 'services'])->name('services');
 Route::get('/produk', [ProductController::class, 'index'])->name('products.index');

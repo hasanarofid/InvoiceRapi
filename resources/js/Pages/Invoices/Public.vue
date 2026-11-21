@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { Head } from '@inertiajs/vue3';
-import { Printer, CheckCircle2, Clock, AlertCircle, Building2, Mail, Phone, ShieldCheck } from 'lucide-vue-next';
+import { Printer, Download, CheckCircle2, Clock, AlertCircle, Building2, Mail, Phone, ShieldCheck } from 'lucide-vue-next';
 import { formatIDR, formatDateID, formatQty } from '@/utils/format';
 
 const props = defineProps<{
   invoice: any;
+  pdfUrl?: string;
 }>();
 
 const grandTotal = computed(() => Number(props.invoice.total ?? props.invoice.grand_total ?? 0));
@@ -38,13 +39,22 @@ const printPage = () => {
           <ShieldCheck class="w-3.5 h-3.5 text-violet-600" />
           Dokumen Tagihan Resmi
         </span>
-        <button
-          @click="printPage"
-          class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-violet-700 hover:bg-violet-800 text-white text-xs font-bold shadow-sm transition"
-        >
-          <Printer class="w-4 h-4" />
-          Cetak / Unduh PDF
-        </button>
+        <div class="flex items-center gap-2">
+          <button
+            @click="printPage"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold shadow-xs transition"
+          >
+            <Printer class="w-4 h-4" />
+            Cetak
+          </button>
+          <a
+            :href="pdfUrl || `/i/${invoice.public_token}/pdf`"
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-violet-700 hover:bg-violet-800 text-white text-xs font-bold shadow-sm transition"
+          >
+            <Download class="w-4 h-4" />
+            Unduh PDF
+          </a>
+        </div>
       </div>
 
       <!-- Official Corporate Invoice Paper -->
