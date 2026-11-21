@@ -195,8 +195,14 @@ const userInitials = (user?.name || 'User')
               @click="isUserDropdownOpen = !isUserDropdownOpen"
               class="flex items-center gap-2 p-1 rounded-full hover:bg-slate-100 transition"
             >
-              <div class="w-8 h-8 rounded-full bg-violet-700 text-white font-bold text-xs flex items-center justify-center shadow-sm">
-                {{ userInitials }}
+              <div class="w-8 h-8 rounded-full bg-violet-700 text-white font-bold text-xs flex items-center justify-center shadow-sm overflow-hidden border border-violet-200">
+                <img
+                  v-if="page.props.auth?.user?.tenant?.logo_url"
+                  :src="page.props.auth.user.tenant.logo_url"
+                  alt="Avatar Usaha"
+                  class="w-full h-full object-cover bg-white"
+                />
+                <span v-else>{{ userInitials }}</span>
               </div>
             </button>
 
