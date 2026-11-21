@@ -125,11 +125,20 @@ const dynamicFeatures = computed(() => {
           </Link>
 
           <Link
+            v-if="!planUsage?.is_subscription_locked"
             :href="route('invoices.create')"
             class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white bg-violet-700 hover:bg-violet-800 shadow-invoicerapi-sm transition"
           >
             <PlusCircle class="w-3.5 h-3.5" />
             <span>Buat Invoice</span>
+          </Link>
+          <Link
+            v-else
+            :href="route('billing.index')"
+            class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white bg-amber-500 hover:bg-amber-600 shadow-invoicerapi-sm transition"
+          >
+            <Lock class="w-3.5 h-3.5" />
+            <span>Aktifkan Paket</span>
           </Link>
         </div>
       </div>

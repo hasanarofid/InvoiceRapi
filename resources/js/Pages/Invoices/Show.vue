@@ -1,17 +1,20 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 import WorkspaceLayout from '@/Layouts/WorkspaceLayout.vue';
 import RupiahInput from '@/Components/RupiahInput.vue';
 import { swalSuccess, swalError } from '@/utils/swal';
 import { formatIDR, formatDateID, formatQty } from '@/utils/format';
-import { ArrowLeft, Copy, Check, ExternalLink, Download, CreditCard, CheckCircle2, MessageCircle } from 'lucide-vue-next';
+import { ArrowLeft, Copy, Check, ExternalLink, Download, CreditCard, CheckCircle2, MessageCircle, Lock } from 'lucide-vue-next';
 
 const props = defineProps<{
   invoice: any;
   publicUrl: string;
   pdfUrl?: string;
 }>();
+
+const page = usePage();
+const isSubscriptionLocked = computed(() => Boolean((page.props.planUsage as Record<string, any> | null)?.is_subscription_locked));
 
 const copied = ref(false);
 const showPayModal = ref(false);
@@ -119,8 +122,15 @@ const submitPayment = () => {
           >
             <Download class="w-4 h-4" /> Unduh PDF
           </a>
+          <Link
+            v-if="invoice.status !== 'paid' && isSubscriptionLocked"
+            :href="route('billing.index')"
+            class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold shadow-sm"
+          >
+            <Lock class="w-4 h-4" /> Aktifkan Paket untuk Catat Bayar
+          </Link>
           <button
-            v-if="invoice.status !== 'paid'"
+            v-else-if="invoice.status !== 'paid'"
             @click="openPayModal()"
             class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-700 text-white text-xs font-bold shadow-sm"
           >

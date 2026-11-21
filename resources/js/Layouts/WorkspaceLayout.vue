@@ -239,6 +239,33 @@ const userInitials = (user?.name || 'User')
 
       <!-- Page Slot -->
       <main class="flex-1 p-4 sm:p-8 pb-24 md:pb-8 max-w-7xl w-full mx-auto">
+        <!-- Global Expired Trial / Subscription Locked Banner -->
+        <div
+          v-if="page.props.planUsage?.is_subscription_locked && !route().current('billing.*')"
+          class="mb-6 rounded-2xl border border-rose-200 bg-gradient-to-r from-rose-50 via-amber-50/70 to-white p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs"
+        >
+          <div class="flex items-start gap-3">
+            <div class="w-9 h-9 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center shrink-0 mt-0.5">
+              <Crown class="w-5 h-5" />
+            </div>
+            <div>
+              <p class="text-sm font-black text-slate-900">
+                {{ page.props.planUsage?.is_trial_expired ? 'Masa Uji Coba 14 Hari Telah Berakhir' : 'Langganan Anda Telah Berakhir' }}
+              </p>
+              <p class="text-xs text-slate-600 mt-0.5 leading-relaxed">
+                Seluruh data Anda tetap aman dalam <strong>mode baca (read-only)</strong>. Aktifkan paket untuk kembali menambah atau mengubah klien, proyek, invoice, dan mencatat pembayaran.
+              </p>
+            </div>
+          </div>
+          <Link
+            :href="route('billing.index')"
+            class="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-violet-700 hover:bg-violet-800 text-white text-xs font-bold shadow-sm transition shrink-0"
+          >
+            <Crown class="w-4 h-4" />
+            Pilih Paket &amp; Aktifkan
+          </Link>
+        </div>
+
         <slot />
       </main>
     </div>

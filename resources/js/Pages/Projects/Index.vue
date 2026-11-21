@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { Head, router, useForm } from '@inertiajs/vue3';
+import { ref, computed } from 'vue';
+import { Head, Link, router, useForm, usePage } from '@inertiajs/vue3';
 import WorkspaceLayout from '@/Layouts/WorkspaceLayout.vue';
 import StatusBadge from '@/Components/UI/StatusBadge.vue';
 import RupiahInput from '@/Components/RupiahInput.vue';
 import { swalConfirm, swalError } from '@/utils/swal';
 import { formatDateID } from '@/utils/format';
-import { FolderKanban, Plus, Search, Pencil, Trash2, Calendar } from 'lucide-vue-next';
+import { FolderKanban, Plus, Search, Pencil, Trash2, Calendar, Lock } from 'lucide-vue-next';
 
 interface ClientOption {
   id: number;
@@ -39,6 +39,9 @@ const props = defineProps<{
     client_id?: string | number;
   };
 }>();
+
+const page = usePage();
+const isSubscriptionLocked = computed(() => Boolean((page.props.planUsage as Record<string, any> | null)?.is_subscription_locked));
 
 const search = ref(props.filters.search || '');
 const statusFilter = ref(props.filters.status || 'all');
@@ -124,7 +127,16 @@ const deleteProject = async (project: Project) => {
           <h1 class="text-2xl font-black text-slate-900 tracking-tight">Daftar Proyek</h1>
           <p class="text-sm text-slate-500 mt-0.5">Kelola proyek, nilai kontrak, dan kaitkan langsung ke invoice klien.</p>
         </div>
+        <Link
+          v-if="isSubscriptionLocked"
+          :href="route('billing.index')"
+          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-sm font-bold shadow-sm transition"
+        >
+          <Lock class="w-4 h-4" />
+          Aktifkan Paket
+        </Link>
         <button
+          v-else
           @click="openCreate"
           :disabled="clients.length === 0"
           class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-700 disabled:opacity-50 text-white text-sm font-bold shadow-sm transition"
@@ -195,10 +207,20 @@ const deleteProject = async (project: Project) => {
                   <StatusBadge :status="project.status" />
                 </td>
                 <td class="px-5 py-4 text-right space-x-2">
-                  <button @click="openEdit(project)" class="p-2 rounded-lg text-slate-500 hover:text-violet-600 hover:bg-violet-50 transition">
+                  <button
+                    @click="openEdit(project)"
+                    :disabled="isSubscriptionLocked"
+                    class="p-2 rounded-lg text-slate-500 hover:text-violet-600 hover:bg-violet-50 disabled:opacity-40 disabled:pointer-events-none transition"
+                    :title="isSubscriptionLocked ? 'Aktifkan paket untuk mengedit' : 'Edit'"
+                  >
                     <Pencil class="w-4 h-4" />
                   </button>
-                  <button @click="deleteProject(project)" class="p-2 rounded-lg text-slate-500 hover:text-red-600 hover:bg-red-50 transition">
+                  <button
+                    @click="deleteProject(project)"
+                    :disabled="isSubscriptionLocked"
+                    class="p-2 rounded-lg text-slate-500 hover:text-red-600 hover:bg-red-50 disabled:opacity-40 disabled:pointer-events-none transition"
+                    :title="isSubscriptionLocked ? 'Aktifkan paket untuk menghapus' : 'Hapus'"
+                  >
                     <Trash2 class="w-4 h-4" />
                   </button>
                 </td>

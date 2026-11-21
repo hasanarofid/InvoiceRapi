@@ -111,11 +111,23 @@ Route::middleware(['auth', 'onboarded', 'admin.verified'])->prefix('admin')->nam
 });
 
 Route::middleware(['auth', 'onboarded'])->group(function () {
-    // Workspace SaaS Routes
-    Route::resource('clients', ClientController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('projects', ProjectController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('invoices', InvoiceController::class)->only(['index', 'create', 'store', 'show', 'destroy']);
-    Route::post('/invoices/{invoice}/payments', [PaymentController::class, 'store'])->name('payments.store');
+    // Workspace SaaS Read-Only Routes (tetap bisa diakses saat trial habis)
+    Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
+    Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+    Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
+    Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])
+        ->whereNumber('invoice')
+        ->name('invoices.show');
+
+    // Workspace SaaS Transactional Routes (terkunci jika trial/langganan berakhir)
+    Route::middleware(['subscription.active'])->group(function () {
+        Route::resource('clients', ClientController::class)->only(['store', 'update', 'destroy']);
+        Route::resource('projects', ProjectController::class)->only(['store', 'update', 'destroy']);
+        Route::get('/invoices/create', [InvoiceController::class, 'create'])->name('invoices.create');
+        Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
+        Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
+        Route::post('/invoices/{invoice}/payments', [PaymentController::class, 'store'])->name('payments.store');
+    });
 
     // Billing & Upload Bukti Pembayaran Paket
     Route::get('/billing', [BillingController::class, 'index'])->name('billing.index');

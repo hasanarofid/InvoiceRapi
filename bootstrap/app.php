@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureActiveSubscription;
 use App\Http\Middleware\EnsureAdminVerified;
 use App\Http\Middleware\EnsureOnboardingCompleted;
 use App\Http\Middleware\HandleInertiaRequests;
@@ -21,6 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'onboarded' => EnsureOnboardingCompleted::class,
             'admin.verified' => EnsureAdminVerified::class,
+            'subscription.active' => EnsureActiveSubscription::class,
         ]);
 
         $middleware->web(append: [

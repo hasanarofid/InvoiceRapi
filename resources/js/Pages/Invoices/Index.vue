@@ -39,6 +39,7 @@ const props = defineProps<{
 
 const page = usePage();
 const planUsage = computed(() => (page.props.planUsage as Record<string, any> | null) ?? null);
+const isSubscriptionLocked = computed(() => Boolean(planUsage.value?.is_subscription_locked));
 const invoiceLimitReached = computed(() => Boolean(planUsage.value?.invoice_limit_reached));
 
 const search = ref(props.filters.search || '');
@@ -79,7 +80,15 @@ const deleteInvoice = async (inv: Invoice) => {
         </div>
 
         <Link
-          v-if="!invoiceLimitReached"
+          v-if="isSubscriptionLocked"
+          :href="route('billing.index')"
+          class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-sm font-bold shadow-sm transition"
+        >
+          <Lock class="w-4 h-4" />
+          Aktifkan Paket
+        </Link>
+        <Link
+          v-else-if="!invoiceLimitReached"
           :href="route('invoices.create')"
           class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-700 text-white text-sm font-bold shadow-sm transition"
         >
@@ -204,8 +213,9 @@ const deleteInvoice = async (inv: Invoice) => {
                   </Link>
                   <button
                     @click="deleteInvoice(inv)"
-                    class="p-2 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition align-middle"
-                    title="Hapus Invoice"
+                    :disabled="isSubscriptionLocked"
+                    class="p-2 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 disabled:opacity-40 disabled:pointer-events-none transition align-middle"
+                    :title="isSubscriptionLocked ? 'Aktifkan paket untuk menghapus' : 'Hapus Invoice'"
                   >
                     <Trash2 class="w-4 h-4" />
                   </button>

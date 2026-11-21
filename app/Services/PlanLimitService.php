@@ -161,6 +161,7 @@ class PlanLimitService
             'subscription_status' => $effectivePlan === 'gratis' && $isTrialExpired ? 'expired' : $tenant->subscription_status,
             'is_trial' => $isTrial && ! $isTrialExpired,
             'is_trial_expired' => $isTrialExpired,
+            'is_subscription_locked' => $this->isSubscriptionLocked($tenant),
             'trial_ends_at' => $tenant->trial_ends_at?->toIso8601String(),
             'expires_at_formatted' => $expiresAtFormatted,
             'days_remaining' => $daysRemaining,
@@ -179,9 +180,24 @@ class PlanLimitService
         ];
     }
 
+    public function isSubscriptionLocked(Tenant $tenant): bool
+    {
+        if ($tenant->subscription_status === 'trial') {
+            return $tenant->trial_ends_at !== null && $tenant->trial_ends_at->isPast();
+        }
+
+        return in_array($tenant->subscription_status, ['expired', 'cancelled', 'past_due'], true);
+    }
+
     public function canCreateInvoice(Tenant $tenant): array
     {
         $usage = $this->getUsageSummary($tenant);
+        if ($usage['is_subscription_locked']) {
+            return [
+                'allowed' => false,
+                'message' => 'Masa uji coba atau langganan Anda telah berakhir. Silakan aktifkan paket untuk membuat invoice baru.',
+            ];
+        }
         if ($usage['invoice_limit_reached']) {
             return [
                 'allowed' => false,
@@ -200,6 +216,12 @@ class PlanLimitService
     public function canCreateClient(Tenant $tenant): array
     {
         $usage = $this->getUsageSummary($tenant);
+        if ($usage['is_subscription_locked']) {
+            return [
+                'allowed' => false,
+                'message' => 'Masa uji coba atau langganan Anda telah berakhir. Silakan aktifkan paket untuk menambah klien baru.',
+            ];
+        }
         if ($usage['client_limit_reached']) {
             return [
                 'allowed' => false,

@@ -32,6 +32,7 @@ const props = defineProps<{
 
 const page = usePage();
 const planUsage = computed(() => (page.props.planUsage as Record<string, any> | null) ?? null);
+const isSubscriptionLocked = computed(() => Boolean(planUsage.value?.is_subscription_locked));
 const clientLimitReached = computed(() => Boolean(planUsage.value?.client_limit_reached));
 
 const search = ref(props.filters.search || '');
@@ -57,7 +58,7 @@ const applyFilter = () => {
 };
 
 const openCreate = () => {
-  if (clientLimitReached.value) return;
+  if (isSubscriptionLocked.value || clientLimitReached.value) return;
   editingClient.value = null;
   form.reset();
   form.status = 'active';
@@ -115,8 +116,16 @@ const deleteClient = async (client: Client) => {
           </p>
         </div>
 
+        <Link
+          v-if="isSubscriptionLocked"
+          :href="route('billing.index')"
+          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-sm font-bold shadow-sm transition"
+        >
+          <Lock class="w-4 h-4" />
+          Aktifkan Paket
+        </Link>
         <button
-          v-if="!clientLimitReached"
+          v-else-if="!clientLimitReached"
           @click="openCreate"
           class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-700 text-white text-sm font-bold shadow-sm transition"
         >
@@ -209,10 +218,20 @@ const deleteClient = async (client: Client) => {
                   <StatusBadge :status="!client.is_archived ? 'active' : 'inactive'" />
                 </td>
                 <td class="px-5 py-4 text-right space-x-2">
-                  <button @click="openEdit(client)" class="p-2 rounded-lg text-slate-500 hover:text-violet-600 hover:bg-violet-50 transition" title="Edit">
+                  <button
+                    @click="openEdit(client)"
+                    :disabled="isSubscriptionLocked"
+                    class="p-2 rounded-lg text-slate-500 hover:text-violet-600 hover:bg-violet-50 disabled:opacity-40 disabled:pointer-events-none transition"
+                    :title="isSubscriptionLocked ? 'Aktifkan paket untuk mengedit' : 'Edit'"
+                  >
                     <Pencil class="w-4 h-4" />
                   </button>
-                  <button @click="deleteClient(client)" class="p-2 rounded-lg text-slate-500 hover:text-red-600 hover:bg-red-50 transition" title="Hapus">
+                  <button
+                    @click="deleteClient(client)"
+                    :disabled="isSubscriptionLocked"
+                    class="p-2 rounded-lg text-slate-500 hover:text-red-600 hover:bg-red-50 disabled:opacity-40 disabled:pointer-events-none transition"
+                    :title="isSubscriptionLocked ? 'Aktifkan paket untuk menghapus' : 'Hapus'"
+                  >
                     <Trash2 class="w-4 h-4" />
                   </button>
                 </td>
