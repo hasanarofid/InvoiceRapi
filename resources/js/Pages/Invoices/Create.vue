@@ -424,12 +424,13 @@ const submit = () => {
           </div>
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">Perusahaan</label>
-              <input v-model="quickClientForm.company_name" type="text" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm" />
+              <label class="block text-xs font-bold text-slate-700 mb-1">Perusahaan (Opsional)</label>
+              <input v-model="quickClientForm.company_name" type="text" placeholder="Boleh dikosongkan" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm" />
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">Email</label>
-              <input v-model="quickClientForm.email" type="email" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm" />
+              <label class="block text-xs font-bold text-slate-700 mb-1">Email (Opsional)</label>
+              <input v-model="quickClientForm.email" type="email" placeholder="Boleh dikosongkan" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm" />
+              <p v-if="quickClientForm.errors.email" class="text-xs text-red-600 mt-1">{{ quickClientForm.errors.email }}</p>
             </div>
           </div>
 
