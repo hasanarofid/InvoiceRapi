@@ -24,3 +24,4 @@ export const formatQty = (val: number | string | null | undefined): string => {
     maximumFractionDigits: 2,
   }).format(num);
 };
+
