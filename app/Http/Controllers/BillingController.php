@@ -51,6 +51,7 @@ class BillingController extends Controller
             'usage' => $usage,
             'bank' => PlanLimitService::PAYMENT_BANK,
             'plans' => PlanLimitService::getPlans(),
+            'annualDiscountPercent' => PlanLimitService::getAnnualDiscountPercent(),
             'payments' => $payments,
         ]);
     }

@@ -3,15 +3,28 @@ import { Head, useForm } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import RupiahInput from '@/Components/RupiahInput.vue';
 import { swalError } from '@/utils/swal';
-import { Crown, Save, Check } from 'lucide-vue-next';
+import { Crown, Save, Check, Percent, Calculator } from 'lucide-vue-next';
 
 const props = defineProps<{
   plans: Record<string, any>;
+  annualDiscountPercent: number;
 }>();
 
 const form = useForm({
+  annual_discount_percent: props.annualDiscountPercent ?? 30,
   plans: JSON.parse(JSON.stringify(props.plans)),
 });
+
+const applyDiscountToAnnualPrices = () => {
+  const discount = Math.max(0, Math.min(90, Number(form.annual_discount_percent || 0)));
+  for (const slug of ['pro', 'bisnis']) {
+    const monthly = Number(form.plans[slug]?.monthly_price || 0);
+    if (monthly > 0) {
+      const discountedMonthly = Math.round((monthly * (100 - discount)) / 100 / 1000) * 1000;
+      form.plans[slug].annual_price = discountedMonthly * 12;
+    }
+  }
+};
 
 const featureLabels: Record<string, string> = {
   dp_termin: 'Atur Jadwal DP & Multi-Termin',
@@ -56,7 +69,44 @@ const submit = () => {
         </button>
       </div>
 
-      <form @submit.prevent="submit" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <form @submit.prevent="submit" class="space-y-6">
+        <!-- Global Annual Discount Setting -->
+        <div class="bg-white rounded-2xl border border-violet-200/80 p-5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div class="flex items-start gap-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200/80 flex items-center justify-center shrink-0">
+              <Percent class="w-5 h-5" />
+            </div>
+            <div>
+              <h2 class="text-sm font-black text-slate-900">Pengaturan Diskon Tahunan</h2>
+              <p class="text-xs text-slate-500 mt-0.5">
+                Persentase diskon ini tampil di badge <strong>Hemat {{ form.annual_discount_percent }}%</strong> pada halaman Beranda &amp; Billing, dan dapat digunakan untuk menghitung harga tahunan otomatis.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3 shrink-0">
+            <div class="flex items-center gap-2">
+              <input
+                v-model.number="form.annual_discount_percent"
+                type="number"
+                min="0"
+                max="90"
+                class="w-20 px-3 py-2 rounded-xl border border-slate-200 text-sm font-black text-slate-900 text-center focus:ring-2 focus:ring-violet-500"
+              />
+              <span class="text-sm font-bold text-slate-600">%</span>
+            </div>
+            <button
+              type="button"
+              @click="applyDiscountToAnnualPrices"
+              class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-violet-50 hover:bg-violet-100 text-violet-700 border border-violet-200 text-xs font-bold transition"
+            >
+              <Calculator class="w-3.5 h-3.5" />
+              Hitung Harga Tahunan Otomatis
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div
           v-for="slug in ['gratis', 'pro', 'bisnis']"
           :key="slug"
@@ -138,6 +188,7 @@ const submit = () => {
               />
             </label>
           </div>
+        </div>
         </div>
       </form>
     </div>

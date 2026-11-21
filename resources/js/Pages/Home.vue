@@ -36,14 +36,29 @@ interface TestimonialItem {
   avatar_url: string | null;
 }
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     testimonials?: TestimonialItem[];
+    plans?: Record<string, { name: string; monthly_price: number; annual_price: number }>;
+    annualDiscountPercent?: number;
   }>(),
   {
     testimonials: () => [],
+    annualDiscountPercent: 30,
   }
 );
+
+const formatPlanIDR = (amount: number) =>
+  'Rp ' + new Intl.NumberFormat('id-ID', { maximumFractionDigits: 0 }).format(amount);
+
+const displayPlanPrice = (planId: string, fallbackPrice: string) => {
+  const planCfg = props.plans?.[planId];
+  if (!planCfg) return fallbackPrice;
+  const amount = isAnnual.value
+    ? Math.round(Number(planCfg.annual_price || 0) / 12)
+    : Number(planCfg.monthly_price || 0);
+  return formatPlanIDR(amount);
+};
 
 // Toggle billing period: monthly or annual (save 30%)
 const isAnnual = ref(false);
@@ -698,7 +713,12 @@ const faqs = [
               ]"
             >
               <span>Tahunan</span>
-              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">Hemat 30%</span>
+              <span
+                v-if="annualDiscountPercent > 0"
+                class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800"
+              >
+                Hemat {{ annualDiscountPercent }}%
+              </span>
             </button>
           </div>
         </div>
@@ -730,12 +750,12 @@ const faqs = [
               </div>
               <div class="mt-2 flex items-baseline gap-1">
                 <span class="text-3xl sm:text-4xl font-extrabold text-slate-900">
-                  {{ isAnnual && plan.id === 'pro' ? 'Rp 39.000' : (isAnnual && plan.id === 'bisnis' ? 'Rp 83.000' : plan.price) }}
+                  {{ displayPlanPrice(plan.id, plan.price) }}
                 </span>
                 <span class="text-xs text-slate-500">{{ plan.period }}</span>
               </div>
-              <p v-if="isAnnual && plan.id !== 'gratis'" class="text-[11px] text-emerald-600 font-medium mt-1">
-                Ditagih tahunan (hemat 30%)
+              <p v-if="isAnnual && plan.id !== 'gratis' && annualDiscountPercent > 0" class="text-[11px] text-emerald-600 font-medium mt-1">
+                Ditagih tahunan (hemat {{ annualDiscountPercent }}%)
               </p>
 
               <ul class="mt-6 space-y-3 pt-6 border-t border-slate-100 text-sm text-slate-600">

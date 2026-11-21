@@ -62,6 +62,7 @@ const props = defineProps<{
     max_invoices_per_month: number;
     max_clients: number | null;
   }>;
+  annualDiscountPercent?: number;
   payments: PaymentItem[];
 }>();
 
@@ -280,7 +281,9 @@ const clientPercent = computed(() => {
                   class="w-full rounded-xl border-slate-200 text-sm focus:border-violet-600 focus:ring-violet-600"
                 >
                   <option value="monthly">Bulanan</option>
-                  <option value="annual">Tahunan (Hemat 30%)</option>
+                  <option value="annual">
+                    {{ (annualDiscountPercent ?? 30) > 0 ? `Tahunan (Hemat ${annualDiscountPercent ?? 30}%)` : 'Tahunan' }}
+                  </option>
                 </select>
                 <InputError :message="form.errors.billing_cycle" class="mt-1 text-xs" />
               </div>

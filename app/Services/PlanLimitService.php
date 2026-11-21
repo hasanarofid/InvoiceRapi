@@ -21,6 +21,8 @@ class PlanLimitService
         'account_holder' => 'Akhmad Hasan Arofid',
     ];
 
+    public const DEFAULT_ANNUAL_DISCOUNT_PERCENT = 30;
+
     /**
      * Plan definitions aligned with pricing table.
      */
@@ -90,6 +92,19 @@ class PlanLimitService
         }
 
         return array_replace_recursive(self::PLANS, $decoded);
+    }
+
+    /**
+     * Return configurable annual billing discount percentage (0 - 90).
+     */
+    public static function getAnnualDiscountPercent(): int
+    {
+        $raw = Setting::getValue('invoicerapi_annual_discount_percent');
+        if ($raw === null || $raw === '') {
+            return self::DEFAULT_ANNUAL_DISCOUNT_PERCENT;
+        }
+
+        return max(0, min(90, (int) $raw));
     }
 
     public function resolveEffectivePlan(Tenant $tenant): string

@@ -6,6 +6,7 @@ use App\Mail\ContactInquiryMail;
 use App\Models\Lead;
 use App\Models\Post;
 use App\Models\Testimonial;
+use App\Services\PlanLimitService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Facades\Log;
@@ -37,6 +38,8 @@ class SynbarraController extends Controller
         return Inertia::render('Home', [
             'meta' => $meta,
             'testimonials' => $testimonials,
+            'plans' => PlanLimitService::getPlans(),
+            'annualDiscountPercent' => PlanLimitService::getAnnualDiscountPercent(),
         ])->withViewData(['meta' => $meta]);
     }
 

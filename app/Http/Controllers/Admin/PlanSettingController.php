@@ -19,12 +19,14 @@ class PlanSettingController extends Controller
     {
         return Inertia::render('Admin/Plans/Index', [
             'plans' => PlanLimitService::getPlans(),
+            'annualDiscountPercent' => PlanLimitService::getAnnualDiscountPercent(),
         ]);
     }
 
     public function update(Request $request): RedirectResponse
     {
         $validated = $request->validate([
+            'annual_discount_percent' => 'required|integer|min:0|max:90',
             'plans' => 'required|array',
             'plans.*.name' => 'required|string|max:50',
             'plans.*.monthly_price' => 'required|numeric|min:0',
@@ -68,11 +70,21 @@ class PlanSettingController extends Controller
         }
 
         $old = PlanLimitService::getPlans();
+        $oldDiscount = PlanLimitService::getAnnualDiscountPercent();
+        $newDiscount = (int) $validated['annual_discount_percent'];
+
         Setting::setValue('invoicerapi_plans', json_encode($sanitized), 'json');
+        Setting::setValue('invoicerapi_annual_discount_percent', (string) $newDiscount, 'integer');
 
-        AuditLog::log('plans_updated', Setting::class, 0, $old, $sanitized);
+        AuditLog::log('plans_updated', Setting::class, 0, [
+            'plans' => $old,
+            'annual_discount_percent' => $oldDiscount,
+        ], [
+            'plans' => $sanitized,
+            'annual_discount_percent' => $newDiscount,
+        ]);
 
-        return redirect()->back()->with('success', 'Pengaturan harga, kuota, dan fitur paket berhasil diperbarui.');
+        return redirect()->back()->with('success', 'Pengaturan harga, diskon tahunan, kuota, dan fitur paket berhasil diperbarui.');
     }
 }
 
