@@ -6,8 +6,6 @@ import { swalSuccess, swalError } from '@/utils/swal';
 import {
   LayoutDashboard,
   Settings as SettingsIcon,
-  ShoppingBag,
-  ShoppingCart,
   ExternalLink,
   Menu,
   X,
@@ -15,10 +13,11 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
-  ListTodo,
   Users,
   CreditCard,
-  UserCheck
+  UserCheck,
+  FolderKanban,
+  Crown
 } from '@lucide/vue';
 
 const page = usePage();
@@ -40,12 +39,9 @@ const isUserMenuOpen = ref(false);
 const navigation = [
   { name: 'Dashboard', href: route('admin.dashboard'), icon: LayoutDashboard, current: route().current('admin.dashboard') },
   { name: 'Verifikasi Pembayaran', href: route('admin.payments.index'), icon: CreditCard, current: route().current('admin.payments.*') },
-  { name: 'Trial Tracker (CRM WA)', href: route('admin.trial-tracker.index'), icon: Users, current: route().current('admin.trial-tracker.*') },
-  { name: 'Roadmap Sprint 30 Hari', href: route('admin.roadmap.index'), icon: ListTodo, current: route().current('admin.roadmap.*') },
-  { name: 'Leads & Prospek', href: route('admin.leads.index'), icon: Users, current: route().current('admin.leads.*') },
-  { name: 'Katalog Produk', href: route('admin.products.index'), icon: ShoppingBag, current: route().current('admin.products.*') },
-  { name: 'Pesanan Masuk (OMS)', href: route('admin.orders.index'), icon: ShoppingCart, current: route().current('admin.orders.*') },
-  { name: 'Pengaturan Toko', href: route('admin.settings.index'), icon: SettingsIcon, current: route().current('admin.settings.*') },
+  { name: 'Trial & Member', href: route('admin.trial-tracker.index'), icon: Users, current: route().current('admin.trial-tracker.*') },
+  { name: 'Data Klien, Proyek & Invoice', href: route('admin.workspace-data.index'), icon: FolderKanban, current: route().current('admin.workspace-data.*') },
+  { name: 'Pengaturan Paket', href: route('admin.plans.index'), icon: Crown, current: route().current('admin.plans.*') },
   { name: 'Profil Akun', href: route('profile.edit'), icon: UserCheck, current: route().current('profile.*') },
 ];
 
@@ -307,20 +303,20 @@ const logout = () => {
           <span>Bayar</span>
         </Link>
         <Link
-          :href="route('admin.trial-tracker.index')"
+          :href="route('admin.workspace-data.index')"
           class="flex flex-col items-center justify-center gap-1 text-[10px] font-bold transition"
-          :class="route().current('admin.trial-tracker.*') ? 'text-violet-700' : 'text-slate-500'"
+          :class="route().current('admin.workspace-data.*') ? 'text-violet-700' : 'text-slate-500'"
         >
-          <Users class="w-5 h-5" />
-          <span>Trial</span>
+          <FolderKanban class="w-5 h-5" />
+          <span>Data</span>
         </Link>
         <Link
-          :href="route('admin.leads.index')"
+          :href="route('admin.plans.index')"
           class="flex flex-col items-center justify-center gap-1 text-[10px] font-bold transition"
-          :class="route().current('admin.leads.*') ? 'text-violet-700' : 'text-slate-500'"
+          :class="route().current('admin.plans.*') ? 'text-violet-700' : 'text-slate-500'"
         >
-          <ListTodo class="w-5 h-5" />
-          <span>Leads</span>
+          <Crown class="w-5 h-5" />
+          <span>Paket</span>
         </Link>
         <button
           type="button"

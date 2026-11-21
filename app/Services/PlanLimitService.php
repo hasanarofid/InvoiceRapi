@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Models\Client;
 use App\Models\Invoice;
+use App\Models\Setting;
 use App\Models\Tenant;
 use App\Models\User;
 
@@ -71,8 +72,29 @@ class PlanLimitService
         ],
     ];
 
+    /**
+     * Return active plan configurations (DB overrides merged over defaults).
+     *
+     * @return array<string, array<string, mixed>>
+     */
+    public static function getPlans(): array
+    {
+        $raw = Setting::getValue('invoicerapi_plans');
+        if (! $raw) {
+            return self::PLANS;
+        }
+
+        $decoded = is_string($raw) ? json_decode($raw, true) : (is_array($raw) ? $raw : null);
+        if (! is_array($decoded)) {
+            return self::PLANS;
+        }
+
+        return array_replace_recursive(self::PLANS, $decoded);
+    }
+
     public function resolveEffectivePlan(Tenant $tenant): string
     {
+        $plans = self::getPlans();
         $rawPlan = strtolower((string) ($tenant->subscription_plan ?: 'gratis'));
         if ($rawPlan === 'free') {
             $rawPlan = 'gratis';
@@ -82,20 +104,21 @@ class PlanLimitService
             if ($tenant->trial_ends_at && $tenant->trial_ends_at->isPast()) {
                 return 'gratis';
             }
-            return isset(self::PLANS[$rawPlan]) ? $rawPlan : 'pro';
+            return isset($plans[$rawPlan]) ? $rawPlan : 'pro';
         }
 
         if (in_array($tenant->subscription_status, ['expired', 'cancelled', 'past_due'], true)) {
             return 'gratis';
         }
 
-        return isset(self::PLANS[$rawPlan]) ? $rawPlan : 'gratis';
+        return isset($plans[$rawPlan]) ? $rawPlan : 'gratis';
     }
 
     public function getUsageSummary(Tenant $tenant): array
     {
+        $plans = self::getPlans();
         $effectivePlan = $this->resolveEffectivePlan($tenant);
-        $limits = self::PLANS[$effectivePlan];
+        $limits = $plans[$effectivePlan] ?? self::PLANS['gratis'];
 
         $invoicesThisMonth = Invoice::where('tenant_id', $tenant->id)
             ->whereBetween('created_at', [now()->startOfMonth(), now()->endOfMonth()])

@@ -50,7 +50,7 @@ class BillingController extends Controller
         return Inertia::render('Billing/Index', [
             'usage' => $usage,
             'bank' => PlanLimitService::PAYMENT_BANK,
-            'plans' => PlanLimitService::PLANS,
+            'plans' => PlanLimitService::getPlans(),
             'payments' => $payments,
         ]);
     }
@@ -81,7 +81,8 @@ class BillingController extends Controller
         }
 
         // Compute exact amount server-side
-        $planConfig = PlanLimitService::PLANS[$validated['plan']];
+        $plans = PlanLimitService::getPlans();
+        $planConfig = $plans[$validated['plan']];
         $amount = $validated['billing_cycle'] === 'annual'
             ? $planConfig['annual_price']
             : $planConfig['monthly_price'];

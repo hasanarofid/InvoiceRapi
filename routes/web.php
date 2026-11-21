@@ -4,11 +4,13 @@ use App\Http\Controllers\Admin\AdminVerificationController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LeadController;
 use App\Http\Controllers\Admin\OrderManagerController;
+use App\Http\Controllers\Admin\PlanSettingController;
 use App\Http\Controllers\Admin\ProductManagerController;
 use App\Http\Controllers\Admin\RoadmapController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SubscriptionPaymentController;
 use App\Http\Controllers\Admin\TrialTrackerController;
+use App\Http\Controllers\Admin\WorkspaceDataController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\ClientController;
@@ -89,6 +91,13 @@ Route::middleware(['auth', 'onboarded', 'admin.verified'])->prefix('admin')->nam
     // Trial Tracker & WhatsApp Follow-up (CRM Superadmin)
     Route::get('/trial-tracker', [TrialTrackerController::class, 'index'])->name('trial-tracker.index');
     Route::post('/trial-tracker/{tenant}/follow-up', [TrialTrackerController::class, 'updateFollowUp'])->name('trial-tracker.follow-up');
+
+    // Pengaturan Paket Harga, Kuota & Fitur
+    Route::get('/plans', [PlanSettingController::class, 'index'])->name('plans.index');
+    Route::post('/plans', [PlanSettingController::class, 'update'])->name('plans.update');
+
+    // Monitoring Data Workspace Member (Klien, Proyek, Invoice)
+    Route::get('/workspace-data', [WorkspaceDataController::class, 'index'])->name('workspace-data.index');
 });
 
 Route::middleware(['auth', 'onboarded'])->group(function () {
