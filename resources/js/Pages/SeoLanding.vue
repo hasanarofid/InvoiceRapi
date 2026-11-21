@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Container from '@/Components/UI/Container.vue';
@@ -33,6 +33,41 @@ const openFaq = ref<number | null>(0);
 const toggleFaq = (idx: number) => {
   openFaq.value = openFaq.value === idx ? null : idx;
 };
+
+type PreviewStatus = 'Semua' | 'Lunas' | 'Sebagian' | 'Belum Bayar';
+const previewTabs: PreviewStatus[] = ['Semua', 'Lunas', 'Sebagian', 'Belum Bayar'];
+const activePreviewTab = ref<PreviewStatus>('Semua');
+
+const previewInvoices = [
+  {
+    code: 'INV-2025-0012',
+    client: 'Mulia Wedding',
+    amount: 'Rp 50.000.000',
+    status: 'Lunas' as const,
+    badgeClass: 'bg-emerald-50 text-emerald-700 border-emerald-200/70',
+  },
+  {
+    code: 'INV-2025-0013',
+    client: 'Lensa Studio',
+    amount: 'Rp 18.500.000',
+    status: 'Sebagian' as const,
+    badgeClass: 'bg-amber-50 text-amber-700 border-amber-200/70',
+  },
+  {
+    code: 'INV-2025-0014',
+    client: 'Karya Interior',
+    amount: 'Rp 32.000.000',
+    status: 'Belum Bayar' as const,
+    badgeClass: 'bg-rose-50 text-rose-600 border-rose-200/70',
+  },
+];
+
+const filteredPreviewInvoices = computed(() => {
+  if (activePreviewTab.value === 'Semua') {
+    return previewInvoices;
+  }
+  return previewInvoices.filter((item) => item.status === activePreviewTab.value);
+});
 </script>
 
 <template>
@@ -120,23 +155,72 @@ const toggleFaq = (idx: number) => {
             </ul>
           </div>
 
-          <div class="lg:col-span-6 bg-white rounded-3xl border border-violet-200/80 p-6 sm:p-8 shadow-invoicerapi-sm space-y-4">
-            <div class="flex items-center gap-2 text-xs font-extrabold text-violet-700 uppercase tracking-wider">
-              <ShieldCheck class="w-4 h-4" />
-              Contoh Skenario Nyata
+          <div class="lg:col-span-6 bg-white rounded-3xl border border-violet-200/80 p-5 sm:p-7 shadow-invoicerapi-sm space-y-5">
+            <!-- Interactive UI Mockup Header (matching Daftar Invoice Klien style) -->
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-slate-100">
+              <div class="flex items-center gap-2">
+                <ShieldCheck class="w-4 h-4 text-violet-700 shrink-0" />
+                <span class="text-sm font-extrabold text-slate-900">Daftar Invoice Klien</span>
+              </div>
+              <div class="flex flex-wrap items-center gap-1.5">
+                <button
+                  v-for="tab in previewTabs"
+                  :key="tab"
+                  type="button"
+                  @click="activePreviewTab = tab"
+                  class="px-3 py-1 rounded-full text-xs font-bold transition-all cursor-pointer"
+                  :class="
+                    activePreviewTab === tab
+                      ? 'bg-violet-600 text-white shadow-xs'
+                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200/70'
+                  "
+                >
+                  {{ tab }}
+                </button>
+              </div>
             </div>
-            <h3 class="text-lg font-black text-slate-900">{{ pageData.example.title }}</h3>
-            <p class="text-sm text-slate-600 leading-relaxed">{{ pageData.example.scenario }}</p>
 
-            <div class="rounded-2xl border border-slate-200 overflow-hidden">
-              <table class="w-full text-left text-xs sm:text-sm border-collapse">
-                <tbody class="divide-y divide-slate-100">
-                  <tr v-for="row in pageData.example.rows" :key="row.label" class="bg-slate-50/50">
-                    <td class="py-3 px-4 font-bold text-slate-600 w-40">{{ row.label }}</td>
-                    <td class="py-3 px-4 font-bold text-slate-900">{{ row.value }}</td>
-                  </tr>
-                </tbody>
-              </table>
+            <!-- Interactive Invoice Cards -->
+            <div class="space-y-2.5">
+              <div
+                v-for="inv in filteredPreviewInvoices"
+                :key="inv.code"
+                class="flex items-center justify-between gap-3 p-3.5 rounded-2xl border border-slate-100 bg-slate-50/40 hover:border-violet-200 hover:bg-violet-50/20 transition-colors"
+              >
+                <div class="min-w-0">
+                  <div class="text-xs font-bold text-violet-700 tracking-wide">{{ inv.code }}</div>
+                  <div class="text-sm font-extrabold text-slate-900 truncate">{{ inv.client }}</div>
+                </div>
+                <div class="text-right shrink-0 space-y-1">
+                  <div class="text-sm font-black text-slate-900 tabular-nums">{{ inv.amount }}</div>
+                  <span
+                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold border"
+                    :class="inv.badgeClass"
+                  >
+                    {{ inv.status }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Contextual Scenario Summary -->
+            <div class="pt-3 border-t border-slate-100 space-y-3">
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-[11px] font-extrabold text-violet-700 uppercase tracking-wider">Contoh Skenario Nyata</span>
+              </div>
+              <h3 class="text-base font-black text-slate-900">{{ pageData.example.title }}</h3>
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">{{ pageData.example.scenario }}</p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
+                <div
+                  v-for="row in pageData.example.rows"
+                  :key="row.label"
+                  class="rounded-2xl border border-slate-100 bg-[#FAF8FF] p-3 space-y-0.5"
+                >
+                  <div class="text-[11px] font-bold text-slate-500">{{ row.label }}</div>
+                  <div class="text-xs font-extrabold text-slate-900 leading-snug">{{ row.value }}</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
