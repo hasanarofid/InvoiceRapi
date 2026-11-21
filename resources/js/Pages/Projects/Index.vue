@@ -4,6 +4,7 @@ import { Head, router, useForm } from '@inertiajs/vue3';
 import WorkspaceLayout from '@/Layouts/WorkspaceLayout.vue';
 import RupiahInput from '@/Components/RupiahInput.vue';
 import { swalConfirm, swalError } from '@/utils/swal';
+import { formatDateID } from '@/utils/format';
 import { FolderKanban, Plus, Search, Pencil, Trash2, Calendar } from 'lucide-vue-next';
 
 interface ClientOption {
@@ -85,8 +86,8 @@ const openEdit = (project: Project) => {
   form.description = project.description || '';
   form.status = project.status;
   form.contract_amount = Number(project.contract_amount || 0);
-  form.start_date = project.start_date || '';
-  form.end_date = project.end_date || '';
+  form.start_date = project.start_date ? String(project.start_date).slice(0, 10) : '';
+  form.end_date = project.end_date ? String(project.end_date).slice(0, 10) : '';
   showModal.value = true;
 };
 
@@ -190,7 +191,7 @@ const statusBadge = (status: string) => {
                 <td class="px-5 py-4">
                   <p class="font-bold text-slate-900">{{ project.name }}</p>
                   <p v-if="project.start_date || project.end_date" class="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
-                    <Calendar class="w-3.5 h-3.5" /> {{ project.start_date || '?' }} s/d {{ project.end_date || '?' }}
+                    <Calendar class="w-3.5 h-3.5" /> {{ formatDateID(project.start_date) }} s/d {{ formatDateID(project.end_date) }}
                   </p>
                 </td>
                 <td class="px-5 py-4 text-slate-700 font-medium">{{ project.client?.name || '-' }}</td>

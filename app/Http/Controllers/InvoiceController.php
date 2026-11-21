@@ -33,7 +33,9 @@ class InvoiceController extends Controller
             ->with(['client', 'project', 'installments'])
             ->latest('invoice_date');
 
-        if ($status !== 'all') {
+        if ($status === 'unpaid') {
+            $query->whereIn('status', ['issued', 'partial', 'overdue']);
+        } elseif ($status !== 'all') {
             $query->where('status', $status);
         }
 

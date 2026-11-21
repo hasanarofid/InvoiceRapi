@@ -17,6 +17,19 @@ export const formatDateID = (val: string | null | undefined): string => {
   }).format(date);
 };
 
+export const formatDateTimeID = (val: string | null | undefined): string => {
+  if (!val) return '-';
+  const date = new Date(val);
+  if (Number.isNaN(date.getTime())) return String(val);
+  return new Intl.DateTimeFormat('id-ID', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(date);
+};
+
 export const formatQty = (val: number | string | null | undefined): string => {
   const num = Number(val || 0);
   return new Intl.NumberFormat('id-ID', {
@@ -24,4 +37,3 @@ export const formatQty = (val: number | string | null | undefined): string => {
     maximumFractionDigits: 2,
   }).format(num);
 };
-

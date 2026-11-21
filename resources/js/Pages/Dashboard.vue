@@ -207,55 +207,71 @@ const dynamicFeatures = computed(() => {
         </Link>
       </div>
 
-      <!-- 4 Stat Cards (Real Data) -->
+      <!-- 4 Stat Cards (Clickable -> Filtered Invoices) -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="p-5 rounded-2xl bg-white border border-violet-100/80 shadow-invoicerapi-sm flex items-center justify-between">
+        <Link
+          :href="route('invoices.index', { status: 'all' })"
+          class="group p-5 rounded-2xl bg-white border border-violet-100/80 hover:border-violet-300 hover:shadow-md shadow-invoicerapi-sm flex items-center justify-between transition"
+        >
           <div class="space-y-1">
             <p class="text-xs font-semibold text-slate-500">Total Tagihan</p>
             <p class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
               {{ formatRupiah(stats.total_invoiced) }}
             </p>
+            <p class="text-[11px] font-semibold text-violet-700 group-hover:underline">Lihat semua tagihan &rarr;</p>
           </div>
           <div class="w-12 h-12 rounded-xl bg-violet-50 text-violet-700 flex items-center justify-center shrink-0">
             <FileText class="w-6 h-6" />
           </div>
-        </div>
+        </Link>
 
-        <div class="p-5 rounded-2xl bg-white border border-violet-100/80 shadow-invoicerapi-sm flex items-center justify-between">
+        <Link
+          :href="route('invoices.index', { status: 'paid' })"
+          class="group p-5 rounded-2xl bg-white border border-violet-100/80 hover:border-emerald-300 hover:shadow-md shadow-invoicerapi-sm flex items-center justify-between transition"
+        >
           <div class="space-y-1">
             <p class="text-xs font-semibold text-slate-500">Sudah Dibayar</p>
             <p class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
               {{ formatRupiah(stats.total_paid) }}
             </p>
+            <p class="text-[11px] font-semibold text-emerald-700 group-hover:underline">Lihat invoice lunas &rarr;</p>
           </div>
           <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
             <CheckCircle2 class="w-6 h-6" />
           </div>
-        </div>
+        </Link>
 
-        <div class="p-5 rounded-2xl bg-white border border-violet-100/80 shadow-invoicerapi-sm flex items-center justify-between">
+        <Link
+          :href="route('invoices.index', { status: 'unpaid' })"
+          class="group p-5 rounded-2xl bg-white border border-violet-100/80 hover:border-amber-300 hover:shadow-md shadow-invoicerapi-sm flex items-center justify-between transition"
+        >
           <div class="space-y-1">
             <p class="text-xs font-semibold text-slate-500">Piutang</p>
             <p class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
               {{ formatRupiah(stats.total_outstanding) }}
             </p>
+            <p class="text-[11px] font-semibold text-amber-700 group-hover:underline">Lihat tagihan belum lunas &rarr;</p>
           </div>
           <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
             <Clock class="w-6 h-6" />
           </div>
-        </div>
+        </Link>
 
-        <div class="p-5 rounded-2xl bg-white border border-violet-100/80 shadow-invoicerapi-sm flex items-center justify-between">
+        <Link
+          :href="route('invoices.index', { status: 'overdue' })"
+          class="group p-5 rounded-2xl bg-white border border-violet-100/80 hover:border-red-300 hover:shadow-md shadow-invoicerapi-sm flex items-center justify-between transition"
+        >
           <div class="space-y-1">
             <p class="text-xs font-semibold text-slate-500">Terlambat</p>
             <p class="text-xl sm:text-2xl font-black text-red-600 tracking-tight">
               {{ formatRupiah(stats.total_overdue) }}
             </p>
+            <p class="text-[11px] font-semibold text-red-600 group-hover:underline">Lihat tagihan terlambat &rarr;</p>
           </div>
           <div class="w-12 h-12 rounded-xl bg-red-50 text-red-600 flex items-center justify-center shrink-0">
             <AlertCircle class="w-6 h-6" />
           </div>
-        </div>
+        </Link>
       </div>
 
       <!-- Charts & Dynamic Feature Matrix -->

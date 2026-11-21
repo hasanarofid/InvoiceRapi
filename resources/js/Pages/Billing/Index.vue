@@ -3,6 +3,7 @@ import { ref, computed } from 'vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import WorkspaceLayout from '@/Layouts/WorkspaceLayout.vue';
 import InputError from '@/Components/InputError.vue';
+import { formatDateTimeID } from '@/utils/format';
 import {
   Crown,
   Copy,
@@ -374,7 +375,7 @@ const clientPercent = computed(() => {
             </thead>
             <tbody class="divide-y divide-slate-100">
               <tr v-for="item in payments" :key="item.id">
-                <td class="py-3 pr-4 text-slate-600">{{ item.created_at }}</td>
+                <td class="py-3 pr-4 text-slate-600">{{ formatDateTimeID(item.created_at) }}</td>
                 <td class="py-3 pr-4 font-bold text-slate-900 uppercase">{{ item.plan }} ({{ item.billing_cycle === 'annual' ? 'Tahunan' : 'Bulanan' }})</td>
                 <td class="py-3 pr-4 font-bold text-violet-700">{{ formatRupiah(item.amount) }}</td>
                 <td class="py-3 pr-4 text-slate-600">{{ item.sender_name }} ({{ item.sender_bank || '-' }})</td>

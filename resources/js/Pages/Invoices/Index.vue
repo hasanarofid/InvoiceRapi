@@ -140,6 +140,7 @@ const statusBadge = (status: string) => {
           <button
             v-for="tab in [
               { val: 'all', label: 'Semua' },
+              { val: 'unpaid', label: 'Belum Lunas' },
               { val: 'issued', label: 'Terkirim' },
               { val: 'partial', label: 'Sebagian' },
               { val: 'overdue', label: 'Terlambat' },

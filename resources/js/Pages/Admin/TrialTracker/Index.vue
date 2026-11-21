@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
+import { formatDateID } from '@/utils/format';
 import {
   Users,
   Clock,
@@ -334,7 +335,7 @@ const changeStatusFilter = (status: string) => {
                   </span>
 
                   <div class="text-[10px] text-slate-400 mt-1">
-                    Hingga: {{ item.trial_ends_at }}
+                    Hingga: {{ formatDateID(item.trial_ends_at) }}
                   </div>
                 </td>
 

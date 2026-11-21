@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
+import { formatDateID } from '@/utils/format';
 import {
   CheckCircle2,
   XCircle,
@@ -145,7 +146,7 @@ const formatRupiah = (val: number) =>
                 </td>
                 <td class="px-5 py-4 text-slate-600">
                   <p class="font-semibold text-slate-800">{{ row.sender_name }}</p>
-                  <p class="text-xs">{{ row.sender_bank || '-' }} &bull; {{ row.transfer_date }}</p>
+                  <p class="text-xs">{{ row.sender_bank || '-' }} &bull; {{ formatDateID(row.transfer_date) }}</p>
                 </td>
                 <td class="px-5 py-4">
                   <a
