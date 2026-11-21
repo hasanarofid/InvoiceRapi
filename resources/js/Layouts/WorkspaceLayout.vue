@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue';
 import { Link, router, usePage } from '@inertiajs/vue3';
 import NotificationBell from '@/Components/NotificationBell.vue';
+import MemberSupportWhatsapp from '@/Components/MemberSupportWhatsapp.vue';
 import { swalSuccess, swalError } from '@/utils/swal';
 import {
   LayoutDashboard,
@@ -329,6 +330,9 @@ const userInitials = (user?.name || 'User')
         </button>
       </div>
     </nav>
+
+    <!-- Floating Admin WhatsApp Support (Keluhan & Saran) -->
+    <MemberSupportWhatsapp />
   </div>
 </template>
 
