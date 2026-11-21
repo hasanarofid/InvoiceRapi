@@ -351,20 +351,24 @@
                     @if($bankAcc)
                         <table style="width: 100%; border-collapse: collapse; margin-bottom: 6px;">
                             <tr>
-                                <td style="padding: 2px 0; color: #64748b; width: 92px;">Bank</td>
-                                <td style="padding: 2px 0; font-weight: bold; color: #0f172a;">: {{ $bankAcc->bank_name }}</td>
+                                <td style="padding: 2px 0; color: #64748b; width: 96px; white-space: nowrap; vertical-align: top;">Bank</td>
+                                <td style="padding: 2px 0; color: #64748b; width: 10px; text-align: center; vertical-align: top;">:</td>
+                                <td style="padding: 2px 0; font-weight: bold; color: #0f172a; vertical-align: top;">{{ $bankAcc->bank_name }}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 2px 0; color: #64748b;">No. Rekening</td>
-                                <td style="padding: 2px 0; font-weight: bold; color: #0f172a;">: {{ $bankAcc->account_number }}</td>
+                                <td style="padding: 2px 0; color: #64748b; width: 96px; white-space: nowrap; vertical-align: top;">No. Rekening</td>
+                                <td style="padding: 2px 0; color: #64748b; width: 10px; text-align: center; vertical-align: top;">:</td>
+                                <td style="padding: 2px 0; font-weight: bold; color: #0f172a; vertical-align: top;">{{ $bankAcc->account_number }}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 2px 0; color: #64748b;">Atas Nama</td>
-                                <td style="padding: 2px 0; font-weight: bold; color: #0f172a;">: {{ $bankAcc->account_holder }}</td>
+                                <td style="padding: 2px 0; color: #64748b; width: 96px; white-space: nowrap; vertical-align: top;">Atas Nama</td>
+                                <td style="padding: 2px 0; color: #64748b; width: 10px; text-align: center; vertical-align: top;">:</td>
+                                <td style="padding: 2px 0; font-weight: bold; color: #0f172a; vertical-align: top;">{{ $bankAcc->account_holder }}</td>
                             </tr>
                             <tr>
-                                <td style="padding: 2px 0; color: #64748b;">Berita Transfer</td>
-                                <td style="padding: 2px 0; font-weight: bold; color: #0f172a;">: {{ $invoice->invoice_number }}</td>
+                                <td style="padding: 2px 0; color: #64748b; width: 96px; white-space: nowrap; vertical-align: top;">Berita Transfer</td>
+                                <td style="padding: 2px 0; color: #64748b; width: 10px; text-align: center; vertical-align: top;">:</td>
+                                <td style="padding: 2px 0; font-weight: bold; color: #0f172a; vertical-align: top;">{{ $invoice->invoice_number }}</td>
                             </tr>
                         </table>
                     @endif

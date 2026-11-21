@@ -190,23 +190,27 @@ const printPage = () => {
               <div class="p-4 sm:p-5 rounded-2xl bg-violet-50/80 border border-violet-100 space-y-2.5 text-xs text-slate-700">
                 <p class="text-xs font-black uppercase tracking-wider text-violet-700">PEMBAYARAN:</p>
 
-                <table v-if="paymentAccount" class="w-full text-xs text-slate-800">
+                <table v-if="paymentAccount" class="w-full text-xs text-slate-800 border-collapse">
                   <tbody>
                     <tr>
-                      <td class="py-1 text-slate-500 w-28">Bank</td>
-                      <td class="py-1 font-bold">: {{ paymentAccount.bank_name }}</td>
+                      <td class="py-1 text-slate-500 w-28 whitespace-nowrap align-top">Bank</td>
+                      <td class="py-1 text-slate-500 w-3 text-center align-top">:</td>
+                      <td class="py-1 font-bold text-slate-900 align-top">{{ paymentAccount.bank_name }}</td>
                     </tr>
                     <tr>
-                      <td class="py-1 text-slate-500">No. Rekening</td>
-                      <td class="py-1 font-bold font-mono">: {{ paymentAccount.account_number }}</td>
+                      <td class="py-1 text-slate-500 w-28 whitespace-nowrap align-top">No. Rekening</td>
+                      <td class="py-1 text-slate-500 w-3 text-center align-top">:</td>
+                      <td class="py-1 font-bold text-slate-900 tabular-nums align-top">{{ paymentAccount.account_number }}</td>
                     </tr>
                     <tr>
-                      <td class="py-1 text-slate-500">Atas Nama</td>
-                      <td class="py-1 font-bold">: {{ paymentAccount.account_holder }}</td>
+                      <td class="py-1 text-slate-500 w-28 whitespace-nowrap align-top">Atas Nama</td>
+                      <td class="py-1 text-slate-500 w-3 text-center align-top">:</td>
+                      <td class="py-1 font-bold text-slate-900 align-top">{{ paymentAccount.account_holder }}</td>
                     </tr>
                     <tr>
-                      <td class="py-1 text-slate-500">Berita Transfer</td>
-                      <td class="py-1 font-bold">: {{ invoice.invoice_number }}</td>
+                      <td class="py-1 text-slate-500 w-28 whitespace-nowrap align-top">Berita Transfer</td>
+                      <td class="py-1 text-slate-500 w-3 text-center align-top">:</td>
+                      <td class="py-1 font-bold text-slate-900 align-top">{{ invoice.invoice_number }}</td>
                     </tr>
                   </tbody>
                 </table>
