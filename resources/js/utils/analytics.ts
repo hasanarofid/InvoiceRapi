@@ -24,3 +24,4 @@ export const trackEvent = (
 
   window.gtag('event', eventName, params);
 };
+

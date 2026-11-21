@@ -212,3 +212,4 @@ const toggleFaq = (idx: number) => {
     </section>
   </AppLayout>
 </template>
+

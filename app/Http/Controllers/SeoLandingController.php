@@ -385,3 +385,4 @@ class SeoLandingController extends Controller
         ];
     }
 }
+
