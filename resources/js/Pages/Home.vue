@@ -27,6 +27,24 @@ import {
   AlertCircle,
 } from 'lucide-vue-next';
 
+interface TestimonialItem {
+  id: number;
+  name: string;
+  role: string;
+  quote: string;
+  metric: string | null;
+  avatar_url: string | null;
+}
+
+withDefaults(
+  defineProps<{
+    testimonials?: TestimonialItem[];
+  }>(),
+  {
+    testimonials: () => [],
+  }
+);
+
 // Toggle billing period: monthly or annual (save 30%)
 const isAnnual = ref(false);
 
@@ -781,7 +799,11 @@ const faqs = [
     </section>
 
     <!-- 6. TESTIMONI BISNIS JASA -->
-    <section id="testimoni" class="py-16 md:py-24 bg-[#FAF8FF] border-t border-violet-100/60">
+    <section
+      v-if="testimonials && testimonials.length > 0"
+      id="testimoni"
+      class="py-16 md:py-24 bg-[#FAF8FF] border-t border-violet-100/60"
+    >
       <Container>
         <div class="text-center max-w-2xl mx-auto mb-12">
           <span class="text-xs font-bold uppercase tracking-wider text-violet-700">Dipercaya Pebisnis Jasa</span>
@@ -792,14 +814,17 @@ const faqs = [
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div
-            v-for="item in BRAND.testimonials"
-            :key="item.name"
+            v-for="item in testimonials"
+            :key="item.id"
             class="bg-white rounded-2xl p-6 border border-violet-100/80 shadow-xs flex flex-col justify-between space-y-5"
           >
             <div class="space-y-3">
-              <div class="flex items-center justify-between">
-                <Quote class="w-6 h-6 text-violet-300" aria-hidden="true" />
-                <span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-bold border border-emerald-100">
+              <div class="flex items-center justify-between gap-2">
+                <Quote class="w-6 h-6 text-violet-300 shrink-0" aria-hidden="true" />
+                <span
+                  v-if="item.metric"
+                  class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-bold border border-emerald-100"
+                >
                   {{ item.metric }}
                 </span>
               </div>
@@ -809,12 +834,22 @@ const faqs = [
             </div>
 
             <div class="pt-4 border-t border-slate-100 flex items-center gap-3">
-              <div class="w-9 h-9 rounded-full bg-violet-100 text-violet-700 font-bold text-xs flex items-center justify-center shrink-0">
-                {{ item.name.charAt(0) }}
+              <img
+                v-if="item.avatar_url"
+                :src="item.avatar_url"
+                :alt="item.name"
+                class="w-10 h-10 rounded-full object-cover border border-violet-100 shrink-0"
+                loading="lazy"
+              />
+              <div
+                v-else
+                class="w-10 h-10 rounded-full bg-violet-100 text-violet-700 font-bold text-xs flex items-center justify-center shrink-0"
+              >
+                {{ item.name.charAt(0).toUpperCase() }}
               </div>
-              <div>
-                <p class="text-sm font-bold text-slate-900">{{ item.name }}</p>
-                <p class="text-xs text-slate-500">{{ item.role }}</p>
+              <div class="min-w-0">
+                <p class="text-sm font-bold text-slate-900 truncate">{{ item.name }}</p>
+                <p class="text-xs text-slate-500 truncate">{{ item.role }}</p>
               </div>
             </div>
           </div>

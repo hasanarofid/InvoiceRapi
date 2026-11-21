@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ProductManagerController;
 use App\Http\Controllers\Admin\RoadmapController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SubscriptionPaymentController;
+use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\TrialTrackerController;
 use App\Http\Controllers\Admin\WorkspaceDataController;
 use App\Http\Controllers\BillingController;
@@ -101,6 +102,12 @@ Route::middleware(['auth', 'onboarded', 'admin.verified'])->prefix('admin')->nam
 
     // Monitoring Data Workspace Member (Klien, Proyek, Invoice)
     Route::get('/workspace-data', [WorkspaceDataController::class, 'index'])->name('workspace-data.index');
+
+    // Manajemen Testimoni Klien
+    Route::get('/testimonials', [TestimonialController::class, 'index'])->name('testimonials.index');
+    Route::post('/testimonials', [TestimonialController::class, 'store'])->name('testimonials.store');
+    Route::post('/testimonials/{testimonial}', [TestimonialController::class, 'update'])->name('testimonials.update');
+    Route::delete('/testimonials/{testimonial}', [TestimonialController::class, 'destroy'])->name('testimonials.destroy');
 });
 
 Route::middleware(['auth', 'onboarded'])->group(function () {

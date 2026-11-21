@@ -17,7 +17,8 @@ import {
   CreditCard,
   UserCheck,
   FolderKanban,
-  Crown
+  Crown,
+  MessageSquareQuote
 } from '@lucide/vue';
 
 const page = usePage();
@@ -41,6 +42,7 @@ const navigation = [
   { name: 'Verifikasi Pembayaran', href: route('admin.payments.index'), icon: CreditCard, current: route().current('admin.payments.*') },
   { name: 'Trial & Member', href: route('admin.trial-tracker.index'), icon: Users, current: route().current('admin.trial-tracker.*') },
   { name: 'Data Klien, Proyek & Invoice', href: route('admin.workspace-data.index'), icon: FolderKanban, current: route().current('admin.workspace-data.*') },
+  { name: 'Testimoni Klien', href: route('admin.testimonials.index'), icon: MessageSquareQuote, current: route().current('admin.testimonials.*') },
   { name: 'Pengaturan Paket', href: route('admin.plans.index'), icon: Crown, current: route().current('admin.plans.*') },
   { name: 'Profil Akun', href: route('profile.edit'), icon: UserCheck, current: route().current('profile.*') },
 ];

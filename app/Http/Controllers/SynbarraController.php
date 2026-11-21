@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Mail\ContactInquiryMail;
 use App\Models\Lead;
 use App\Models\Post;
+use App\Models\Testimonial;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Schema;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -28,8 +30,13 @@ class SynbarraController extends Controller
             'type' => 'website',
         ];
 
+        $testimonials = Schema::hasTable('testimonials')
+            ? Testimonial::active()->get(['id', 'name', 'role', 'quote', 'metric', 'avatar_url'])
+            : [];
+
         return Inertia::render('Home', [
             'meta' => $meta,
+            'testimonials' => $testimonials,
         ])->withViewData(['meta' => $meta]);
     }
 

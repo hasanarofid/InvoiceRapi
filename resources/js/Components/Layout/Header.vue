@@ -1,14 +1,19 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
-import { Link } from '@inertiajs/vue3';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { Link, usePage } from '@inertiajs/vue3';
 import { BRAND } from '@/config/brand';
 import Container from '@/Components/UI/Container.vue';
 import { ChevronDown, Menu, X, Home, Sparkles, ShoppingBag, LogIn } from 'lucide-vue-next';
 
+const page = usePage();
 const isScrolled = ref(false);
 const mobileMenuOpen = ref(false);
 const activeDropdown = ref<string | null>(null);
 const mobileDropdown = ref<string | null>(null);
+
+const visibleNavigation = computed(() =>
+  BRAND.navigation.filter((item) => item.name !== 'Testimoni' || Boolean(page.props.hasActiveTestimonials))
+);
 
 const getDropdownItems = (key?: string) => {
   if (key === 'fitur') return BRAND.featureMenus;
@@ -83,7 +88,7 @@ onUnmounted(() => {
 
         <!-- Desktop Navigation -->
         <nav class="hidden lg:flex items-center gap-1" aria-label="Navigasi Utama">
-          <template v-for="item in BRAND.navigation" :key="item.name">
+          <template v-for="item in visibleNavigation" :key="item.name">
             <!-- Dropdown item for Fitur & Solusi -->
             <div
               v-if="item.dropdownKey"
@@ -223,7 +228,7 @@ onUnmounted(() => {
           </div>
 
           <nav class="flex flex-col p-5 space-y-1.5 flex-grow" aria-label="Navigasi Mobile">
-            <template v-for="item in BRAND.navigation" :key="item.name">
+            <template v-for="item in visibleNavigation" :key="item.name">
               <div v-if="item.dropdownKey" class="space-y-1">
                 <button
                   type="button"

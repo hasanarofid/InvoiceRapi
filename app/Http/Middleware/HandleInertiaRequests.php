@@ -6,8 +6,10 @@ use App\Models\Invoice;
 use App\Models\Lead;
 use App\Models\Order;
 use App\Models\SubscriptionPayment;
+use App\Models\Testimonial;
 use App\Services\PlanLimitService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -47,6 +49,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $user,
             ],
             'planUsage' => $planUsage,
+            'hasActiveTestimonials' => fn () => Schema::hasTable('testimonials') && Testimonial::where('is_active', true)->exists(),
             'notifications' => fn () => $this->buildNotifications($user, $planUsage),
             'flash' => [
                 'success' => fn () => $request->session()->get('success'),
