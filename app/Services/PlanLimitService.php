@@ -44,8 +44,8 @@ class PlanLimitService
             'max_invoices_per_month' => 100,
             'max_clients' => null, // unlimited
             'max_users' => 2,
-            'monthly_price' => 99000,
-            'annual_price' => 828000, // Rp 69.000 x 12
+            'monthly_price' => 55000, // Promo (normal Rp 99.000)
+            'annual_price' => 468000, // Rp 39.000 x 12
             'features' => [
                 'dp_termin' => true,
                 'auto_reminder' => true,
@@ -59,8 +59,8 @@ class PlanLimitService
             'max_invoices_per_month' => 500,
             'max_clients' => null, // unlimited
             'max_users' => 5,
-            'monthly_price' => 199000,
-            'annual_price' => 1668000, // Rp 139.000 x 12
+            'monthly_price' => 119000, // Promo (normal Rp 199.000)
+            'annual_price' => 996000, // Rp 83.000 x 12
             'features' => [
                 'dp_termin' => true,
                 'auto_reminder' => true,

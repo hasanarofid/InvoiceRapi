@@ -235,8 +235,8 @@ class SynbarraController extends Controller
 
 ## Paket Harga
 - Gratis: Rp 0/bulan (5 invoice/bulan, 10 klien, unduh PDF, 1 pengguna).
-- Pro: Rp 99.000/bulan atau Rp 69.000/bulan jika tahunan (100 invoice/bulan, unlimited klien & proyek, jadwal DP & multi-termin, laporan piutang lengkap, trial gratis 14 hari tanpa kartu kredit).
-- Bisnis: Rp 199.000/bulan atau Rp 139.000/bulan jika tahunan (500 invoice/bulan, 5 pengguna, analitik lanjutan & ekspor CSV, pengingat terjadwal Email & WA, audit log).
+- Pro: Rp 55.000/bulan (promo dari Rp 99.000) atau Rp 39.000/bulan jika tahunan (100 invoice/bulan, unlimited klien & proyek, jadwal DP & multi-termin, laporan piutang lengkap, trial gratis 14 hari tanpa kartu kredit).
+- Bisnis: Rp 119.000/bulan (promo dari Rp 199.000) atau Rp 83.000/bulan jika tahunan (500 invoice/bulan, 5 pengguna, analitik lanjutan & ekspor CSV, pengingat terjadwal Email & WA, audit log).
 
 ## Tautan Penting
 - Halaman Utama: https://invoicerapi.synbarra.com/

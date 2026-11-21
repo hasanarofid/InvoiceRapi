@@ -121,10 +121,11 @@ export const BRAND = {
     {
       id: 'pro',
       name: 'Pro',
-      price: 'Rp 99.000',
+      price: 'Rp 55.000',
+      originalPrice: 'Rp 99.000',
       period: '/bulan',
       popular: true,
-      badge: 'Paling Populer',
+      badge: 'Promo Terpopuler',
       ctaText: 'Pilih Paket Pro',
       ctaHref: '/register?plan=pro',
       features: [
@@ -140,7 +141,8 @@ export const BRAND = {
     {
       id: 'bisnis',
       name: 'Bisnis',
-      price: 'Rp 199.000',
+      price: 'Rp 119.000',
+      originalPrice: 'Rp 199.000',
       period: '/bulan',
       popular: false,
       ctaText: 'Pilih Paket Bisnis',

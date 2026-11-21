@@ -706,9 +706,13 @@ const faqs = [
 
             <div>
               <h3 class="text-xl font-bold text-slate-900">{{ plan.name }}</h3>
-              <div class="mt-4 flex items-baseline gap-1">
+              <div v-if="(plan as any).originalPrice && !isAnnual" class="mt-3 flex items-center gap-2">
+                <span class="text-xs font-semibold text-slate-400 line-through">{{ (plan as any).originalPrice }}</span>
+                <span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-bold border border-emerald-200">Harga Promo</span>
+              </div>
+              <div class="mt-2 flex items-baseline gap-1">
                 <span class="text-3xl sm:text-4xl font-extrabold text-slate-900">
-                  {{ isAnnual && plan.id === 'pro' ? 'Rp 69.000' : (isAnnual && plan.id === 'bisnis' ? 'Rp 139.000' : plan.price) }}
+                  {{ isAnnual && plan.id === 'pro' ? 'Rp 39.000' : (isAnnual && plan.id === 'bisnis' ? 'Rp 83.000' : plan.price) }}
                 </span>
                 <span class="text-xs text-slate-500">{{ plan.period }}</span>
               </div>
