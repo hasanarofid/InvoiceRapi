@@ -143,6 +143,8 @@ class InvoiceController extends Controller
             'payment_instructions' => 'nullable|string',
             'discount' => 'nullable|numeric|min:0',
             'tax' => 'nullable|numeric|min:0',
+            'has_ppn' => 'nullable|boolean',
+            'pph_type' => 'nullable|in:pph21,pph23',
 
             // Line Items
             'items' => 'required|array|min:1',
@@ -188,8 +190,17 @@ class InvoiceController extends Controller
             }
 
             $discount = (float) ($validated['discount'] ?? 0);
-            $tax = (float) ($validated['tax'] ?? 0);
-            $grandTotal = max(0, $subtotal - $discount + $tax);
+            $dpp = max(0, $subtotal - $discount);
+            $hasPpn = (bool) ($validated['has_ppn'] ?? false);
+            $ppnAmount = $hasPpn ? round($dpp * 0.11, 2) : (float) ($validated['tax'] ?? 0);
+            $pphType = $validated['pph_type'] ?? null;
+            $pphRate = match ($pphType) {
+                'pph21' => 0.025,
+                'pph23' => 0.02,
+                default => 0.0,
+            };
+            $pphAmount = $pphRate > 0 ? round($dpp * $pphRate, 2) : 0.00;
+            $grandTotal = max(0, $dpp + $ppnAmount - $pphAmount);
 
             // 2. Create Invoice
             $invoice = Invoice::create([
@@ -204,7 +215,11 @@ class InvoiceController extends Controller
                 'description' => $validated['description'] ?? null,
                 'subtotal' => $subtotal,
                 'discount' => $discount,
-                'tax' => $tax,
+                'tax' => $ppnAmount,
+                'has_ppn' => $hasPpn,
+                'ppn_amount' => $ppnAmount,
+                'pph_type' => $pphType,
+                'pph_amount' => $pphAmount,
                 'total' => $grandTotal,
                 'total_paid' => 0.00,
                 'balance_due' => $grandTotal,

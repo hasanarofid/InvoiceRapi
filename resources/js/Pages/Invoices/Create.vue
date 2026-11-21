@@ -64,6 +64,8 @@ const form = useForm({
   payment_instructions: 'Transfer ke rekening resmi perusahaan kami dan kirim bukti transfer.',
   discount: 0,
   tax: 0,
+  has_ppn: false,
+  pph_type: null as 'pph21' | 'pph23' | null,
   items: [
     { name: '', description: '', quantity: 1, unit_price: 0, discount: 0 },
   ],
@@ -93,8 +95,22 @@ const subtotal = computed(() =>
   form.items.reduce((sum, item) => sum + Math.max(0, Number(item.quantity || 0) * Number(item.unit_price || 0) - Number(item.discount || 0)), 0)
 );
 
+const dpp = computed(() => Math.max(0, subtotal.value - Number(form.discount || 0)));
+
+const ppnAmount = computed(() => (form.has_ppn ? Math.round(dpp.value * 0.11) : 0));
+
+const pphAmount = computed(() => {
+  if (form.pph_type === 'pph21') return Math.round(dpp.value * 0.025);
+  if (form.pph_type === 'pph23') return Math.round(dpp.value * 0.02);
+  return 0;
+});
+
+const togglePph = (type: 'pph21' | 'pph23') => {
+  form.pph_type = form.pph_type === type ? null : type;
+};
+
 const grandTotal = computed(() =>
-  Math.max(0, subtotal.value - Number(form.discount || 0) + Number(form.tax || 0))
+  Math.max(0, dpp.value + ppnAmount.value - pphAmount.value)
 );
 
 // Keep single full-payment installment synced when in 'full' mode
@@ -268,18 +284,74 @@ const submit = () => {
             </div>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-3 border-t border-slate-100">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-3 border-t border-slate-100 items-start">
             <div>
               <label class="block text-xs font-bold text-slate-700 mb-1">Diskon Tambahan (Rp)</label>
               <RupiahInput v-model="form.discount" input-class="py-2" />
             </div>
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">Pajak / PPN (Rp)</label>
-              <RupiahInput v-model="form.tax" input-class="py-2" />
+
+            <!-- Pajak: PPN (11%) & PPh 21 (2,5%) / PPh 23 (2%) -->
+            <div class="space-y-2">
+              <label class="block text-xs font-bold text-slate-700">Pajak (Opsional)</label>
+              <div class="space-y-1.5 bg-slate-50 rounded-xl p-3 border border-slate-200/80 text-xs">
+                <label class="flex items-center justify-between gap-2 cursor-pointer">
+                  <span class="inline-flex items-center gap-2 font-semibold text-slate-800">
+                    <input
+                      v-model="form.has_ppn"
+                      type="checkbox"
+                      class="rounded border-slate-300 text-violet-600 focus:ring-violet-500"
+                    />
+                    PPN (11%)
+                  </span>
+                  <span class="text-[11px] font-bold text-emerald-700">+11%</span>
+                </label>
+
+                <label class="flex items-center justify-between gap-2 cursor-pointer pt-1 border-t border-slate-200/70">
+                  <span class="inline-flex items-center gap-2 font-semibold text-slate-800">
+                    <input
+                      type="checkbox"
+                      :checked="form.pph_type === 'pph21'"
+                      @change="togglePph('pph21')"
+                      class="rounded border-slate-300 text-violet-600 focus:ring-violet-500"
+                    />
+                    PPh 21 (2,5%)
+                  </span>
+                  <span class="text-[11px] font-bold text-amber-700">-2,5%</span>
+                </label>
+
+                <label class="flex items-center justify-between gap-2 cursor-pointer">
+                  <span class="inline-flex items-center gap-2 font-semibold text-slate-800">
+                    <input
+                      type="checkbox"
+                      :checked="form.pph_type === 'pph23'"
+                      @change="togglePph('pph23')"
+                      class="rounded border-slate-300 text-violet-600 focus:ring-violet-500"
+                    />
+                    PPh 23 (2%)
+                  </span>
+                  <span class="text-[11px] font-bold text-amber-700">-2%</span>
+                </label>
+              </div>
             </div>
-            <div class="flex flex-col justify-end sm:text-right bg-violet-50/70 rounded-xl p-3 border border-violet-100">
-              <span class="text-[11px] font-bold text-violet-700 uppercase">Total Tagihan</span>
-              <span class="text-xl font-black text-violet-800">{{ formatIDR(grandTotal) }}</span>
+
+            <!-- Live Summary Breakdown -->
+            <div class="bg-violet-50/70 rounded-xl p-3.5 border border-violet-100 space-y-1.5 text-xs">
+              <div class="flex justify-between text-slate-600">
+                <span>Subtotal (DPP)</span>
+                <span class="font-bold text-slate-800">{{ formatIDR(dpp) }}</span>
+              </div>
+              <div v-if="form.has_ppn" class="flex justify-between text-emerald-700">
+                <span>PPN 11%</span>
+                <span class="font-bold">+{{ formatIDR(ppnAmount) }}</span>
+              </div>
+              <div v-if="form.pph_type" class="flex justify-between text-amber-700">
+                <span>{{ form.pph_type === 'pph21' ? 'PPh 21 (2,5%)' : 'PPh 23 (2%)' }}</span>
+                <span class="font-bold">({{ formatIDR(pphAmount) }})</span>
+              </div>
+              <div class="flex justify-between items-center pt-1.5 border-t border-violet-200/80">
+                <span class="text-[11px] font-black text-violet-700 uppercase">Total Nett</span>
+                <span class="text-lg font-black text-violet-800">{{ formatIDR(grandTotal) }}</span>
+              </div>
             </div>
           </div>
         </div>

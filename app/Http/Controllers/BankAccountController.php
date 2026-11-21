@@ -121,3 +121,4 @@ class BankAccountController extends Controller
         return redirect()->back()->with('success', 'Rekening pembayaran berhasil dihapus.');
     }
 }
+

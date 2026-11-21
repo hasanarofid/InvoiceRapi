@@ -226,3 +226,4 @@ const deleteAccount = async (acc: BankAccount) => {
     </div>
   </section>
 </template>
+

@@ -396,10 +396,20 @@
                             <td class="text-right font-bold" style="color: #059669;">-{{ $formatIDR($invoice->discount) }}</td>
                         </tr>
                     @endif
-                    @if((float) $invoice->tax > 0)
+                    @php
+                        $ppnVal = (float) ($invoice->ppn_amount > 0 ? $invoice->ppn_amount : $invoice->tax);
+                        $pphVal = (float) ($invoice->pph_amount ?? 0);
+                    @endphp
+                    @if($ppnVal > 0)
                         <tr>
-                            <td style="color: #475569;">Pajak / PPN</td>
-                            <td class="text-right font-bold">{{ $formatIDR($invoice->tax) }}</td>
+                            <td style="color: #475569;">PPN (11%)</td>
+                            <td class="text-right font-bold">{{ $formatIDR($ppnVal) }}</td>
+                        </tr>
+                    @endif
+                    @if($pphVal > 0)
+                        <tr>
+                            <td style="color: #b45309;">{{ $invoice->pph_type === 'pph21' ? 'PPh 21 (2,5%)' : 'PPh 23 (2%)' }}</td>
+                            <td class="text-right font-bold" style="color: #b45309;">({{ $formatIDR($pphVal) }})</td>
                         </tr>
                     @endif
                     <tr class="totals-grand">

@@ -237,9 +237,13 @@ const printPage = () => {
                 <span>Diskon</span>
                 <span class="font-semibold text-emerald-600">-{{ formatIDR(invoice.discount) }}</span>
               </div>
-              <div v-if="Number(invoice.tax) > 0" class="flex justify-between px-2 text-xs text-slate-600">
-                <span>Pajak / PPN</span>
-                <span class="font-semibold text-slate-900">{{ formatIDR(invoice.tax) }}</span>
+              <div v-if="Number(invoice.ppn_amount || invoice.tax) > 0" class="flex justify-between px-2 text-xs text-slate-600">
+                <span>PPN (11%)</span>
+                <span class="font-semibold text-slate-900">{{ formatIDR(invoice.ppn_amount || invoice.tax) }}</span>
+              </div>
+              <div v-if="Number(invoice.pph_amount) > 0" class="flex justify-between px-2 text-xs text-amber-700">
+                <span>{{ invoice.pph_type === 'pph21' ? 'PPh 21 (2,5%)' : 'PPh 23 (2%)' }}</span>
+                <span class="font-semibold">({{ formatIDR(invoice.pph_amount) }})</span>
               </div>
               <div class="flex justify-between px-2 pt-2.5 border-t border-slate-200 font-bold text-slate-900">
                 <span>Total Tagihan</span>

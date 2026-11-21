@@ -45,3 +45,4 @@ return new class extends Migration
         Schema::dropIfExists('tenant_bank_accounts');
     }
 };
+
