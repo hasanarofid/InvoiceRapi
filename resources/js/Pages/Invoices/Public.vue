@@ -33,7 +33,7 @@ const statusMeta = computed(() => {
   if (s === 'paid') return { label: 'LUNAS', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200', icon: CheckCircle2 };
   if (s === 'partial') return { label: 'DIBAYAR SEBAGIAN', cls: 'bg-amber-50 text-amber-700 border-amber-200', icon: Clock };
   if (s === 'overdue') return { label: 'JATUH TEMPO', cls: 'bg-red-50 text-red-700 border-red-200', icon: AlertCircle };
-  return { label: 'MENUNGGU PEMBAYARAN', cls: 'bg-violet-50 text-violet-700 border-violet-200', icon: Clock };
+  return null;
 });
 
 const printPage = () => {
@@ -105,6 +105,7 @@ const printPage = () => {
               <p class="text-sm sm:text-base font-medium text-slate-600 mt-1">{{ invoice.invoice_number }}</p>
             </div>
             <span
+              v-if="statusMeta"
               class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-extrabold border self-start sm:self-center"
               :class="statusMeta.cls"
             >

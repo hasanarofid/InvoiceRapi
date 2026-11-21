@@ -226,7 +226,7 @@
             'partial' => ['label' => 'DIBAYAR SEBAGIAN', 'class' => 'status-partial'],
             'overdue' => ['label' => 'JATUH TEMPO', 'class' => 'status-overdue'],
         ];
-        $statusInfo = $statusMap[$invoice->status] ?? ['label' => 'MENUNGGU PEMBAYARAN', 'class' => ''];
+        $statusInfo = $statusMap[$invoice->status] ?? null;
         $initial = strtoupper(mb_substr($invoice->tenant->name ?? 'B', 0, 1));
     @endphp
 
@@ -261,7 +261,9 @@
                 <div class="inv-number">{{ $invoice->invoice_number }}</div>
             </td>
             <td style="width: 40%; vertical-align: top; text-align: right;">
-                <span class="status-badge {{ $statusInfo['class'] }}">{{ $statusInfo['label'] }}</span>
+                @if($statusInfo)
+                    <span class="status-badge {{ $statusInfo['class'] }}">{{ $statusInfo['label'] }}</span>
+                @endif
             </td>
         </tr>
     </table>
