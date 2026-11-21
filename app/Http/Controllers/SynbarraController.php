@@ -20,10 +20,10 @@ class SynbarraController extends Controller
     public function home(): Response
     {
         $meta = [
-            'title' => 'Synbarra InvoiceRapi | Urus Tagihan, Jadi Lebih Rapi',
-            'subtitle' => 'Kelola Invoice, DP, Termin, dan Pelunasan Klien dalam Satu Aplikasi',
-            'description' => 'Solusi praktis untuk bisnis jasa seperti Wedding Organizer, Fotografer, Event Organizer, Kontraktor, dan lainnya. Semua tagihan, pembayaran, dan status proyek jadi lebih rapi, terpantau, dan tepat waktu.',
-            'keywords' => 'Synbarra InvoiceRapi, InvoiceRapi, Aplikasi Invoice Indonesia, Invoice Wedding Organizer, Invoice Fotografer, Termin Pembayaran, Manajemen Piutang, DP dan Pelunasan',
+            'title' => 'InvoiceRapi — Buat Invoice Online Rapi, DP & PDF Resmi',
+            'subtitle' => 'Cara Cepat Buat Invoice Online dengan DP, Termin, PPN/PPh, dan PDF 1 Halaman',
+            'description' => 'Cara cepat buat invoice online yang rapi dan resmi. Kelola DP, termin, PPN 11%, PPh 21/23, logo & rekening usaha, lalu kirim PDF 1 halaman via WhatsApp. Coba gratis!',
+            'keywords' => 'invoice rapi, buat invoice, buat invoice online, buat invoice gratis, aplikasi buat invoice, buat invoice pdf, buat invoice dp dan termin, buat invoice ppn 11 persen, InvoiceRapi, Synbarra InvoiceRapi',
             'og_image' => 'images/mockups/design-system-board.png',
             'type' => 'website',
         ];
@@ -228,10 +228,16 @@ class SynbarraController extends Controller
 ## Fitur Utama
 - Dashboard Finansial: Ringkasan total tagihan, sudah dibayar, piutang aktif, invoice overdue, dan grafik pendapatan bulanan.
 - Manajemen Klien & Proyek: Riwayat transaksi terhubung rapi per klien dan proyek.
-- Invoice & Termin Pembayaran: Nomor invoice otomatis, jadwal DP, Termin 1/2, dan Pelunasan dengan kalkulasi saldo akurat.
-- Pencatatan Pembayaran: Catat pembayaran penuh maupun parsial (sebagian) serta unduh bukti penerimaan (receipt).
-- Tautan Publik Invoice (/i/{token}): Klien dapat melihat rincian termin, instruksi rekening, dan mengunduh PDF tanpa login.
+- Invoice & Termin Pembayaran: Buat invoice online dengan nomor otomatis, jadwal DP, Termin 1/2, dan Pelunasan dengan kalkulasi saldo akurat.
+- Pajak Indonesia Otomatis: Dukungan centangan PPN (11%) yang menambah tagihan serta PPh 21 (2,5%) atau PPh 23 (2%) yang memotong tagihan otomatis.
+- Logo Usaha & Rekening Pembayaran: Tampilkan logo bisnis dan tabel rekening bank tujuan transfer resmi pada setiap invoice web dan PDF A4 1 halaman.
+- Tautan Publik Invoice (/i/{token}): Klien dapat melihat rincian termin, instruksi rekening, dan mengunduh PDF 1 halaman tanpa login, serta kirim cepat via WhatsApp.
 - Pengingat Jatuh Tempo: Pengingat otomatis via WhatsApp & Email.
+
+## FAQ (Pertanyaan Umum)
+- Bagaimana cara buat invoice online yang rapi dan resmi? Daftar gratis di https://invoicerapi.synbarra.com/register, isi profil & rekening usaha, lalu buat invoice dan kirim tautan atau PDF A4 1 halaman ke WhatsApp klien.
+- Apakah bisa buat invoice gratis di InvoiceRapi? Ya, tersedia paket Gratis selamanya hingga 5 invoice/bulan dan 10 klien, serta uji coba Pro gratis 14 hari tanpa kartu kredit.
+- Apakah InvoiceRapi mendukung PPN 11% dan PPh 21/23? Ya, tersedia opsi centang PPN (11%) dan PPh 21 (2,5%) atau PPh 23 (2%) dengan perhitungan total nett otomatis.
 
 ## Paket Harga
 - Gratis: Rp 0/bulan (5 invoice/bulan, 10 klien, unduh PDF, 1 pengguna).

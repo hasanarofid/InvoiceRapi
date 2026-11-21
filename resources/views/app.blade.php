@@ -101,7 +101,7 @@
                     '@type' => 'AggregateOffer',
                     'priceCurrency' => 'IDR',
                     'lowPrice' => '0',
-                    'highPrice' => '199000',
+                    'highPrice' => '119000',
                     'offerCount' => '3',
                 ],
                 'creator' => [
@@ -110,12 +110,48 @@
                     'url' => 'https://synbarra.com',
                 ],
             ];
+
+            $faqJsonLd = [
+                '@context' => 'https://schema.org',
+                '@type' => 'FAQPage',
+                'mainEntity' => [
+                    [
+                        '@type' => 'Question',
+                        'name' => 'Bagaimana cara buat invoice online yang rapi dan resmi?',
+                        'acceptedAnswer' => [
+                            '@type' => 'Answer',
+                            'text' => 'Daftar gratis di InvoiceRapi, tambahkan logo usaha dan rekening bank di Profil, lalu buat invoice dalam 1 menit dan unduh PDF A4 1 halaman atau bagikan langsung ke WhatsApp klien.',
+                        ],
+                    ],
+                    [
+                        '@type' => 'Question',
+                        'name' => 'Apakah bisa buat invoice gratis di InvoiceRapi?',
+                        'acceptedAnswer' => [
+                            '@type' => 'Answer',
+                            'text' => 'Ya, InvoiceRapi menyediakan paket Gratis selamanya (5 invoice/bulan dan 10 klien) serta uji coba gratis paket Pro selama 14 hari tanpa kartu kredit.',
+                        ],
+                    ],
+                    [
+                        '@type' => 'Question',
+                        'name' => 'Apakah InvoiceRapi mendukung perhitungan PPN 11% dan PPh 21/23 serta termin DP?',
+                        'acceptedAnswer' => [
+                            '@type' => 'Answer',
+                            'text' => 'Ya, pada form buat invoice tersedia opsi centang PPN 11% (+11%), PPh 21 (2,5%), atau PPh 23 (2%) serta pengaturan jadwal DP dan cicilan termin pembayaran.',
+                        ],
+                    ],
+                ],
+            ];
         @endphp
 
-        <!-- Schema.org JSON-LD (Search Console Structured Data) -->
+        <!-- Schema.org JSON-LD (Search Console & GEO Structured Data) -->
         <script type="application/ld+json">
         {!! json_encode($jsonLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
         </script>
+        @if(request()->is('/'))
+        <script type="application/ld+json">
+        {!! json_encode($faqJsonLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+        </script>
+        @endif
 
         <!-- Favicons -->
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=3">

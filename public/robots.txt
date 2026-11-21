@@ -1,7 +1,14 @@
 User-agent: *
 Allow: /
+Allow: /llms.txt
+Allow: /sitemap.xml
 Disallow: /admin
 Disallow: /dashboard
+Disallow: /invoices
+Disallow: /clients
+Disallow: /projects
+Disallow: /billing
+Disallow: /profile
 Disallow: /i/
 
 Sitemap: https://invoicerapi.synbarra.com/sitemap.xml
