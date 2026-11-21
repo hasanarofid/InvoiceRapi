@@ -75,3 +75,4 @@ class PlanSettingController extends Controller
         return redirect()->back()->with('success', 'Pengaturan harga, kuota, dan fitur paket berhasil diperbarui.');
     }
 }
+

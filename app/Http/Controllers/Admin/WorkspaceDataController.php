@@ -72,3 +72,4 @@ class WorkspaceDataController extends Controller
         ]);
     }
 }
+

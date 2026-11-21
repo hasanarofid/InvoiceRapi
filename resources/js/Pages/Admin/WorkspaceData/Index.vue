@@ -193,3 +193,4 @@ const applyFilter = (newTab?: string) => {
     </div>
   </AdminLayout>
 </template>
+
