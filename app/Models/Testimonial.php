@@ -34,3 +34,4 @@ class Testimonial extends Model
             ->orderByDesc('id');
     }
 }
+

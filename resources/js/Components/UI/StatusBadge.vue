@@ -99,3 +99,4 @@ const resolved = computed<StatusStyle>(() => {
     <span>{{ resolved.label }}</span>
   </span>
 </template>
+
