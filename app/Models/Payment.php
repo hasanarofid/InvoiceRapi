@@ -28,6 +28,24 @@ class Payment extends Model
         'created_by',
     ];
 
+    protected static function booted(): void
+    {
+        static::created(function (Payment $payment) {
+            if (empty($payment->kode_transaksi)) {
+                $date = ($payment->created_at ?? now())->format('Ymd');
+                $payment->kode_transaksi = 'TRX-PAY-' . $date . '-' . str_pad((string) $payment->id, 5, '0', STR_PAD_LEFT);
+                $payment->saveQuietly();
+            }
+        });
+
+        static::updating(function (Payment $payment) {
+            $original = $payment->getOriginal('kode_transaksi');
+            if (! empty($original)) {
+                $payment->kode_transaksi = $original;
+            }
+        });
+    }
+
     protected function casts(): array
     {
         return [

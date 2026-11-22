@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 import { swalSuccess, swalError } from '@/utils/swal';
 
@@ -8,6 +9,17 @@ defineProps<{
 }>();
 
 const user = (usePage().props.auth as any).user;
+const copiedCode = ref(false);
+const copyKodeUser = async () => {
+  if (!user?.kode_user) return;
+  try {
+    await navigator.clipboard.writeText(user.kode_user);
+    copiedCode.value = true;
+    setTimeout(() => { copiedCode.value = false; }, 2000);
+  } catch {
+    copiedCode.value = false;
+  }
+};
 
 const form = useForm({
   name: user.name,
@@ -31,6 +43,21 @@ const form = useForm({
       })"
       class="mt-6 space-y-5"
     >
+      <div v-if="user?.kode_user" class="p-3.5 rounded-xl bg-[#FAF8FF] border border-violet-200/80 flex items-center justify-between gap-3">
+        <div>
+          <p class="text-[11px] font-bold uppercase tracking-wider text-violet-700">Kode Pelanggan (Tidak Dapat Diubah)</p>
+          <p class="text-sm font-mono font-black text-slate-900 mt-0.5">{{ user.kode_user }}</p>
+          <p class="text-[11px] text-slate-500">Sebutkan kode ini saat menghubungi Customer Service.</p>
+        </div>
+        <button
+          type="button"
+          @click="copyKodeUser"
+          class="px-3 py-1.5 rounded-lg bg-white border border-violet-200 text-xs font-bold text-violet-700 hover:bg-violet-50 shrink-0 transition"
+        >
+          {{ copiedCode ? 'Tersalin!' : 'Salin Kode' }}
+        </button>
+      </div>
+
       <div>
         <label for="name" class="block text-xs font-bold text-slate-700 mb-1.5">Nama Lengkap</label>
         <input

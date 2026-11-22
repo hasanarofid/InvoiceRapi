@@ -33,6 +33,23 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected static function booted(): void
+    {
+        static::created(function (User $user) {
+            if (empty($user->kode_user)) {
+                $user->kode_user = 'USR-' . str_pad((string) $user->id, 5, '0', STR_PAD_LEFT);
+                $user->saveQuietly();
+            }
+        });
+
+        static::updating(function (User $user) {
+            $original = $user->getOriginal('kode_user');
+            if (! empty($original)) {
+                $user->kode_user = $original;
+            }
+        });
+    }
+
     protected function casts(): array
     {
         return [

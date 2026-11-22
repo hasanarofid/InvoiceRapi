@@ -10,6 +10,7 @@ const planUsage = computed(() => (page.props as any)?.planUsage);
 const ADMIN_WHATSAPP = '6288804958476';
 
 const supportUrl = computed(() => {
+  const userKode = user.value?.kode_user || '-';
   const userName = user.value?.name || '-';
   const userEmail = user.value?.email || '-';
   const bizName = tenant.value?.name || '-';
@@ -29,6 +30,7 @@ const supportUrl = computed(() => {
     'Saya ingin menyampaikan keluhan / saran terkait penggunaan aplikasi:',
     '',
     '*Informasi Pengguna:*',
+    `• Kode Pelanggan : ${userKode}`,
     `• Nama : ${userName}`,
     `• Email : ${userEmail}`,
     `• Bisnis / Workspace : ${bizName}`,

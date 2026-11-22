@@ -14,7 +14,9 @@ import {
 
 interface PaymentRow {
   id: number;
+  kode_transaksi?: string;
   tenant_name: string;
+  user_kode?: string;
   user_name: string;
   user_email: string;
   plan: string;
@@ -126,6 +128,7 @@ const formatRupiah = (val: number) =>
           <table class="w-full text-left text-xs sm:text-sm">
             <thead class="bg-[#FAF8FF] border-b border-violet-100 text-xs font-bold text-slate-500 uppercase">
               <tr>
+                <th class="px-5 py-3.5">Kode Transaksi</th>
                 <th class="px-5 py-3.5">Tenant &amp; Pengguna</th>
                 <th class="px-5 py-3.5">Paket &amp; Nominal</th>
                 <th class="px-5 py-3.5">Pengirim</th>
@@ -136,9 +139,15 @@ const formatRupiah = (val: number) =>
             </thead>
             <tbody class="divide-y divide-slate-100">
               <tr v-for="row in payments.data" :key="row.id" class="hover:bg-violet-50/30 transition">
+                <td class="px-5 py-4 font-mono text-xs font-bold text-violet-700 whitespace-nowrap">
+                  {{ row.kode_transaksi || '-' }}
+                </td>
                 <td class="px-5 py-4">
                   <p class="font-bold text-slate-900">{{ row.tenant_name }}</p>
-                  <p class="text-xs text-slate-500">{{ row.user_name }} &bull; {{ row.user_email }}</p>
+                  <p class="text-xs text-slate-500">
+                    <span v-if="row.user_kode" class="font-mono font-bold text-slate-700">{{ row.user_kode }}</span>
+                    <span v-if="row.user_kode"> &bull; </span>{{ row.user_name }} &bull; {{ row.user_email }}
+                  </p>
                 </td>
                 <td class="px-5 py-4">
                   <p class="font-bold text-violet-700 uppercase">{{ row.plan }} ({{ row.billing_cycle === 'annual' ? 'Tahunan' : 'Bulanan' }})</p>

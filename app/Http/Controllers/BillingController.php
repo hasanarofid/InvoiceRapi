@@ -34,6 +34,7 @@ class BillingController extends Controller
                 ->get()
                 ->map(fn (SubscriptionPayment $p) => [
                     'id' => $p->id,
+                    'kode_transaksi' => $p->kode_transaksi,
                     'plan' => $p->plan,
                     'billing_cycle' => $p->billing_cycle,
                     'amount' => (float) $p->amount,

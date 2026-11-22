@@ -28,7 +28,8 @@ class TrialTrackerController extends Controller
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
                   ->orWhere('phone_whatsapp', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%");
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhereHas('users', fn ($uq) => $uq->where('kode_user', 'like', "%{$search}%"));
             });
         }
 

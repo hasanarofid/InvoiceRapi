@@ -23,7 +23,7 @@ class SubscriptionPaymentController extends Controller
     {
         $status = $request->query('status', 'all');
 
-        $query = SubscriptionPayment::with(['tenant:id,name,email,subscription_plan,subscription_status', 'user:id,name,email'])
+        $query = SubscriptionPayment::with(['tenant:id,name,email,subscription_plan,subscription_status', 'user:id,kode_user,name,email'])
             ->latest();
 
         if ($status !== 'all') {
@@ -32,7 +32,9 @@ class SubscriptionPaymentController extends Controller
 
         $payments = $query->paginate(20)->withQueryString()->through(fn (SubscriptionPayment $p) => [
             'id' => $p->id,
+            'kode_transaksi' => $p->kode_transaksi,
             'tenant_name' => $p->tenant?->name ?? '-',
+            'user_kode' => $p->user?->kode_user ?? '-',
             'user_name' => $p->user?->name ?? '-',
             'user_email' => $p->user?->email ?? '-',
             'plan' => $p->plan,

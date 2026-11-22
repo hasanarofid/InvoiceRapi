@@ -32,6 +32,24 @@ class SubscriptionPayment extends Model
         'verified_at',
     ];
 
+    protected static function booted(): void
+    {
+        static::created(function (SubscriptionPayment $payment) {
+            if (empty($payment->kode_transaksi)) {
+                $date = ($payment->created_at ?? now())->format('Ymd');
+                $payment->kode_transaksi = 'TRX-SUB-' . $date . '-' . str_pad((string) $payment->id, 5, '0', STR_PAD_LEFT);
+                $payment->saveQuietly();
+            }
+        });
+
+        static::updating(function (SubscriptionPayment $payment) {
+            $original = $payment->getOriginal('kode_transaksi');
+            if (! empty($original)) {
+                $payment->kode_transaksi = $original;
+            }
+        });
+    }
+
     protected function casts(): array
     {
         return [

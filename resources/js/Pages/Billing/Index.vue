@@ -36,6 +36,7 @@ interface UsageSummary {
 
 interface PaymentItem {
   id: number;
+  kode_transaksi?: string;
   plan: string;
   billing_cycle: string;
   amount: number;
@@ -368,6 +369,7 @@ const clientPercent = computed(() => {
           <table class="w-full text-left text-xs sm:text-sm">
             <thead>
               <tr class="border-b border-slate-100 text-slate-400 text-xs uppercase">
+                <th class="py-3 pr-4">Kode Transaksi</th>
                 <th class="py-3 pr-4">Tanggal</th>
                 <th class="py-3 pr-4">Paket</th>
                 <th class="py-3 pr-4">Nominal</th>
@@ -378,6 +380,7 @@ const clientPercent = computed(() => {
             </thead>
             <tbody class="divide-y divide-slate-100">
               <tr v-for="item in payments" :key="item.id">
+                <td class="py-3 pr-4 font-mono text-xs font-bold text-violet-700 whitespace-nowrap">{{ item.kode_transaksi || '-' }}</td>
                 <td class="py-3 pr-4 text-slate-600">{{ formatDateTimeID(item.created_at) }}</td>
                 <td class="py-3 pr-4 font-bold text-slate-900 uppercase">{{ item.plan }} ({{ item.billing_cycle === 'annual' ? 'Tahunan' : 'Bulanan' }})</td>
                 <td class="py-3 pr-4 font-bold text-violet-700">{{ formatRupiah(item.amount) }}</td>

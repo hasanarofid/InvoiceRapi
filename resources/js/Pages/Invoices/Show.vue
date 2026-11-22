@@ -228,7 +228,12 @@ const submitPayment = () => {
         <div class="divide-y divide-slate-100 text-sm">
           <div v-for="p in invoice.payments" :key="p.id" class="py-3 flex items-center justify-between">
             <div>
-              <p class="font-bold text-slate-900">{{ formatIDR(p.amount) }}</p>
+              <div class="flex items-center gap-2">
+                <p class="font-bold text-slate-900">{{ formatIDR(p.amount) }}</p>
+                <span v-if="p.kode_transaksi" class="px-2 py-0.5 rounded-md bg-violet-50 text-violet-700 font-mono text-[11px] font-bold">
+                  {{ p.kode_transaksi }}
+                </span>
+              </div>
               <p class="text-xs text-slate-500">{{ formatDateID(p.payment_date) }} • {{ p.payment_method }} {{ p.reference_number ? `(${p.reference_number})` : '' }}</p>
             </div>
             <span class="text-xs text-slate-400">Dicatat oleh {{ p.creator?.name || 'Sistem' }}</span>
