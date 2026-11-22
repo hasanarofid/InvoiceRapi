@@ -25,6 +25,7 @@ interface TenantItem {
   business_type: string;
   phone_whatsapp: string;
   email: string;
+  owner_kode?: string;
   owner_name: string;
   subscription_plan: string;
   subscription_status: string;
@@ -272,9 +273,12 @@ const changeStatusFilter = (status: string) => {
               >
                 <!-- 1. Bisnis & Pemilik -->
                 <td class="px-5 py-4">
-                  <div class="font-bold text-slate-900 text-sm flex items-center gap-1.5">
-                    <Building2 class="w-4 h-4 text-violet-600" />
+                  <div class="font-bold text-slate-900 text-sm flex items-center gap-1.5 flex-wrap">
+                    <Building2 class="w-4 h-4 text-violet-600 shrink-0" />
                     <span>{{ item.name }}</span>
+                    <span v-if="item.owner_kode && item.owner_kode !== '-'" class="px-2 py-0.5 rounded-md bg-violet-50 text-violet-700 border border-violet-200/70 font-mono text-[11px] font-bold">
+                      {{ item.owner_kode }}
+                    </span>
                   </div>
                   <div class="text-[11px] text-slate-500 mt-0.5">
                     Owner: <span class="font-medium text-slate-700">{{ item.owner_name }}</span> ({{ item.email }})

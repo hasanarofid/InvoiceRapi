@@ -80,6 +80,7 @@ class TrialTrackerController extends Controller
                 'business_type' => $tenant->business_type ?: 'Belum diatur',
                 'phone_whatsapp' => $tenant->phone_whatsapp,
                 'email' => $tenant->email,
+                'owner_kode' => $owner?->kode_user ?? '-',
                 'owner_name' => $ownerName,
                 'subscription_plan' => ucfirst($tenant->subscription_plan),
                 'subscription_status' => $tenant->subscription_status,
