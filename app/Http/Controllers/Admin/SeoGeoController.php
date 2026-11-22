@@ -149,3 +149,4 @@ class SeoGeoController extends Controller
         return back()->with('success', 'Konfigurasi tracking SEO & Meta/Google berhasil disimpan.');
     }
 }
+

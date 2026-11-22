@@ -26,3 +26,4 @@ class PageVisit extends Model
         'created_at' => 'datetime',
     ];
 }
+

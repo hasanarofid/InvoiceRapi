@@ -179,3 +179,4 @@ class TrackSeoGeoTraffic
         return 'direct';
     }
 }
+
