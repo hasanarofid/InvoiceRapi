@@ -27,7 +27,7 @@ class SynbarraController extends Controller
             'subtitle' => 'Cara Cepat Buat Invoice Online dengan DP, Termin, PPN/PPh, dan PDF 1 Halaman',
             'description' => 'Cara cepat buat invoice online yang rapi dan resmi. Kelola DP, termin, PPN 11%, PPh 21/23, logo & rekening usaha, lalu kirim PDF 1 halaman via WhatsApp. Coba gratis!',
             'keywords' => 'invoice rapi, buat invoice, buat invoice online, buat invoice gratis, aplikasi buat invoice, buat invoice pdf, buat invoice dp dan termin, buat invoice ppn 11 persen, InvoiceRapi, Synbarra InvoiceRapi',
-            'og_image' => 'images/mockups/design-system-board.png',
+            'og_image' => 'images/og-invoicerapi.jpg',
             'type' => 'website',
         ];
 

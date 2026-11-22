@@ -78,7 +78,7 @@
             $ogTitle = !empty($meta['og_title']) ? $meta['og_title'] : $seoTitle;
             $ogDesc = !empty($meta['og_description']) ? $meta['og_description'] : $seoDesc;
             
-            $rawImage = !empty($meta['og_image']) ? $meta['og_image'] : (!empty($meta['image']) ? $meta['image'] : 'images/mockups/design-system-board.png');
+            $rawImage = !empty($meta['og_image']) ? $meta['og_image'] : (!empty($meta['image']) ? $meta['image'] : 'images/og-invoicerapi.jpg');
             $seoImage = url($rawImage);
             $seoType = $meta['type'] ?? 'website';
             $seoTwitter = $meta['twitter_card'] ?? 'summary_large_image';
