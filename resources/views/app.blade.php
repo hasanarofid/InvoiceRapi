@@ -10,12 +10,16 @@
         <meta name="google-adsense-account" content="ca-pub-7190047001129861">
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7190047001129861" crossorigin="anonymous"></script>
 
-        <!-- Google Search Console Verification -->
-        <meta name="google-site-verification" content="google587f0f47640fdb34">
-
         @php
+            $gscVerification = \App\Models\Setting::getValue('gsc_verification', 'google587f0f47640fdb34');
             $gaMeasurementId = \App\Models\Setting::getValue('ga_measurement_id', env('GA4_MEASUREMENT_ID', ''));
+            $metaPixelId = \App\Models\Setting::getValue('meta_pixel_id', '');
         @endphp
+        @if(!empty($gscVerification))
+        <!-- Google Search Console Verification -->
+        <meta name="google-site-verification" content="{{ $gscVerification }}">
+        @endif
+
         @if(!empty($gaMeasurementId) && !request()->is('admin*'))
         <!-- Google Analytics 4 (Privacy-Safe, No PII) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id={{ $gaMeasurementId }}"></script>
@@ -24,6 +28,22 @@
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', '{{ $gaMeasurementId }}', { anonymize_ip: true });
+        </script>
+        @endif
+
+        @if(!empty($metaPixelId) && !request()->is('admin*'))
+        <!-- Meta Pixel Code -->
+        <script>
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '{{ $metaPixelId }}');
+            fbq('track', 'PageView');
         </script>
         @endif
 

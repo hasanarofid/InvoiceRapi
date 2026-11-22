@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\OrderManagerController;
 use App\Http\Controllers\Admin\PlanSettingController;
 use App\Http\Controllers\Admin\ProductManagerController;
 use App\Http\Controllers\Admin\RoadmapController;
+use App\Http\Controllers\Admin\SeoGeoController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SubscriptionPaymentController;
 use App\Http\Controllers\Admin\TestimonialController;
@@ -108,6 +109,10 @@ Route::middleware(['auth', 'onboarded', 'admin.verified'])->prefix('admin')->nam
     Route::post('/testimonials', [TestimonialController::class, 'store'])->name('testimonials.store');
     Route::post('/testimonials/{testimonial}', [TestimonialController::class, 'update'])->name('testimonials.update');
     Route::delete('/testimonials/{testimonial}', [TestimonialController::class, 'destroy'])->name('testimonials.destroy');
+
+    // GEO & SEO Trafik Analytics
+    Route::get('/seo-geo', [SeoGeoController::class, 'index'])->name('seo-geo.index');
+    Route::post('/seo-geo/config', [SeoGeoController::class, 'updateConfig'])->name('seo-geo.config');
 });
 
 Route::middleware(['auth', 'onboarded'])->group(function () {
