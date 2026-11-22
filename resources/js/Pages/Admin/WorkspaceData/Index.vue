@@ -106,7 +106,12 @@ const applyFilter = (newTab?: string) => {
             <tbody class="divide-y divide-slate-100">
               <tr v-for="inv in invoices.data" :key="inv.id" class="hover:bg-slate-50/60">
                 <td class="px-5 py-3.5 font-bold text-violet-700">{{ inv.invoice_number }}</td>
-                <td class="px-5 py-3.5 font-semibold text-slate-800">{{ inv.tenant?.name || '-' }}</td>
+                <td class="px-5 py-3.5">
+                  <p class="font-semibold text-slate-800">{{ inv.tenant?.name || '-' }}</p>
+                  <span v-if="inv.tenant?.users?.[0]?.kode_user" class="inline-block mt-0.5 px-2 py-0.5 rounded-md bg-violet-50 text-violet-700 border border-violet-200/70 font-mono text-[11px] font-bold">
+                    {{ inv.tenant.users[0].kode_user }}
+                  </span>
+                </td>
                 <td class="px-5 py-3.5 text-slate-700">{{ inv.client?.name || '-' }}</td>
                 <td class="px-5 py-3.5 text-xs text-slate-600">{{ formatDateID(inv.due_date) }}</td>
                 <td class="px-5 py-3.5 font-bold text-slate-900">{{ formatIDR(inv.total) }}</td>
@@ -143,7 +148,12 @@ const applyFilter = (newTab?: string) => {
             <tbody class="divide-y divide-slate-100">
               <tr v-for="proj in projects.data" :key="proj.id" class="hover:bg-slate-50/60">
                 <td class="px-5 py-3.5 font-bold text-slate-900">{{ proj.name }}</td>
-                <td class="px-5 py-3.5 font-semibold text-slate-800">{{ proj.tenant?.name || '-' }}</td>
+                <td class="px-5 py-3.5">
+                  <p class="font-semibold text-slate-800">{{ proj.tenant?.name || '-' }}</p>
+                  <span v-if="proj.tenant?.users?.[0]?.kode_user" class="inline-block mt-0.5 px-2 py-0.5 rounded-md bg-violet-50 text-violet-700 border border-violet-200/70 font-mono text-[11px] font-bold">
+                    {{ proj.tenant.users[0].kode_user }}
+                  </span>
+                </td>
                 <td class="px-5 py-3.5 text-slate-700">{{ proj.client?.name || '-' }}</td>
                 <td class="px-5 py-3.5 font-bold text-slate-900">{{ formatIDR(proj.contract_amount) }}</td>
                 <td class="px-5 py-3.5">
@@ -176,7 +186,12 @@ const applyFilter = (newTab?: string) => {
                   <p class="font-bold text-slate-900">{{ cli.name }}</p>
                   <p v-if="cli.company_name" class="text-xs text-slate-500">{{ cli.company_name }}</p>
                 </td>
-                <td class="px-5 py-3.5 font-semibold text-slate-800">{{ cli.tenant?.name || '-' }}</td>
+                <td class="px-5 py-3.5">
+                  <p class="font-semibold text-slate-800">{{ cli.tenant?.name || '-' }}</p>
+                  <span v-if="cli.tenant?.users?.[0]?.kode_user" class="inline-block mt-0.5 px-2 py-0.5 rounded-md bg-violet-50 text-violet-700 border border-violet-200/70 font-mono text-[11px] font-bold">
+                    {{ cli.tenant.users[0].kode_user }}
+                  </span>
+                </td>
                 <td class="px-5 py-3.5 text-xs text-slate-600">
                   <p v-if="cli.phone">{{ cli.phone }}</p>
                   <p v-if="cli.email">{{ cli.email }}</p>

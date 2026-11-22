@@ -21,11 +21,11 @@ class WorkspaceDataController extends Controller
         $search = trim((string) $request->query('search', ''));
         $tenantId = $request->query('tenant_id', '');
 
-        $invoicesQuery = Invoice::with(['tenant:id,name', 'client:id,name,company_name', 'project:id,name'])
+        $invoicesQuery = Invoice::with(['tenant:id,name', 'tenant.users:id,tenant_id,kode_user', 'client:id,name,company_name', 'project:id,name'])
             ->latest('invoice_date');
-        $projectsQuery = Project::with(['tenant:id,name', 'client:id,name'])
+        $projectsQuery = Project::with(['tenant:id,name', 'tenant.users:id,tenant_id,kode_user', 'client:id,name'])
             ->latest();
-        $clientsQuery = Client::with(['tenant:id,name'])
+        $clientsQuery = Client::with(['tenant:id,name', 'tenant.users:id,tenant_id,kode_user'])
             ->withCount('invoices')
             ->latest();
 
@@ -39,18 +39,21 @@ class WorkspaceDataController extends Controller
             $invoicesQuery->where(function ($q) use ($search) {
                 $q->where('invoice_number', 'like', "%{$search}%")
                     ->orWhereHas('client', fn ($cq) => $cq->where('name', 'like', "%{$search}%"))
-                    ->orWhereHas('tenant', fn ($tq) => $tq->where('name', 'like', "%{$search}%"));
+                    ->orWhereHas('tenant', fn ($tq) => $tq->where('name', 'like', "%{$search}%"))
+                    ->orWhereHas('tenant.users', fn ($uq) => $uq->where('kode_user', 'like', "%{$search}%"));
             });
             $projectsQuery->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
                     ->orWhereHas('client', fn ($cq) => $cq->where('name', 'like', "%{$search}%"))
-                    ->orWhereHas('tenant', fn ($tq) => $tq->where('name', 'like', "%{$search}%"));
+                    ->orWhereHas('tenant', fn ($tq) => $tq->where('name', 'like', "%{$search}%"))
+                    ->orWhereHas('tenant.users', fn ($uq) => $uq->where('kode_user', 'like', "%{$search}%"));
             });
             $clientsQuery->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
                     ->orWhere('company_name', 'like', "%{$search}%")
                     ->orWhere('phone', 'like', "%{$search}%")
-                    ->orWhereHas('tenant', fn ($tq) => $tq->where('name', 'like', "%{$search}%"));
+                    ->orWhereHas('tenant', fn ($tq) => $tq->where('name', 'like', "%{$search}%"))
+                    ->orWhereHas('tenant.users', fn ($uq) => $uq->where('kode_user', 'like', "%{$search}%"));
             });
         }
 
