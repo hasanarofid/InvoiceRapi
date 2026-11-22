@@ -49,3 +49,4 @@ class SubmitIndexNowCommand extends Command
         return self::FAILURE;
     }
 }
+
