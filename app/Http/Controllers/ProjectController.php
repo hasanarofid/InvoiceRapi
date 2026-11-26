@@ -131,8 +131,13 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project): RedirectResponse
     {
-        if ($project->tenant_id !== auth()->user()->tenant_id) {
+        $user = auth()->user();
+        if ($project->tenant_id !== $user->tenant_id) {
             abort(403, 'Akses tidak diizinkan.');
+        }
+
+        if (! $user->canDeleteRecords()) {
+            abort(403, 'Role Staff tidak diizinkan menghapus data proyek.');
         }
 
         $oldValues = $project->toArray();

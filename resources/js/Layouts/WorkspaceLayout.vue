@@ -18,7 +18,9 @@ import {
   Crown,
   ArrowRight,
   LogOut,
-  UserCheck
+  UserCheck,
+  Package,
+  ShieldCheck
 } from 'lucide-vue-next';
 
 interface Props {
@@ -43,12 +45,16 @@ watch(
 const isMobileMenuOpen = ref(false);
 const isUserDropdownOpen = ref(false);
 
+const isOwner = ['owner', 'tenant_admin'].includes(user?.role || '');
+
 const navigation = [
   { name: 'Dashboard', href: route('dashboard'), icon: LayoutDashboard, routeName: 'dashboard' },
   { name: 'Klien', href: route('clients.index'), icon: Users, routeName: 'clients.*' },
   { name: 'Proyek', href: route('projects.index'), icon: FolderKanban, routeName: 'projects.*' },
+  { name: 'Jasa / Barang', href: route('items.index'), icon: Package, routeName: 'items.*' },
   { name: 'Invoice', href: route('invoices.index'), icon: FileText, routeName: 'invoices.*' },
-  { name: 'Langganan & Kuota', href: route('billing.index'), icon: CreditCard, routeName: 'billing.*' },
+  ...(isOwner ? [{ name: 'Tim & Role', href: route('team.index'), icon: ShieldCheck, routeName: 'team.*' }] : []),
+  ...(isOwner ? [{ name: 'Langganan & Kuota', href: route('billing.index'), icon: CreditCard, routeName: 'billing.*' }] : []),
   { name: 'Profil Akun', href: route('profile.edit'), icon: Settings, routeName: 'profile.*' },
 ];
 

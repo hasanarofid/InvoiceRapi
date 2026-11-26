@@ -23,7 +23,9 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SeoLandingController;
+use App\Http\Controllers\ServiceItemController;
 use App\Http\Controllers\SynbarraController;
+use App\Http\Controllers\TeamController;
 use App\Http\Controllers\WorkspaceDashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -119,6 +121,8 @@ Route::middleware(['auth', 'onboarded'])->group(function () {
     // Workspace SaaS Read-Only Routes (tetap bisa diakses saat trial habis)
     Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
     Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+    Route::get('/items', [ServiceItemController::class, 'index'])->name('items.index');
+    Route::get('/team', [TeamController::class, 'index'])->name('team.index');
     Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
     Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])
         ->whereNumber('invoice')
@@ -128,6 +132,10 @@ Route::middleware(['auth', 'onboarded'])->group(function () {
     Route::middleware(['subscription.active'])->group(function () {
         Route::resource('clients', ClientController::class)->only(['store', 'update', 'destroy']);
         Route::resource('projects', ProjectController::class)->only(['store', 'update', 'destroy']);
+        Route::resource('items', ServiceItemController::class)->only(['store', 'update', 'destroy']);
+        Route::post('/team', [TeamController::class, 'store'])->name('team.store');
+        Route::put('/team/{member}', [TeamController::class, 'update'])->name('team.update');
+        Route::delete('/team/{member}', [TeamController::class, 'destroy'])->name('team.destroy');
         Route::get('/invoices/create', [InvoiceController::class, 'create'])->name('invoices.create');
         Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
         Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');

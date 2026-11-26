@@ -68,6 +68,26 @@ class User extends Authenticatable
         return $this->role === 'superadmin';
     }
 
+    public function isWorkspaceOwner(): bool
+    {
+        return in_array($this->role, ['owner', 'tenant_admin'], true);
+    }
+
+    public function isWorkspaceAdmin(): bool
+    {
+        return in_array($this->role, ['owner', 'tenant_admin', 'admin'], true);
+    }
+
+    public function canManageTeam(): bool
+    {
+        return $this->isWorkspaceOwner();
+    }
+
+    public function canDeleteRecords(): bool
+    {
+        return $this->isWorkspaceAdmin();
+    }
+
     public function hasCompletedOnboarding(): bool
     {
         return !is_null($this->tenant_id) && (bool) optional($this->tenant)->onboarding_completed;

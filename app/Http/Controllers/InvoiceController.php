@@ -8,6 +8,7 @@ use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\PaymentInstallment;
 use App\Models\Project;
+use App\Models\ServiceItem;
 use App\Models\TenantBankAccount;
 use App\Services\PlanLimitService;
 use Carbon\Carbon;
@@ -110,10 +111,16 @@ class InvoiceController extends Controller
             ->latest()
             ->get();
 
+        $serviceItems = ServiceItem::where('tenant_id', $tenantId)
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->get(['id', 'name', 'unit', 'unit_price']);
+
         return Inertia::render('Invoices/Create', [
             'clients' => $clients,
             'projects' => $projects,
             'bankAccounts' => $bankAccounts,
+            'serviceItems' => $serviceItems,
             'suggestedNumber' => $suggestedNumber,
         ]);
     }
@@ -298,8 +305,13 @@ class InvoiceController extends Controller
      */
     public function destroy(Invoice $invoice): RedirectResponse
     {
-        if ($invoice->tenant_id !== auth()->user()->tenant_id) {
+        $user = auth()->user();
+        if ($invoice->tenant_id !== $user->tenant_id) {
             abort(403, 'Akses tidak diizinkan.');
+        }
+
+        if (! $user->canDeleteRecords()) {
+            abort(403, 'Role Staff tidak diizinkan menghapus invoice.');
         }
 
         $oldValues = $invoice->toArray();

@@ -27,10 +27,18 @@ interface BankAccountOption {
   is_default: boolean;
 }
 
+interface ServiceItemOption {
+  id: number;
+  name: string;
+  unit?: string | null;
+  unit_price: number | string;
+}
+
 const props = defineProps<{
   clients: ClientOption[];
   projects: ProjectOption[];
   bankAccounts?: BankAccountOption[];
+  serviceItems?: ServiceItemOption[];
   suggestedNumber: string;
 }>();
 
@@ -44,6 +52,26 @@ const nextWeek = new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10);
 
 const paymentMode = ref<'full' | 'termin'>('full');
 const showQuickClientModal = ref(false);
+const activeItemDropdown = ref<number | null>(null);
+
+const matchingServiceItems = (query: string) => {
+  const list = props.serviceItems || [];
+  const q = (query || '').trim().toLowerCase();
+  if (!q) return list.slice(0, 8);
+  return list.filter((s) => s.name.toLowerCase().includes(q)).slice(0, 8);
+};
+
+const selectServiceItem = (rowIndex: number, service: ServiceItemOption) => {
+  form.items[rowIndex].name = service.name;
+  form.items[rowIndex].unit_price = Number(service.unit_price || 0);
+  activeItemDropdown.value = null;
+};
+
+const closeItemDropdownDelayed = () => {
+  setTimeout(() => {
+    activeItemDropdown.value = null;
+  }, 150);
+};
 
 const quickClientForm = useForm({
   name: '',
@@ -265,9 +293,46 @@ const submit = () => {
           </div>
 
           <div v-for="(item, idx) in form.items" :key="idx" class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end p-3.5 rounded-xl bg-slate-50 border border-slate-100">
-            <div class="sm:col-span-5">
-              <label class="block text-[11px] font-bold text-slate-600 mb-1">Nama Item / Jasa *</label>
-              <input v-model="item.name" type="text" required placeholder="Contoh: Nasi Kotak Ayam Bakar" class="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm bg-white" />
+            <div class="sm:col-span-5 relative">
+              <div class="flex items-center justify-between mb-1">
+                <label class="block text-[11px] font-bold text-slate-600">Nama Item / Jasa *</label>
+                <Link
+                  v-if="!serviceItems || serviceItems.length === 0"
+                  :href="route('items.index')"
+                  class="text-[10px] font-bold text-violet-700 hover:underline"
+                >
+                  + Buat Master Jasa
+                </Link>
+              </div>
+              <input
+                v-model="item.name"
+                type="text"
+                required
+                autocomplete="off"
+                @focus="activeItemDropdown = idx"
+                @input="activeItemDropdown = idx"
+                @blur="closeItemDropdownDelayed"
+                placeholder="Ketik nama jasa/barang atau pilih dari master..."
+                class="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm bg-white"
+              />
+              <div
+                v-if="activeItemDropdown === idx && matchingServiceItems(item.name).length > 0"
+                class="absolute left-0 right-0 top-full mt-1 z-30 bg-white rounded-xl border border-violet-200 shadow-xl max-h-56 overflow-y-auto divide-y divide-slate-100"
+              >
+                <button
+                  v-for="s in matchingServiceItems(item.name)"
+                  :key="s.id"
+                  type="button"
+                  @mousedown.prevent="selectServiceItem(idx, s)"
+                  class="w-full text-left px-3 py-2 hover:bg-violet-50 transition flex items-center justify-between gap-2"
+                >
+                  <div class="min-w-0">
+                    <p class="text-xs font-bold text-slate-900 truncate">{{ s.name }}</p>
+                    <p v-if="s.unit" class="text-[10px] text-slate-400">Satuan: {{ s.unit }}</p>
+                  </div>
+                  <span class="text-xs font-extrabold text-violet-700 shrink-0">{{ formatIDR(s.unit_price) }}</span>
+                </button>
+              </div>
             </div>
             <div class="sm:col-span-2">
               <label class="block text-[11px] font-bold text-slate-600 mb-1">Qty *</label>

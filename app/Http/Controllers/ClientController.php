@@ -141,8 +141,13 @@ class ClientController extends Controller
      */
     public function destroy(Client $client): RedirectResponse
     {
-        if ($client->tenant_id !== auth()->user()->tenant_id) {
+        $user = auth()->user();
+        if ($client->tenant_id !== $user->tenant_id) {
             abort(403, 'Akses tidak diizinkan.');
+        }
+
+        if (! $user->canDeleteRecords()) {
+            abort(403, 'Role Staff tidak diizinkan menghapus data klien.');
         }
 
         $oldValues = $client->toArray();

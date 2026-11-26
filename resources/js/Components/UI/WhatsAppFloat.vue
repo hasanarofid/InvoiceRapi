@@ -18,7 +18,7 @@ const whatsappUrl = `https://wa.me/${props.phoneNumber}?text=${encodeURIComponen
 </script>
 
 <template>
-  <div class="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50 flex items-center gap-3 pointer-events-auto">
+  <div class="fixed bottom-20 right-4 lg:bottom-6 lg:right-6 z-40 flex items-center gap-3 pointer-events-auto">
     <!-- Optional Desktop Tooltip Pill -->
     <a
       :href="whatsappUrl"
